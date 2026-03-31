@@ -1,0 +1,29 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cp \"C:\\\\Users\\\\ruben\\\\ARQUIVOS MOSTRA\\\\LOGOS\\\\LOGO_COMPLETA_TEXTOELENÇO_17MOSTRA.png\" \"C:\\\\Users\\\\ruben\\\\mostra-amp\\\\public\\\\images\\\\logo-completa.png\")",
+      "Bash(cp \"C:\\\\Users\\\\ruben\\\\ARQUIVOS MOSTRA\\\\LOGOS\\\\LOGO_SOMENTE_LENÇO_17MOSTRA.png\" \"C:\\\\Users\\\\ruben\\\\mostra-amp\\\\public\\\\images\\\\logo-lenco.png\")",
+      "Bash(cp \"C:\\\\Users\\\\ruben\\\\ARQUIVOS MOSTRA\\\\FUNDOS\\\\FUNDO_CLEAN_EMPTYWALL_BRASILIDADES_1920X1080.png\" \"C:\\\\Users\\\\ruben\\\\mostra-amp\\\\public\\\\images\\\\fundo-wall.png\")",
+      "Bash(cp \"C:\\\\Users\\\\ruben\\\\ARQUIVOS MOSTRA\\\\FUNDOS\\\\FUNDO_CLEAN_GERAL_BRASILIDADES_1920X1080.png\" \"C:\\\\Users\\\\ruben\\\\mostra-amp\\\\public\\\\images\\\\fundo-geral.png\")",
+      "Bash(cp \"C:\\\\Users\\\\ruben\\\\ARQUIVOS MOSTRA\\\\FUNDOS\\\\FUNDO_GERAL_BRASILIDADES_1080X1920.png\" \"C:\\\\Users\\\\ruben\\\\mostra-amp\\\\public\\\\images\\\\fundo-vertical.png\")",
+      "Bash(npm run:*)",
+      "WebFetch(domain:dribbble.com)",
+      "WebFetch(domain:dirtylinestudio.com)",
+      "WebFetch(domain:www.patreon.com)",
+      "WebFetch(domain:mobbin.com)",
+      "Bash(cp \"C:\\\\Users\\\\ruben\\\\ARQUIVOS MOSTRA\\\\BRINNAN\\\\Brinnan Black.otf\" \"C:\\\\Users\\\\ruben\\\\mostra-amp\\\\public\\\\fonts\\\\Brinnan-Black.otf\")",
+      "Bash(cp \"C:\\\\Users\\\\ruben\\\\ARQUIVOS MOSTRA\\\\BRINNAN\\\\Brinnan Black Oblique.otf\" \"C:\\\\Users\\\\ruben\\\\mostra-amp\\\\public\\\\fonts\\\\Brinnan-BlackOblique.otf\")",
+      "Bash(cp \"C:\\\\Users\\\\ruben\\\\ARQUIVOS MOSTRA\\\\BRINNAN\\\\Brinnan Bold.otf\" \"C:\\\\Users\\\\ruben\\\\mostra-amp\\\\public\\\\fonts\\\\Brinnan-Bold.otf\")",
+      "Bash(cp \"C:\\\\Users\\\\ruben\\\\ARQUIVOS MOSTRA\\\\BRINNAN\\\\Brinnan Bold Oblique.otf\" \"C:\\\\Users\\\\ruben\\\\mostra-amp\\\\public\\\\fonts\\\\Brinnan-BoldOblique.otf\")",
+      "Bash(cp \"C:\\\\Users\\\\ruben\\\\ARQUIVOS MOSTRA\\\\BRINNAN\\\\Brinnan Regular.otf\" \"C:\\\\Users\\\\ruben\\\\mostra-amp\\\\public\\\\fonts\\\\Brinnan-Regular.otf\")",
+      "WebFetch(domain:docs.google.com)",
+      "WebFetch(domain:drive.google.com)",
+      "Bash(for dir:*)",
+      "Bash(do echo:*)",
+      "Bash(__NEW_LINE_3755fdbf7c712d49__ ls:*)",
+      "Bash(__NEW_LINE_3755fdbf7c712d49__ done:*)",
+      "Bash(ls -la C:/Users/ruben/mostra-amp/public/images/*.jpg C:/Users/ruben/mostra-amp/public/images/*.png)",
+      "Bash(node --input-type=module --eval \":*)"
+    ]
+  }
+}

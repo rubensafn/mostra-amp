@@ -1,0 +1,995 @@
+import { useState, useEffect, useRef, useCallback } from 'react'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import './App.css'
+import { SCHEDULE, ANCHOR_FILMS, PARTNERS as FILM_PARTNERS } from './data/films'
+
+gsap.registerPlugin(ScrollTrigger)
+
+/* ─── constants ─── */
+const FESTIVAL_START = new Date('2026-04-08T19:00:00-03:00')
+
+const MARQUEE_1 = [
+  '17ª Mostra', '·', 'O Amor', '·', 'A Morte', '·', 'As Paixões',
+  '·', 'Brasilidades', '·', 'Goiânia', '·', '08 a 22 de Abril',
+  '·', '17ª Mostra', '·', 'O Amor', '·', 'A Morte', '·', 'As Paixões',
+  '·', 'Brasilidades', '·', 'Goiânia', '·', '08 a 22 de Abril', '·',
+]
+const MARQUEE_2 = [
+  'Realização Cinex', '·', 'Curadoria Lisandro Nogueira', '·',
+  'Idealização Gerson Santos', '·', 'Cinema Brasileiro', '·',
+  'Longa-Metragem', '·', 'Curta-Metragem', '·', 'Realização Cinex', '·',
+  'Curadoria Lisandro Nogueira', '·', 'Idealização Gerson Santos', '·',
+]
+
+/* ── helper ── */
+function getFilmSessions(title) {
+  const result = []
+  SCHEDULE.forEach(day => {
+    day.sala1.forEach(s => {
+      if (s.title === title) result.push({ date: day.date, weekday: day.weekday, time: s.time, sala: 'Sala 1' })
+    })
+    day.sala2.forEach(s => {
+      if (s.title === title) result.push({ date: day.date, weekday: day.weekday, time: s.time, sala: 'Sala 2' })
+    })
+  })
+  return result
+}
+
+/* ════════════════════════════════════════
+   HOOKS
+════════════════════════════════════════ */
+function useCountdown(target) {
+  const [time, setTime] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 })
+  useEffect(() => {
+    const calc = () => {
+      const diff = target - Date.now()
+      if (diff <= 0) return setTime({ days: 0, hours: 0, minutes: 0, seconds: 0 })
+      setTime({
+        days:    Math.floor(diff / 86400000),
+        hours:   Math.floor((diff % 86400000) / 3600000),
+        minutes: Math.floor((diff % 3600000) / 60000),
+        seconds: Math.floor((diff % 60000) / 1000),
+      })
+    }
+    calc()
+    const id = setInterval(calc, 1000)
+    return () => clearInterval(id)
+  }, [target])
+  return time
+}
+
+/* ════════════════════════════════════════
+   INTRO OVERLAY  (Dune-style reveal)
+════════════════════════════════════════ */
+function IntroOverlay() {
+  const overlayRef = useRef(null)
+
+  useEffect(() => {
+    const overlay = overlayRef.current
+    if (!overlay) return
+    gsap.to(overlay, {
+      opacity: 0, duration: 1.4, ease: 'power2.inOut', delay: 2.4,
+      onComplete: () => overlay.classList.add('hidden')
+    })
+  }, [])
+
+  return (
+    <div ref={overlayRef} id="intro-overlay">
+      <div id="intro-logo-glow" />
+      <div id="intro-line" />
+      <img src="/images/logo-completa.png" alt="" id="intro-logo" />
+      <p id="intro-sub">08 · 22 Abril · Goiânia · 2026</p>
+    </div>
+  )
+}
+
+/* ════════════════════════════════════════
+   CURSOR
+════════════════════════════════════════ */
+function Cursor() {
+  const dotRef  = useRef(null)
+  const ringRef = useRef(null)
+
+  useEffect(() => {
+    const dot  = dotRef.current
+    const ring = ringRef.current
+    let mx = 0, my = 0, rx = 0, ry = 0, raf
+
+    const onMove = (e) => {
+      mx = e.clientX; my = e.clientY
+      gsap.to(dot, { x: mx, y: my, duration: 0 })
+    }
+    const loop = () => {
+      rx += (mx - rx) * 0.12
+      ry += (my - ry) * 0.12
+      gsap.set(ring, { x: rx, y: ry })
+      raf = requestAnimationFrame(loop)
+    }
+    window.addEventListener('mousemove', onMove)
+    raf = requestAnimationFrame(loop)
+
+    const addHover = () => {
+      document.querySelectorAll('a, button, [data-hover]').forEach(el => {
+        el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'))
+        el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'))
+      })
+    }
+    addHover()
+    const obs = new MutationObserver(addHover)
+    obs.observe(document.body, { childList: true, subtree: true })
+
+    return () => {
+      window.removeEventListener('mousemove', onMove)
+      cancelAnimationFrame(raf)
+      obs.disconnect()
+    }
+  }, [])
+
+  return (
+    <>
+      <div id="cursor-dot"  ref={dotRef}  />
+      <div id="cursor-ring" ref={ringRef} />
+    </>
+  )
+}
+
+/* ════════════════════════════════════════
+   SCROLL PROGRESS
+════════════════════════════════════════ */
+function ScrollProgress() {
+  const barRef = useRef(null)
+  useEffect(() => {
+    const bar = barRef.current
+    const onScroll = () => {
+      const pct = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100
+      bar.style.width = pct + '%'
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+  return <div id="scroll-progress" ref={barRef} />
+}
+
+/* ════════════════════════════════════════
+   NAV
+════════════════════════════════════════ */
+function Nav() {
+  const navRef = useRef(null)
+
+  useEffect(() => {
+    const nav = navRef.current
+    const onScroll = () => nav.classList.toggle('nav--solid', window.scrollY > 80)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  const close = () => navRef.current.classList.remove('nav--open')
+  const toggle = () => navRef.current.classList.toggle('nav--open')
+
+  return (
+    <>
+      <nav ref={navRef} id="nav">
+        <a href="#hero" className="nav-brand">
+          <img src="/images/logo-lenco.png" alt="Mostra" className="nav-brand-icon" />
+          <div className="nav-brand-text">
+            <span className="nav-brand-title">17ª Mostra</span>
+            <span className="nav-brand-sub">O Amor · A Morte · As Paixões</span>
+          </div>
+        </a>
+
+        <ul className="nav-links">
+          <li><a href="#sobre">Sobre</a></li>
+          <li><a href="#programacao">Programação</a></li>
+          <li><a href="#curadoria">Curadoria</a></li>
+          <li><a href="#espaco">Espaço</a></li>
+          <li><a href="#programacao" className="btn-nav">Ver Filmes</a></li>
+        </ul>
+
+        <button className="nav-hamburger" aria-label="Menu" onClick={toggle}>
+          <span /><span /><span />
+        </button>
+      </nav>
+
+      <div id="mobile-menu">
+        <ul>
+          <li><a href="#sobre"       onClick={close}>Sobre</a></li>
+          <li><a href="#programacao" onClick={close}>Programação</a></li>
+          <li><a href="#curadoria"   onClick={close}>Curadoria</a></li>
+          <li><a href="#espaco"      onClick={close}>Espaço</a></li>
+        </ul>
+        <div className="mobile-menu-credits">
+          <div>Realização · Cinex</div>
+          <div>Curadoria · Lisandro Nogueira</div>
+          <div>Idealização · Gerson Santos</div>
+        </div>
+      </div>
+    </>
+  )
+}
+
+/* ════════════════════════════════════════
+   HERO
+════════════════════════════════════════ */
+function Hero() {
+  const countdown = useCountdown(FESTIVAL_START)
+
+  return (
+    <section id="hero">
+      {/* ambient glow blobs */}
+      <div className="hero-ambient" aria-hidden="true">
+        <div className="ambient-blob blob-1" />
+        <div className="ambient-blob blob-2" />
+        <div className="ambient-blob blob-3" />
+        <div className="ambient-blob blob-4" />
+      </div>
+
+      {/* background */}
+      <div className="hero-bg">
+        <video
+          src="/video/hero.mp4"
+          autoPlay muted loop playsInline
+          className="hero-video"
+        />
+        <img
+          src="/images/cena.png"
+          alt=""
+          className="hero-img-fallback"
+          aria-hidden="true"
+        />
+        <div className="hero-overlay-1" />
+        <div className="hero-overlay-2" />
+        <div className="hero-texture" aria-hidden="true" />
+      </div>
+
+      {/* content */}
+      <div className="hero-content">
+        <span className="hero-edicao">17ª Edição · Mostra de Cinema</span>
+
+        {/* logo — spotlight suave + contour pulse via drop-shadow */}
+        <div className="hero-logo-outer">
+          <div className="hero-logo-wrap">
+            <img
+              src="/images/logo-completa.png"
+              alt="17ª Mostra — O Amor, a Morte e as Paixões"
+              className="hero-logo"
+            />
+          </div>
+        </div>
+
+        <p className="hero-subtitle">O Amor, a Morte e as Paixões</p>
+
+        <p className="hero-date">
+          08<span>—</span>22 de Abril, 2026
+          <span>·</span>
+          Goiânia
+        </p>
+
+        <div className="hero-ctas">
+          <a href="#programacao" className="btn-primary">Ver Programação</a>
+          <a href="#sobre"       className="btn-outline">Sobre a Mostra</a>
+        </div>
+
+        <div className="hero-countdown">
+          <div className="countdown-item">
+            <span className="countdown-num">{String(countdown.days).padStart(2,'0')}</span>
+            <span className="countdown-label">Dias</span>
+          </div>
+          <span className="countdown-sep">:</span>
+          <div className="countdown-item">
+            <span className="countdown-num">{String(countdown.hours).padStart(2,'0')}</span>
+            <span className="countdown-label">Hrs</span>
+          </div>
+          <span className="countdown-sep">:</span>
+          <div className="countdown-item">
+            <span className="countdown-num">{String(countdown.minutes).padStart(2,'0')}</span>
+            <span className="countdown-label">Min</span>
+          </div>
+          <span className="countdown-sep">:</span>
+          <div className="countdown-item">
+            <span className="countdown-num">{String(countdown.seconds).padStart(2,'0')}</span>
+            <span className="countdown-label">Seg</span>
+          </div>
+        </div>
+      </div>
+
+      {/* scroll cue */}
+      <div className="hero-scroll">
+        <span className="hero-scroll-text">Role para baixo</span>
+        <span className="scroll-drop" />
+      </div>
+    </section>
+  )
+}
+
+/* ════════════════════════════════════════
+   MARQUEE
+════════════════════════════════════════ */
+function Marquee({ items, reversed = false, className = '' }) {
+  const doubled = [...items, ...items]
+  return (
+    <div className={`marquee-outer ${reversed ? 'marquee-rev' : ''} ${className}`}>
+      <div className="marquee-track">
+        {doubled.map((t, i) => (
+          <span key={i} className={t === '·' ? 'mark-accent' : ''}>
+            {t}
+          </span>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+/* ════════════════════════════════════════
+   SOBRE
+════════════════════════════════════════ */
+function Sobre() {
+  return (
+    <section id="sobre" style={{ position: 'relative' }}>
+      <img src="/images/logo-lenco.png" alt="" aria-hidden="true" className="sobre-lenco-deco" />
+      <div className="sobre-grid">
+        {/* text */}
+        <div className="sobre-text">
+          <div className="section-line">
+            <span className="label">O Evento</span>
+          </div>
+          <h2 data-reveal>
+            Cinema que pulsa<br />
+            <em>amor</em> e morte.
+          </h2>
+          <p data-reveal>
+            A <strong>17ª Mostra de Cinema</strong> traz ao centro a tríade fundamental da
+            existência humana: o amor em suas formas mais viscerais, a morte como
+            inevitabilidade que nos humaniza, e as paixões que nos movem para além do razoável.
+          </p>
+          <p data-reveal>
+            Envoltos nas <strong>Brasilidades</strong> — na textura de nosso povo, na temperatura
+            de nosso afeto, na cor de nossa história —, os filmes desta edição falam ao Brasil
+            que somos e ao que queremos ser.
+          </p>
+          <p data-reveal>
+            Uma seleção de <strong>oito longas-metragens</strong> e <strong>seis curtas</strong>{' '}
+            que não temem a intensidade. Filmes que ardem — e que, por isso, ficam.
+          </p>
+
+          <div className="sobre-stats" data-reveal>
+            <div className="stat-item">
+              <span className="stat-num">17<em>ª</em></span>
+              <span className="stat-label">Edição</span>
+            </div>
+            <div className="stat-item">
+              <span className="stat-num">14</span>
+              <span className="stat-label">Filmes</span>
+            </div>
+            <div className="stat-item">
+              <span className="stat-num">15</span>
+              <span className="stat-label">Dias de Mostra</span>
+            </div>
+          </div>
+
+          <a href="#programacao" className="btn-outline" data-reveal>
+            Ver Programação Completa
+          </a>
+        </div>
+
+        {/* visual */}
+        <div className="sobre-visual" data-reveal>
+          <img
+            src="/images/cena-v.png"
+            alt="Mostra de Cinema"
+            className="sobre-img-main"
+          />
+          <img
+            src="/images/bonde.jpg"
+            alt=""
+            className="sobre-img-accent"
+            aria-hidden="true"
+          />
+          <div className="sobre-visual-badge">
+            <span className="sobre-visual-badge-num">17</span>
+            <span className="sobre-visual-badge-text">Edição<br />2026</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+/* ════════════════════════════════════════
+   FILM CARD  (ANCHOR_FILMS)
+════════════════════════════════════════ */
+function FilmCard({ film }) {
+  const cardRef = useRef(null)
+  const sessions = getFilmSessions(film.title)
+
+  const onMouseMove = useCallback((e) => {
+    const card = cardRef.current
+    if (!card) return
+    const rect = card.getBoundingClientRect()
+    const x = ((e.clientX - rect.left) / rect.width  - 0.5) * 10
+    const y = ((e.clientY - rect.top)  / rect.height - 0.5) * -10
+    gsap.to(card, { rotateX: y, rotateY: x, transformPerspective: 800, duration: 0.4, ease: 'power2.out' })
+  }, [])
+
+  const onMouseLeave = useCallback(() => {
+    gsap.to(cardRef.current, { rotateX: 0, rotateY: 0, duration: 0.5, ease: 'power3.out' })
+  }, [])
+
+  return (
+    <article
+      className="film-card"
+      ref={cardRef}
+      onMouseMove={onMouseMove}
+      onMouseLeave={onMouseLeave}
+      data-hover
+    >
+      <img
+        src={film.poster}
+        alt={film.title}
+        className="film-card-poster"
+        loading="lazy"
+      />
+
+      <div className="film-card-cat">{film.categoria.split('-')[0]}</div>
+      <div className="film-card-sessions-badge">{film.sessions}×</div>
+
+      <div className="film-card-overlay">
+        <h3 className="film-card-title">{film.title}</h3>
+        <p className="film-card-sinopse">{film.sinopse}</p>
+        <div className="film-card-sessoes">
+          {sessions.slice(0, 3).map((s, i) => (
+            <span key={i} className="film-card-sessao">{s.date} · {s.time}</span>
+          ))}
+        </div>
+      </div>
+    </article>
+  )
+}
+
+/* ════════════════════════════════════════
+   FILMES — poster strip cinematográfico
+════════════════════════════════════════ */
+function FilmesStrip() {
+  const stripRef = useRef(null)
+  const [selected, setSelected] = useState(null)
+
+  /* ── GSAP entrance ── */
+  useEffect(() => {
+    const items = stripRef.current?.querySelectorAll('.poster-item')
+    if (!items?.length) return
+    gsap.set(items, { x: '80vw', opacity: 0 })
+    gsap.to(items, {
+      x: 0, opacity: 1, duration: 1.4, stagger: 0.08, ease: 'power4.out',
+      scrollTrigger: { trigger: stripRef.current, start: 'top 78%' },
+    })
+  }, [])
+
+  const handleClick = (film) => {
+    setSelected(prev => prev?.id === film.id ? null : film)
+  }
+
+  return (
+    <section id="filmes">
+      <div className="filmes-intro">
+        <div className="section-line">
+          <span className="label">Os Filmes</span>
+        </div>
+        <h2 data-reveal>Destaques<br /><em>da Mostra</em></h2>
+        <p className="filmes-hint" data-reveal>
+          Passe o cursor · Clique para ver sessões
+        </p>
+      </div>
+
+      <div className="filmes-strip" ref={stripRef}>
+        {ANCHOR_FILMS.map((film, idx) => {
+          const isSelected = selected?.id === film.id
+          const sessions   = isSelected ? getFilmSessions(film.title) : []
+
+          return (
+            <div
+              key={film.id}
+              className={`poster-item${isSelected ? ' selected' : ''}`}
+              onClick={() => handleClick(film)}
+              data-hover
+            >
+              {/* poster */}
+              <div className="poster-media">
+                <img src={film.poster} alt={film.title} className="poster-img" loading="lazy" />
+                {!isSelected && (
+                  <>
+                    <div className="poster-info">
+                      <span className="poster-cat">{film.categoria.split('-')[0]}</span>
+                      <h3 className="poster-title">{film.title}</h3>
+                      <span className="poster-sessions-label">{film.sessions} sessões</span>
+                      <p className="poster-sinopse">{film.sinopse}</p>
+                    </div>
+                    <div className="poster-num">{String(idx + 1).padStart(2, '0')}</div>
+                  </>
+                )}
+              </div>
+
+              {/* painel de sessões — aparece à direita do poster */}
+              {isSelected && (
+                <div className="poster-panel">
+                  <div className="poster-panel-head">
+                    <div className="poster-panel-meta">
+                      <span className="poster-cat">{film.categoria.split('-')[0]}</span>
+                      <h3 className="poster-panel-title">{film.title}</h3>
+                    </div>
+                    <button
+                      className="poster-panel-close"
+                      onClick={(e) => { e.stopPropagation(); setSelected(null) }}
+                      data-hover
+                    >
+                      ✕
+                    </button>
+                  </div>
+                  <div className="poster-panel-sessions">
+                    {sessions.map((s, i) => (
+                      <div key={i} className="pps-row">
+                        <span className="pps-date">{s.date}</span>
+                        <span className="pps-time">{s.time}</span>
+                        <span className="pps-sala">{s.sala.replace('Sala ', 'S')}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          )
+        })}
+      </div>
+    </section>
+  )
+}
+
+/* ════════════════════════════════════════
+   PROGRAMAÇÃO  (grade diária)
+════════════════════════════════════════ */
+function Programacao() {
+  const [activeDay, setActiveDay] = useState(0)
+  const dayNavRef = useRef(null)
+  const day = SCHEDULE[activeDay]
+
+  return (
+    <section id="programacao">
+      <div className="prog-header">
+        <div className="prog-title-group">
+          <div className="section-line">
+            <span className="label">Programação Oficial · 09 a 22 de Abril</span>
+          </div>
+          <h2 data-reveal>Grade de<br />Sessões</h2>
+        </div>
+        <p className="prog-desc" data-reveal>
+          Duas salas, 14 dias, mais de 50 filmes.<br />
+          Selecione o dia e confira as sessões.
+        </p>
+      </div>
+
+      {/* ── seletor de dia ── */}
+      <div className="day-nav-wrap">
+        <div className="day-nav" ref={dayNavRef}>
+          {SCHEDULE.map((d, i) => (
+            <button
+              key={d.date}
+              className={`day-tab${i === activeDay ? ' active' : ''}`}
+              onClick={() => setActiveDay(i)}
+              data-hover
+            >
+              <span className="day-tab-num">{d.label}</span>
+              <span className="day-tab-wd">{d.weekday.slice(0, 3)}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* ── grade do dia selecionado ── */}
+      <div className="schedule-wrap">
+        <div className="schedule-day-label">
+          <span className="schedule-weekday">{day.weekday}</span>
+          <span className="schedule-date">{day.date} de Abril · 2026</span>
+        </div>
+
+        <div className="schedule-grid">
+          {[
+            { key: 'sala1', label: 'Sala 1', sessions: day.sala1 },
+            { key: 'sala2', label: 'Sala 2', sessions: day.sala2 },
+          ].map(({ key, label, sessions }) => (
+            <div className="sala-col" key={key}>
+              <div className="sala-header">{label}</div>
+              <div className="sala-sessions">
+                {sessions.map((s, i) => (
+                  <div key={i} className={`session-row${s.fixo ? ' fixo' : ''}`}>
+                    <span className="session-time">{s.time}</span>
+                    <span className="session-title">{s.title}</span>
+                    {s.fixo && <span className="session-tag">Especial</span>}
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+/* ════════════════════════════════════════
+   DESTAQUES DA MOSTRA  (ANCHOR_FILMS)
+════════════════════════════════════════ */
+function Destaque() {
+  const [active, setActive] = useState(0)
+  const film = ANCHOR_FILMS[active]
+  const sessions = getFilmSessions(film.title)
+
+  return (
+    <section id="destaque">
+      <div className="destaque-inner">
+        {/* ── poster / visual ── */}
+        <div className="destaque-visual">
+          <img src={film.poster} alt={film.title} className="destaque-poster" />
+          <div className="destaque-visual-overlay" />
+
+          {/* seletor de filme — sobreposto ao poster */}
+          <div className="destaque-film-picker">
+            {ANCHOR_FILMS.map((f, i) => (
+              <button
+                key={f.id}
+                className={`destaque-pick-btn${i === active ? ' active' : ''}`}
+                onClick={() => setActive(i)}
+                data-hover
+                title={f.title}
+              >
+                <span className="destaque-pick-num">{String(i + 1).padStart(2, '0')}</span>
+                <span className="destaque-pick-title">{f.title}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* ── info ── */}
+        <div className="destaque-content">
+          <div className="destaque-badge" data-reveal>
+            Destaques da Mostra
+          </div>
+
+          <span className="label" data-reveal>{film.categoria}</span>
+          <h2 className="destaque-title" data-reveal>{film.title}</h2>
+
+          <div className="destaque-meta" data-reveal>
+            <span>{film.sessions} sessões</span>
+          </div>
+
+          <p className="destaque-sinopse" data-reveal>{film.sinopse}</p>
+
+          {sessions.length > 0 && (
+            <>
+              <p className="destaque-sessoes-title" data-reveal>Sessões</p>
+              <div className="destaque-sessoes" data-reveal>
+                {sessions.slice(0, 5).map((s, i) => (
+                  <div key={i} className="destaque-sessao">
+                    {s.date} · {s.time} · {s.sala}
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
+
+          <a href="#programacao" className="btn-primary" data-reveal>
+            Ver Toda a Programação
+          </a>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+/* ════════════════════════════════════════
+   CURADORIA
+════════════════════════════════════════ */
+function Curadoria() {
+  return (
+    <section id="curadoria">
+      <img src="/images/logo-lenco.png" alt="" aria-hidden="true" className="curadoria-lenco-deco" />
+      <div className="curadoria-inner">
+        <div className="curadoria-quote" data-reveal>
+          <span className="label" style={{ justifyContent: 'center', display: 'flex' }}>Nota de Curadoria</span>
+          <blockquote>
+            Curar é escolher o que merece ser visto. Mais do que isso: é defender
+            a ideia de que o cinema pode mudar uma vida. Esta programação foi construída
+            com o coração, frame a frame — em busca dos filmes que perturbam, encantam e ficam.
+          </blockquote>
+          <cite><span>Lisandro Nogueira</span> — Curador</cite>
+        </div>
+
+        <div className="curadoria-credits" data-reveal>
+          <div className="credit-item">
+            <span className="credit-role">Realização</span>
+            <span className="credit-name">Cinex</span>
+          </div>
+          <div className="credit-item">
+            <span className="credit-role">Curadoria</span>
+            <span className="credit-name">Lisandro Nogueira</span>
+          </div>
+          <div className="credit-item">
+            <span className="credit-role">Idealização</span>
+            <span className="credit-name">Gerson Santos</span>
+          </div>
+        </div>
+
+        <div className="brasilidades-block" data-reveal>
+          <span className="label-gold" style={{ justifyContent: 'center', display: 'flex' }}>
+            Brasilidades
+          </span>
+          <p className="brasilidades-text">
+            A Mostra abraça as <strong>Brasilidades</strong> como eixo estético e temático.
+            A textura do nosso cinema, a temperatura do nosso afeto, o peso do nosso luto —
+            tudo aqui está envolto na identidade brasileira. Não como tema superficial, mas
+            como <strong>substância</strong>. Como carne e osso de cada imagem.
+          </p>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+/* ════════════════════════════════════════
+   ESPAÇO
+════════════════════════════════════════ */
+function Espaco() {
+  return (
+    <section id="espaco">
+      <div className="espaco-header" data-reveal>
+        <span className="label">O Espaço</span>
+        <h2>Nosso<br /><span>Cinema.</span></h2>
+      </div>
+
+      <div className="espaco-grid">
+        <div className="espaco-img-wrap">
+          <img src="/images/espaco-1.png" alt="Espaço da Mostra" className="espaco-img" />
+        </div>
+        <div className="espaco-img-wrap">
+          <img src="/images/espaco-2.png" alt="Espaço da Mostra detalhe" className="espaco-img" />
+        </div>
+      </div>
+
+      <div className="espaco-info">
+        <div className="espaco-info-item">
+          <span className="espaco-info-label">Período</span>
+          <span className="espaco-info-value">08 a 22 de Abril</span>
+        </div>
+        <div className="espaco-info-item">
+          <span className="espaco-info-label">Cidade</span>
+          <span className="espaco-info-value">Goiânia, GO</span>
+        </div>
+        <div className="espaco-info-item">
+          <span className="espaco-info-label">Entrada</span>
+          <span className="espaco-info-value">Gratuita</span>
+        </div>
+        <div className="espaco-info-item">
+          <span className="espaco-info-label">Realização</span>
+          <span className="espaco-info-value">Cinex</span>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+/* ════════════════════════════════════════
+   EDIÇÕES ANTERIORES
+════════════════════════════════════════ */
+function EdicoesAnteriores() {
+  return (
+    <section id="anteriores">
+      <div className="anteriores-inner">
+        <div className="anteriores-visual" data-reveal>
+          <img
+            src="/images/bonde.jpg"
+            alt="Edição anterior da Mostra"
+            className="anteriores-img"
+          />
+        </div>
+        <div className="anteriores-text">
+          <span className="label" data-reveal>16ª Edição</span>
+          <h2 data-reveal>Uma história que<br />se acumula.</h2>
+          <p data-reveal>
+            Há 17 anos a Mostra de Cinema ocupa um espaço único na cena cultural de Goiânia.
+            Cada edição une realizadores, cineastas e o público em torno de uma temática
+            que pulsa no coração do cinema nacional.
+          </p>
+          <p data-reveal>
+            Das primeiras exibições às grandes estreias, a Mostra cresceu sem jamais
+            perder sua essência: o comprometimento com um cinema que tem algo a dizer.
+          </p>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+/* ════════════════════════════════════════
+   PARCERIAS
+════════════════════════════════════════ */
+function Parcerias() {
+  return (
+    <section id="parcerias">
+      <div className="parcerias-inner">
+        <span className="label" style={{ marginBottom: 12 }}>Parcerias & Apoio</span>
+        <h3>Feito junto com quem acredita no cinema.</h3>
+        <div className="parcerias-grid" data-reveal>
+          {FILM_PARTNERS.map((item, i) => (
+            <div className="parceria-item" key={i}>
+              {item.logo ? (
+                <img src={item.logo} alt={item.name} />
+              ) : (
+                <span className="parceria-name">{item.name}</span>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+/* ════════════════════════════════════════
+   FOOTER
+════════════════════════════════════════ */
+function Footer() {
+  return (
+    <footer id="footer">
+      <div className="footer-inner">
+        <div className="footer-top">
+          <div>
+            <img src="/images/logo-completa.png" alt="17ª Mostra" className="footer-logo" />
+            <p className="footer-tagline">
+              O amor que move, a morte que limita e as paixões que definem.
+            </p>
+          </div>
+
+          <div className="footer-col">
+            <span className="footer-col-title">Programação</span>
+            <ul>
+              <li><a href="#programacao">Longas-Metragens</a></li>
+              <li><a href="#programacao">Curtas-Metragens</a></li>
+              <li><a href="#destaque">Destaque da Edição</a></li>
+            </ul>
+          </div>
+
+          <div className="footer-col">
+            <span className="footer-col-title">A Mostra</span>
+            <ul>
+              <li><a href="#sobre">Sobre</a></li>
+              <li><a href="#curadoria">Curadoria</a></li>
+              <li><a href="#espaco">Espaço</a></li>
+              <li><a href="#anteriores">Edições Anteriores</a></li>
+            </ul>
+          </div>
+
+          <div className="footer-col">
+            <span className="footer-col-title">Informações</span>
+            <p className="footer-col-text">
+              08 a 22 de Abril<br />
+              <strong>Goiânia, GO</strong><br /><br />
+              Entrada gratuita<br />
+              Classificação por filme
+            </p>
+          </div>
+        </div>
+
+        <div className="footer-credits">
+          <div className="footer-credit-item">
+            <span className="footer-credit-role">Realização</span>
+            <span className="footer-credit-name">Cinex</span>
+          </div>
+          <div className="footer-credit-item">
+            <span className="footer-credit-role">Curadoria</span>
+            <span className="footer-credit-name">Lisandro Nogueira</span>
+          </div>
+          <div className="footer-credit-item">
+            <span className="footer-credit-role">Idealização</span>
+            <span className="footer-credit-name">Gerson Santos</span>
+          </div>
+        </div>
+
+        <div className="footer-bottom">
+          <p className="footer-copy">
+            © 2026 17ª Mostra de Cinema. Todos os direitos reservados.
+          </p>
+          <ul className="footer-social">
+            <li><a href="#" aria-label="Instagram">Instagram</a></li>
+            <li><a href="#" aria-label="YouTube">YouTube</a></li>
+            <li><a href="#" aria-label="Facebook">Facebook</a></li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+  )
+}
+
+/* ════════════════════════════════════════
+   GSAP GLOBAL EFFECTS
+════════════════════════════════════════ */
+function useGSAPEffects() {
+  useEffect(() => {
+    /* ── scroll reveals ── */
+    gsap.utils.toArray('[data-reveal]').forEach((el) => {
+      gsap.fromTo(el,
+        { opacity: 0, y: 64 },
+        { opacity: 1, y: 0, duration: 1.1, ease: 'power3.out',
+          scrollTrigger: { trigger: el, start: 'top 90%' } }
+      )
+    })
+
+    /* ── hero BG parallax ── */
+    gsap.to('.hero-bg', {
+      yPercent: 25, ease: 'none',
+      scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: true }
+    })
+
+    /* ── big title cinematic reveal ── */
+    gsap.utils.toArray('.destaque-title, .espaco-header h2').forEach((el) => {
+      gsap.fromTo(el,
+        { opacity: 0, x: -50 },
+        { opacity: 1, x: 0, duration: 1.3, ease: 'power4.out',
+          scrollTrigger: { trigger: el, start: 'top 85%' } }
+      )
+    })
+
+    /* ── film cards stagger ── */
+    gsap.utils.toArray('.film-card').forEach((card, i) => {
+      gsap.fromTo(card,
+        { opacity: 0, y: 48, scale: 0.96 },
+        { opacity: 1, y: 0, scale: 1, duration: 0.8, delay: i * 0.07, ease: 'power3.out',
+          scrollTrigger: { trigger: '#programacao', start: 'top 80%' } }
+      )
+    })
+
+    /* ── credits stagger ── */
+    const credits = gsap.utils.toArray('.credit-item')
+    gsap.fromTo(credits,
+      { opacity: 0, y: 30 },
+      { opacity: 1, y: 0, duration: 0.8, stagger: 0.15, ease: 'power3.out',
+        scrollTrigger: { trigger: '.curadoria-credits', start: 'top 85%' } }
+    )
+
+    /* ── sobre stats count-up ── */
+    gsap.utils.toArray('.stat-num').forEach((el) => {
+      gsap.fromTo(el,
+        { opacity: 0, scale: 0.7 },
+        { opacity: 1, scale: 1, duration: 0.6, ease: 'back.out(2)',
+          scrollTrigger: { trigger: el, start: 'top 90%' } }
+      )
+    })
+
+    return () => ScrollTrigger.getAll().forEach(t => t.kill())
+  }, [])
+}
+
+/* ════════════════════════════════════════
+   APP
+════════════════════════════════════════ */
+export default function App() {
+  useGSAPEffects()
+
+  return (
+    <>
+      <IntroOverlay />
+      <ScrollProgress />
+      <Cursor />
+      <Nav />
+      <Hero />
+      <Marquee items={MARQUEE_1} />
+      <Sobre />
+      <FilmesStrip />
+      <Programacao />
+      <Destaque />
+      <Marquee items={MARQUEE_2} reversed />
+      <Curadoria />
+      <Espaco />
+      <EdicoesAnteriores />
+      <Parcerias />
+      <Footer />
+    </>
+  )
+}

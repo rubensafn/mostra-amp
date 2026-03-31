@@ -1,0 +1,237 @@
+/* ─── BRINNAN FONT FACE ─── */
+@font-face {
+  font-family: 'Brinnan';
+  src: url('/fonts/Brinnan-Black.otf') format('opentype');
+  font-weight: 900; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Brinnan';
+  src: url('/fonts/Brinnan-BlackOblique.otf') format('opentype');
+  font-weight: 900; font-style: italic; font-display: swap;
+}
+@font-face {
+  font-family: 'Brinnan';
+  src: url('/fonts/Brinnan-Bold.otf') format('opentype');
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Brinnan';
+  src: url('/fonts/Brinnan-BoldOblique.otf') format('opentype');
+  font-weight: 700; font-style: italic; font-display: swap;
+}
+@font-face {
+  font-family: 'Brinnan';
+  src: url('/fonts/Brinnan-Regular.otf') format('opentype');
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Brinnan';
+  src: url('/fonts/Brinnan-Light.otf') format('opentype');
+  font-weight: 300; font-style: normal; font-display: swap;
+}
+
+/* ─── reset ─── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; overflow-x: hidden; }
+
+body {
+  background: #080503;
+  color: #F0E4CC;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-weight: 300;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* ─── scrollbar ─── */
+::-webkit-scrollbar { width: 2px; }
+::-webkit-scrollbar-track { background: #080503; }
+::-webkit-scrollbar-thumb { background: #C8175D; }
+
+/* ─── scroll progress bar ─── */
+#scroll-progress {
+  position: fixed;
+  top: 0; left: 0;
+  height: 2px;
+  width: 0%;
+  background: linear-gradient(to right, #C8175D, #D4A853);
+  z-index: 10001;
+  pointer-events: none;
+  transition: width 0.1s linear;
+}
+
+/* ─── film grain overlay ─── */
+body::after {
+  content: '';
+  position: fixed; inset: 0; z-index: 9900; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 220px 220px;
+  opacity: 0.03;
+  mix-blend-mode: screen;
+}
+
+/* ─── custom cursor ─── */
+#cursor-dot {
+  position: fixed; z-index: 9999; pointer-events: none;
+  width: 8px; height: 8px; background: #ffffff; border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: transform 0.15s, width 0.2s, height 0.2s, background 0.2s;
+}
+#cursor-ring {
+  position: fixed; z-index: 9998; pointer-events: none;
+  width: 40px; height: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.55); border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.3s, height 0.3s, border-color 0.3s, opacity 0.3s;
+}
+body.cursor-hover #cursor-dot  { width: 12px; height: 12px; }
+body.cursor-hover #cursor-ring { width: 60px; height: 60px; border-color: rgba(255, 255, 255, 0.75); }
+
+/* ─── animations ─── */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+@keyframes marqueeRev {
+  from { transform: translateX(-50%); }
+  to   { transform: translateX(0); }
+}
+@keyframes floatLenco {
+  0%, 100% { transform: translateY(0) rotate(-0.5deg) scale(1); }
+  33%       { transform: translateY(-16px) rotate(0.8deg) scale(1.01); }
+  66%       { transform: translateY(-6px) rotate(-0.3deg) scale(0.99); }
+}
+@keyframes scrollDrop {
+  0%   { opacity: 0.8; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(18px); }
+}
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(200,23,93,0); }
+  50%       { box-shadow: 0 0 40px 8px rgba(200,23,93,0.18); }
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes countFlip {
+  from { transform: translateY(20px); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+@keyframes rotateSlow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* ─── NEON animations ─── */
+/* blob glow for bg elements */
+@keyframes logoGlow {
+  0%, 100% { opacity: 0.7; transform: translate(-50%,-50%) scale(1); }
+  50%       { opacity: 1;   transform: translate(-50%,-50%) scale(1.08); }
+}
+
+/* CONTOUR pulse — segue o shape da logo via drop-shadow no alpha channel */
+@keyframes logoContourPulse {
+  0%, 100% {
+    filter:
+      drop-shadow(0 0 1px rgba(224,24,101,0.5))
+      drop-shadow(0 0 4px rgba(224,24,101,0.25))
+      drop-shadow(0 0 8px rgba(224,24,101,0.1));
+  }
+  50% {
+    filter:
+      drop-shadow(0 0 3px rgba(255,32,112,0.95))
+      drop-shadow(0 0 10px rgba(255,32,112,0.55))
+      drop-shadow(0 0 22px rgba(255,32,112,0.22))
+      drop-shadow(0 0 1px rgba(224,176,64,0.4));
+  }
+}
+
+@keyframes scanSweep {
+  0%         { left: -100%; opacity: 0; }
+  5%         { opacity: 1; }
+  45%, 100%  { left: 200%; opacity: 0; }
+}
+
+@keyframes blobFloat {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%       { transform: translate(40px, -50px) scale(1.08); }
+  66%       { transform: translate(-25px, 25px) scale(0.93); }
+}
+
+@keyframes blobFloat2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%       { transform: translate(-50px, 30px) scale(1.06); }
+  66%       { transform: translate(30px, -40px) scale(0.94); }
+}
+
+@keyframes introLogoIn {
+  0%   { opacity: 0; transform: scale(0.82) translateY(20px); filter: blur(24px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0px); }
+}
+
+@keyframes introTextIn {
+  0%   { opacity: 0; letter-spacing: 0.6em; }
+  100% { opacity: 1; letter-spacing: 0.4em; }
+}
+
+@keyframes introOut {
+  0%   { opacity: 1; }
+  100% { opacity: 0; pointer-events: none; }
+}
+
+@keyframes neonPulseText {
+  0%, 100% {
+    text-shadow:
+      0 0 10px rgba(200,23,93,0.6),
+      0 0 30px rgba(200,23,93,0.3),
+      0 0 60px rgba(200,23,93,0.15);
+  }
+  50% {
+    text-shadow:
+      0 0 15px rgba(255,30,100,0.9),
+      0 0 40px rgba(255,30,100,0.5),
+      0 0 80px rgba(255,30,100,0.2),
+      0 0 120px rgba(255,30,100,0.08);
+  }
+}
+
+@keyframes borderGlow {
+  0%, 100% { box-shadow: 0 0 0 1px rgba(200,23,93,0.4), 0 0 20px rgba(200,23,93,0.08); }
+  50%       { box-shadow: 0 0 0 1px rgba(255,30,100,0.8), 0 0 30px rgba(255,30,100,0.2); }
+}
+
+/* ─── float scarf ─── */
+.float-lenco { animation: floatLenco 10s ease-in-out infinite; }
+
+/* ─── scroll utils ─── */
+.snap-x {
+  scroll-snap-type: x mandatory;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.snap-x::-webkit-scrollbar { display: none; }
+.snap-start { scroll-snap-align: start; }
+
+/* ─── scroll drop ─── */
+.scroll-drop {
+  display: block; width: 1px; height: 20px;
+  background: linear-gradient(to bottom, transparent, #C8175D);
+  animation: scrollDrop 2.4s ease-in-out infinite;
+}
+
+/* ─── responsive utils ─── */
+@media (max-width: 768px) {
+  .hide-mobile  { display: none !important; }
+  .show-mobile  { display: flex !important; }
+}
+@media (min-width: 769px) {
+  .show-mobile  { display: none !important; }
+}
+
+/* ─── selection ─── */
+::selection { background: rgba(200,23,93,0.35); color: #F0E4CC; }
