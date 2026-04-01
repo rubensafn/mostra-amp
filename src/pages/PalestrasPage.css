@@ -319,12 +319,19 @@
 .pal-line-cap--top    { margin-bottom: 0; }
 .pal-line-cap--bottom { margin-top: 0; }
 
-/* ─── wrapper ─── */
+/* ─── wrapper — responsivo: cresce com a tela ─── */
 .pal-timeline-wrap {
   position: relative;
-  max-width: 720px;          /* single column, largura confortável */
+  width: 100%;
+  max-width: 860px;          /* desktop confortável */
   margin: 0 auto;
-  padding: 0 24px;
+  padding: 0 48px;           /* espaço lateral no desktop */
+}
+@media (max-width: 1024px) {
+  .pal-timeline-wrap { max-width: 700px; padding: 0 32px; }
+}
+@media (max-width: 768px) {
+  .pal-timeline-wrap { max-width: 100%; padding: 0 20px; }
 }
 
 /* ─── linha vertical (sempre à esquerda) ─── */
@@ -567,12 +574,22 @@
   font-size: 13px; opacity: 0.8;
 }
 
-/* ─── SMALL SCREENS ─── */
+/* ─── RESPONSIVIDADE ─── */
+@media (max-width: 768px) {
+  .pal-timeline-section { padding: 88px 0 110px; }
+  .pal-timeline-header  { padding-bottom: 56px; }
+  .pal-tl-title { font-size: clamp(32px, 8vw, 60px); }
+}
 @media (max-width: 480px) {
   .pal-timeline-section { padding: 72px 0 88px; }
   .pal-timeline-header  { padding-bottom: 40px; }
-  .pal-card-inner { padding: 16px 16px 14px; }
-  .pal-date-bg    { font-size: 56px; }
+  .pal-card-inner       { padding: 16px 16px 14px; }
+  .pal-date-bg          { font-size: 56px; }
+  .pal-card-header      { gap: 10px; }
+  .pal-card-date-block  { min-width: 38px; padding: 6px 8px; }
+  .pal-card-day         { font-size: 18px; }
+  .pal-card-guests      { gap: 4px; }
+  .pal-card-guest       { font-size: 14px; }
 }
 
 @media (max-width: 480px) {

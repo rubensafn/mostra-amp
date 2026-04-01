@@ -401,23 +401,16 @@ function PalestrasTimeline() {
       </div>
 
       <div className="pal-timeline-wrap" ref={wrapRef}>
-        {/* the growing vertical line */}
+        {/* linha vertical crescendo com scroll */}
         <div className="pal-line-track" aria-hidden="true">
           <div ref={lineRef} className="pal-line" />
         </div>
 
-        {/* top cap */}
-        <div className="pal-line-cap pal-line-cap--top" aria-hidden="true" />
-
-        {/* cards */}
         <div className="pal-items">
           {PALESTRAS.map((p) => (
             <PalCard key={p.id} palestra={p} />
           ))}
         </div>
-
-        {/* bottom cap */}
-        <div className="pal-line-cap pal-line-cap--bottom" aria-hidden="true" />
       </div>
     </section>
   )

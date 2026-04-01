@@ -3,6 +3,13 @@ import { Link } from 'react-router-dom'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import './App.css'
+
+/* HashRouter usa o hash para rotas — href="#id" quebraria a navegação.
+   Usar sempre este helper para scroll in-page. */
+function goTo(id, e) {
+  if (e) e.preventDefault()
+  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
+}
 import { SCHEDULE, ANCHOR_FILMS, PARTNERS as FILM_PARTNERS } from './data/films'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -181,7 +188,7 @@ function Nav() {
   return (
     <>
       <nav ref={navRef} id="nav">
-        <a href="#hero" className="nav-brand">
+        <a href="#" onClick={(e) => goTo('hero', e)} className="nav-brand">
           <img src="/images/logo-lenco.png" alt="Mostra" className="nav-brand-icon" />
           <div className="nav-brand-text">
             <span className="nav-brand-title">17ª Mostra</span>
@@ -190,16 +197,16 @@ function Nav() {
         </a>
 
         <ul className="nav-links">
-          <li><a href="#sobre">Sobre</a></li>
+          <li><a href="#" onClick={(e) => goTo('sobre', e)}>Sobre</a></li>
           <li><Link to="/palestras">Convidados &amp; Palestras</Link></li>
-          {SHOW_FILMS && <li><a href="#programacao">Programação</a></li>}
-          <li><a href="#curadoria">Curadoria</a></li>
-          <li><a href="#espaco">Espaço</a></li>
+          {SHOW_FILMS && <li><a href="#" onClick={(e) => goTo('programacao', e)}>Programação</a></li>}
+          <li><a href="#" onClick={(e) => goTo('curadoria', e)}>Curadoria</a></li>
+          <li><a href="#" onClick={(e) => goTo('espaco', e)}>Espaço</a></li>
           {!SHOW_FILMS && (
             <li><Link to="/palestras" className="btn-nav">Convidados &amp; Palestras</Link></li>
           )}
           {SHOW_FILMS && (
-            <li><a href="#programacao" className="btn-nav">Ver Programação</a></li>
+            <li><a href="#" onClick={(e) => goTo('programacao', e)} className="btn-nav">Ver Programação</a></li>
           )}
         </ul>
 
@@ -210,11 +217,11 @@ function Nav() {
 
       <div id="mobile-menu">
         <ul>
-          <li><a href="#sobre"      onClick={close}>Sobre</a></li>
+          <li><a href="#" onClick={(e) => { goTo('sobre', e); close() }}>Sobre</a></li>
           <li><Link to="/palestras" onClick={close}>Convidados &amp; Palestras</Link></li>
-          {SHOW_FILMS && <li><a href="#programacao" onClick={close}>Programação</a></li>}
-          <li><a href="#curadoria" onClick={close}>Curadoria</a></li>
-          <li><a href="#espaco"    onClick={close}>Espaço</a></li>
+          {SHOW_FILMS && <li><a href="#" onClick={(e) => { goTo('programacao', e); close() }}>Programação</a></li>}
+          <li><a href="#" onClick={(e) => { goTo('curadoria', e); close() }}>Curadoria</a></li>
+          <li><a href="#" onClick={(e) => { goTo('espaco', e); close() }}>Espaço</a></li>
         </ul>
         <div className="mobile-menu-credits">
           <div>Realização · Instituto Jardim Cultural</div>
@@ -285,7 +292,7 @@ function Hero() {
 
         <div className="hero-ctas">
           <Link to="/palestras" className="btn-primary">Convidados &amp; Palestras</Link>
-          <a href="#sobre" className="btn-outline">Sobre a Mostra</a>
+          <a href="#" onClick={(e) => goTo('sobre', e)} className="btn-outline">Sobre a Mostra</a>
         </div>
 
         {!SHOW_FILMS && (
@@ -886,10 +893,10 @@ function Footer() {
           <div className="footer-col">
             <span className="footer-col-title">A Mostra</span>
             <ul>
-              <li><a href="#sobre">Sobre</a></li>
-              <li><a href="#curadoria">Curadoria</a></li>
-              <li><a href="#espaco">Espaço</a></li>
-              <li><a href="#anteriores">Edições Anteriores</a></li>
+              <li><a href="#" onClick={(e) => goTo('sobre', e)}>Sobre</a></li>
+              <li><a href="#" onClick={(e) => goTo('curadoria', e)}>Curadoria</a></li>
+              <li><a href="#" onClick={(e) => goTo('espaco', e)}>Espaço</a></li>
+              <li><a href="#" onClick={(e) => goTo('anteriores', e)}>Edições Anteriores</a></li>
             </ul>
           </div>
 
@@ -1181,6 +1188,24 @@ function useGSAPEffects() {
 /* ════════════════════════════════════════
    APP
 ════════════════════════════════════════ */
+/* ── Back to Top ── */
+function BackToTop() {
+  const [vis, setVis] = useState(false)
+  useEffect(() => {
+    const onScroll = () => setVis(window.scrollY > 500)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+  if (!vis) return null
+  return (
+    <button
+      className="back-to-top"
+      onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+      aria-label="Voltar ao topo"
+    >↑</button>
+  )
+}
+
 export default function App() {
   useGSAPEffects()
 
@@ -1204,6 +1229,7 @@ export default function App() {
       <EdicoesAnteriores />
       <Parcerias />
       <Footer />
+      <BackToTop />
     </>
   )
 }
