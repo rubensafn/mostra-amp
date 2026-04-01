@@ -8,26 +8,113 @@ gsap.registerPlugin(ScrollTrigger)
 
 /* ─── DATA ─── */
 const GUESTS = [
-  { name: 'Celso Camilo',       cargo: null,                                   bio: 'Tudo o que você precisa saber sobre inteligência artificial', color: 'accent' },
-  { name: 'Ruy Castro',         cargo: null,                                   bio: 'Ficção e não-ficção e Vice-Versa', color: 'gold' },
-  { name: 'Heloisa Seixas',     cargo: null,                                   bio: 'Ficção e não-ficção e Vice-Versa', color: 'cream' },
-  { name: 'Luiz Pondé',         cargo: 'Filósofo · Escritor',                 bio: 'Valor sentimental: angústia e reparação', color: 'accent' },
-  { name: 'Jossane Gonzaga',    cargo: 'Psicanalista',                         bio: 'Autismo e altas habilidades sob a lente do diagnóstico tardio', color: 'gold' },
-  { name: 'Jesse de Souza',     cargo: null,                                   bio: 'Por que a esquerda morreu', color: 'cream' },
-  { name: 'Marina Cançado',     cargo: 'Psicanalista',                         bio: 'Guimarães Rosa e Jacques Lacan', color: 'accent' },
-  { name: 'Beto Amaral',        cargo: 'Psicanalista',                         bio: 'Guimarães Rosa e Jacques Lacan', color: 'gold' },
-  { name: 'Rubens Machado Jr',  cargo: 'Prof. USP',                            bio: 'Debate pós-filme — O Agente Secreto', color: 'cream' },
-  { name: 'Alberto Silva',      cargo: 'Prof. de Cinema Sorbonne 3',           bio: 'Debate pós-filme — O Agente Secreto', color: 'accent' },
-  { name: 'Paula Febee',        cargo: 'Autora · Psicanalista · Roteirista',   bio: null, color: 'gold' },
-  { name: 'Maysa Balduino',     cargo: 'Psicanalista',                         bio: 'Debate pós-filme — Valor Sentimental', color: 'cream' },
-  { name: 'Wolney Fernandes',   cargo: 'Prof. de Cinema UFG',                  bio: 'Debate pós-filme — Valor Sentimental', color: 'accent' },
-  { name: 'João Pedro',         cargo: 'Crítico de Cinema',                    bio: 'Debate pós-filme — A Vida de Chuck', color: 'gold' },
-  { name: 'Pedro Andrade',      cargo: 'Crítico de Cinema',                    bio: 'Debate pós-filme — A Vida de Chuck', color: 'cream' },
-  { name: 'Cristian Dunker',    cargo: null,                                   bio: 'Transformar Mundos e Pessoas', color: 'accent' },
-  { name: 'Vladimir Safatle',   cargo: null,                                   bio: 'Transformar Mundos e Pessoas', color: 'gold' },
-  { name: 'Jeferson Tenório',   cargo: 'Escritor',                             bio: null, color: 'cream' },
-  { name: 'Jussara Santos',     cargo: null,                                   bio: 'Democratização do colo', color: 'accent' },
-  { name: 'Pedro Pacífico',     cargo: null,                                   bio: 'Encerramento da 17ª Mostra', color: 'gold' },
+  {
+    name: 'Celso Camilo', cargo: 'Cineasta · Realizador Audiovisual', color: 'accent', photo: null,
+    bio: 'Cineasta e realizador audiovisual brasileiro com passagem por festivais e mostras de cinema nacionais. Apresenta palestra sobre inteligência artificial e o futuro das imagens.',
+    tema: 'Tudo o que você precisa saber sobre inteligência artificial', date: '09 ABR',
+  },
+  {
+    name: 'Ruy Castro', cargo: 'Jornalista · Escritor · ABL', color: 'gold',
+    photo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Ruy_castro2.jpg/400px-Ruy_castro2.jpg',
+    bio: 'Biógrafo de Garrincha, Carmen Miranda e Nelson Rodrigues, membro da Academia Brasileira de Letras. Um dos maiores cronistas da Bossa Nova e da cultura popular brasileira.',
+    tema: 'Ficção e não-ficção e Vice-Versa', date: '10 ABR',
+  },
+  {
+    name: 'Heloisa Seixas', cargo: 'Escritora · Jornalista · Tradutora', color: 'cream',
+    photo: 'https://heloisaseixas.com.br/wp-content/uploads/2023/07/329007372_701881935007735_1773929603727458561_n.jpg',
+    bio: 'Quatro vezes finalista do Prêmio Jabuti, autora de mais de vinte livros entre romances, contos e crônicas. Uma das vozes mais refinadas da literatura brasileira contemporânea.',
+    tema: 'Ficção e não-ficção e Vice-Versa', date: '10 ABR',
+  },
+  {
+    name: 'Luiz Pondé', cargo: 'Filósofo · Escritor · Professor', color: 'accent',
+    photo: 'https://upload.wikimedia.org/wikipedia/commons/c/c9/Luiz_Felipe_Pond%C3%A9.png',
+    bio: 'Doutor pela USP e pós-doutor pela Universidade de Tel Aviv. Colunista da Folha de S.Paulo e um dos filósofos de maior projeção pública no Brasil.',
+    tema: 'Valor sentimental: angústia e reparação', date: '11 ABR',
+  },
+  {
+    name: 'Jossane Gonzaga', cargo: 'Psicanalista', color: 'gold', photo: null,
+    bio: 'Psicanalista brasileira com atuação clínica e pesquisa dedicada ao autismo e às altas habilidades sob a perspectiva do diagnóstico tardio.',
+    tema: 'Autismo e altas habilidades sob a lente do diagnóstico tardio', date: '12 ABR',
+  },
+  {
+    name: 'Jesse de Souza', cargo: 'Sociólogo · Escritor · Professor', color: 'cream',
+    photo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Jess%C3%A9_de_Souza_%28cropped%29.jpg/400px-Jess%C3%A9_de_Souza_%28cropped%29.jpg',
+    bio: 'Doutor pela Universidade de Heidelberg, autor de "A Ralé Brasileira" e "A Elite do Atraso". Referência da teoria social crítica sobre desigualdade e classes no Brasil.',
+    tema: 'Por que a esquerda morreu', date: '13 ABR',
+  },
+  {
+    name: 'Marina Cançado', cargo: 'Psicanalista', color: 'accent', photo: null,
+    bio: 'Psicanalista com formação lacaniana e atuação clínica. Apresenta, ao lado de Beto Amaral, a interseção entre Guimarães Rosa e o pensamento de Jacques Lacan.',
+    tema: 'Guimarães Rosa e Jacques Lacan', date: '14 ABR',
+  },
+  {
+    name: 'Beto Amaral', cargo: 'Psicanalista', color: 'gold', photo: null,
+    bio: 'Psicanalista com formação lacaniana e atuação clínica. Em diálogo com Marina Cançado, explora as conexões entre a literatura de Guimarães Rosa e a psicanálise.',
+    tema: 'Guimarães Rosa e Jacques Lacan', date: '14 ABR',
+  },
+  {
+    name: 'Rubens Machado Jr', cargo: 'Prof. Titular ECA-USP', color: 'cream', photo: null,
+    bio: 'Professor Titular de Análise e Crítica Audiovisual na ECA-USP, pesquisador do cinema experimental brasileiro e da presença da cidade no audiovisual.',
+    tema: 'Debate pós-filme — O Agente Secreto', date: '15 ABR',
+  },
+  {
+    name: 'Alberto Silva', cargo: 'Prof. de Cinema · Sorbonne 3', color: 'accent', photo: null,
+    bio: 'Maître de conférences HDR em Civilização Brasileira e Cinema na Sorbonne Université, especialista em cinema brasileiro, gênero e ditadura.',
+    tema: 'Debate pós-filme — O Agente Secreto', date: '15 ABR',
+  },
+  {
+    name: 'Paula Febee', cargo: 'Autora · Psicanalista · Roteirista', color: 'gold', photo: null,
+    bio: 'Escritora com oito livros publicados pela DarkSide Books, psicanalista e roteirista com passagem pelo Goldcrest Production Theater em Nova York.',
+    tema: null, date: '16 ABR',
+  },
+  {
+    name: 'Maysa Balduino', cargo: 'Psicanalista', color: 'cream', photo: null,
+    bio: 'Psicanalista e membro do Grupo de Estudo Psicanalítico de Goiânia, com pesquisa voltada ao cinema como espaço de produção de subjetividade.',
+    tema: 'Debate pós-filme — Valor Sentimental', date: '16 ABR',
+  },
+  {
+    name: 'Wolney Fernandes', cargo: 'Prof. de Cinema · UFG', color: 'accent', photo: null,
+    bio: 'Professor doutor da Universidade Federal de Goiás, artista visual e pesquisador na interseção entre colagem, literatura e cinema.',
+    tema: 'Debate pós-filme — Valor Sentimental', date: '16 ABR',
+  },
+  {
+    name: 'João Pedro', cargo: 'Crítico de Cinema', color: 'gold', photo: null,
+    bio: 'Crítico de cinema com atuação em publicações e festivais nacionais, especializado em análise do cinema contemporâneo.',
+    tema: 'Debate pós-filme — A Vida de Chuck', date: '17 ABR',
+  },
+  {
+    name: 'Pedro Andrade', cargo: 'Crítico de Cinema', color: 'cream', photo: null,
+    bio: 'Crítico de cinema brasileiro com atuação em análise e debate do audiovisual nacional e internacional.',
+    tema: 'Debate pós-filme — A Vida de Chuck', date: '17 ABR',
+  },
+  {
+    name: 'Christian Dunker', cargo: 'Psicanalista · Prof. Titular USP', color: 'accent',
+    photo: 'https://upload.wikimedia.org/wikipedia/commons/2/29/Christian_Dunker.jpg',
+    bio: 'Duas vezes vencedor do Prêmio Jabuti, co-fundador do LATESFIP-USP. Um dos mais influentes divulgadores da psicanálise lacaniana no Brasil.',
+    tema: 'Transformar Mundos e Pessoas', date: '18 ABR',
+  },
+  {
+    name: 'Vladimir Safatle', cargo: 'Filósofo · Prof. Titular USP', color: 'gold',
+    photo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Vladimir_Safatle.jpg/400px-Vladimir_Safatle.jpg',
+    bio: 'Doutor pela Universidade Paris VIII, pesquisador da dialética hegeliana e da epistemologia da psicanálise. Colunista da Folha de S.Paulo e compositor.',
+    tema: 'Transformar Mundos e Pessoas', date: '18 ABR',
+  },
+  {
+    name: 'Jeferson Tenório', cargo: 'Escritor · Professor', color: 'cream',
+    photo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/Sess%C3%A3o_Solene_de_outorga_do_T%C3%ADtulo_de_Cidad%C3%A3o_de_Porto_Alegre_a_Jeferson_de_Souza_Ten%C3%B3rio_12_%283x4%29.jpg/400px-Sess%C3%A3o_Solene_de_outorga_do_T%C3%ADtulo_de_Cidad%C3%A3o_de_Porto_Alegre_a_Jeferson_de_Souza_Ten%C3%B3rio_12_%283x4%29.jpg',
+    bio: 'Vencedor do Prêmio Jabuti com "O Avesso da Pele", doutor em Teoria Literária pela PUC-RS. Uma das vozes mais importantes da literatura afro-brasileira contemporânea.',
+    tema: null, date: '19 ABR',
+  },
+  {
+    name: 'Jussara Santos', cargo: null, color: 'accent', photo: null,
+    bio: 'Convidada especial da 17ª Mostra, com apresentação sobre afeto e política do cuidado no cinema e na psicanálise.',
+    tema: 'Democratização do colo', date: '21 ABR',
+  },
+  {
+    name: 'Pedro Pacífico', cargo: null, color: 'gold', photo: null,
+    bio: 'Convidado de encerramento da 17ª Mostra de Cinema, com participação especial na noite de fechamento do festival.',
+    tema: null, date: '22 ABR',
+  },
 ]
 
 const PALESTRAS = [
@@ -122,8 +209,8 @@ function ScrollProgress() {
 /* ════════════════════════════════════════
    PAL NAV
 ════════════════════════════════════════ */
-function PalNav() {
-  const navRef    = useRef(null)
+function PalNav({ setActiveTab }) {
+  const navRef     = useRef(null)
   const closeTimer = useRef(null)
   const [panelOpen, setPanelOpen] = useState(false)
 
@@ -137,6 +224,13 @@ function PalNav() {
 
   const openPanel  = () => { clearTimeout(closeTimer.current); setPanelOpen(true) }
   const closePanel = () => { closeTimer.current = setTimeout(() => setPanelOpen(false), 160) }
+
+  const goTab = (tab, e) => {
+    e.preventDefault()
+    setPanelOpen(false)
+    setActiveTab(tab)
+    document.getElementById('pal-tabs')?.scrollIntoView({ behavior: 'smooth' })
+  }
 
   return (
     <>
@@ -153,11 +247,6 @@ function PalNav() {
 
         <ul className="pal-nav-links">
           <li><Link to="/" className="pal-nav-link--home">Início</Link></li>
-          <li onMouseEnter={openPanel} onMouseLeave={closePanel}>
-            <a href="#pal-timeline" className={panelOpen ? 'pal-nav-guests-active' : ''}>
-              Convidados
-            </a>
-          </li>
         </ul>
       </nav>
 
@@ -181,6 +270,30 @@ function PalNav() {
         </div>
       </div>
     </>
+  )
+}
+
+/* ════════════════════════════════════════
+   PAL TABS
+════════════════════════════════════════ */
+function PalTabs({ activeTab, setActiveTab }) {
+  return (
+    <div className="pal-tabs-wrap" id="pal-tabs">
+      <div className="pal-tabs-btns">
+        <button
+          className={`pal-tab-btn${activeTab === 'palestras' ? ' active' : ''}`}
+          onClick={() => setActiveTab('palestras')}
+        >
+          Palestras
+        </button>
+        <button
+          className={`pal-tab-btn${activeTab === 'convidados' ? ' active' : ''}`}
+          onClick={() => setActiveTab('convidados')}
+        >
+          Convidados
+        </button>
+      </div>
+    </div>
   )
 }
 
@@ -429,21 +542,42 @@ function PalestrasTimeline() {
     if (!section) return
 
     const ctx = gsap.context(() => {
-      /* linha cresce com scroll */
-      gsap.fromTo(lineRef.current,
+      const lineEl    = lineRef.current
+      const lineTrack = lineEl.parentElement
+
+      /* mapeia cada dot e o item pai */
+      const dotItems = gsap.utils.toArray('.pal-item', section)
+        .map(item => ({ dot: item.querySelector('.pal-dot'), item }))
+        .filter(d => d.dot)
+
+      /* linha cresce com scroll — onUpdate sincroniza os dots */
+      gsap.fromTo(lineEl,
         { scaleY: 0 },
         {
           scaleY: 1, ease: 'none', transformOrigin: 'top center',
-          scrollTrigger: { trigger: section, start: 'top 75%', end: 'bottom 20%', scrub: 0.8 },
+          scrollTrigger: {
+            trigger: section, start: 'top 55%', end: 'bottom 45%', scrub: 0.05,
+            onUpdate: (self) => {
+              const trackTop    = lineTrack.getBoundingClientRect().top + window.scrollY
+              const lineHeight  = lineTrack.offsetHeight * self.progress
+
+              dotItems.forEach(({ dot, item }) => {
+                /* posição absoluta do dot (top: 28px dentro do item) */
+                const dotAbsTop = item.getBoundingClientRect().top + window.scrollY + 28
+                const dotRel    = dotAbsTop - trackTop
+                if (dotRel <= lineHeight) {
+                  dot.classList.add('pal-dot--active')
+                } else {
+                  dot.classList.remove('pal-dot--active')
+                }
+              })
+            },
+          },
         }
       )
 
-      /* dots: sempre visíveis — acendem conforme o card passa pela viewport */
-      gsap.utils.toArray('.pal-dot', section).forEach((dot) => {
-        const item = dot.closest('.pal-item')
-        if (!item) return
-
-        /* aparece com um pop suave quando entra na viewport */
+      /* pop de entrada do dot ao entrar na viewport */
+      dotItems.forEach(({ dot, item }) => {
         gsap.fromTo(dot,
           { scale: 0.4 },
           {
@@ -452,13 +586,6 @@ function PalestrasTimeline() {
             scrollTrigger: { trigger: item, start: 'top 90%', toggleActions: 'play none none none', once: true },
           }
         )
-
-        /* acende quando o card chega à zona central — fica aceso */
-        ScrollTrigger.create({
-          trigger: item,
-          start: 'top 62%',
-          onEnter: () => dot.classList.add('pal-dot--active'),
-        })
       })
 
       /* cards: slide do lado de origem — esquerda ou direita */
@@ -466,7 +593,7 @@ function PalestrasTimeline() {
         const isLeft = card.closest('.pal-item--left') !== null
         gsap.from(card,
           {
-            x: isLeft ? -40 : 40, duration: 0.75, ease: 'power3.out', immediateRender: false,
+            x: isLeft ? -40 : 40, duration: 1.4, ease: 'power2.out', immediateRender: false,
             scrollTrigger: { trigger: card, start: 'top 92%', toggleActions: 'play none none none', once: true },
           }
         )
@@ -479,11 +606,8 @@ function PalestrasTimeline() {
   return (
     <section className="pal-timeline-section" ref={sectionRef} id="pal-timeline">
       <div className="pal-timeline-header">
-        <span className="pal-tl-eyebrow">Agenda Completa</span>
-        <h2 className="pal-tl-title">Programação de<br /><em>Convidados</em></h2>
-        <p className="pal-tl-desc">
-          08 a 22 de Abril de 2026 · Goiânia
-        </p>
+        <h2 className="pal-tl-title"><em>Palestras</em></h2>
+        <p className="pal-tl-desc">08 a 22 de Abril de 2026 · Goiânia</p>
       </div>
 
       <div className="pal-timeline-wrap" ref={wrapRef}>
@@ -500,6 +624,10 @@ function PalestrasTimeline() {
     </section>
   )
 }
+
+/* ════════════════════════════════════════
+   GUEST SECTION
+════════════════════════════════════════ */
 
 /* ════════════════════════════════════════
    PAL FOOTER
@@ -549,6 +677,42 @@ function PalFooter() {
         </div>
       </div>
     </footer>
+  )
+}
+
+/* ════════════════════════════════════════
+   GUEST SECTION
+════════════════════════════════════════ */
+function GuestSection() {
+  return (
+    <section id="pal-convidados" className="pal-guest-section">
+      <div className="pal-timeline-header">
+        <h2 className="pal-tl-title"><em>Convidados</em></h2>
+        <p className="pal-tl-desc">08 a 22 de Abril de 2026 · Goiânia</p>
+      </div>
+      <div className="pal-guest-grid">
+        {GUESTS.map((g) => {
+          const initials = g.name.split(' ').filter(Boolean).map(w => w[0].toUpperCase()).slice(0, 2).join('')
+          return (
+            <div key={g.name} className={`pal-gs-card pal-gs-card--${g.color}`}>
+              <div className="pal-gs-photo-wrap">
+                {g.photo
+                  ? <img src={g.photo} alt={g.name} className="pal-gs-photo" loading="lazy" />
+                  : <div className="pal-gs-avatar">{initials}</div>
+                }
+                <div className="pal-gs-date">{g.date}</div>
+              </div>
+              <div className="pal-gs-body">
+                <div className="pal-gs-name">{g.name}</div>
+                {g.cargo && <div className="pal-gs-cargo">{g.cargo}</div>}
+                <p className="pal-gs-bio">{g.bio}</p>
+                {g.tema && <div className="pal-gs-tema">"{g.tema}"</div>}
+              </div>
+            </div>
+          )
+        })}
+      </div>
+    </section>
   )
 }
 
@@ -630,11 +794,11 @@ function PalPageIntro() {
    PAGE
 ════════════════════════════════════════ */
 export default function PalestrasPage() {
+  const [activeTab, setActiveTab] = useState('palestras')
+
   useEffect(() => {
     window.scrollTo(0, 0)
-    return () => {
-      ScrollTrigger.getAll().forEach(t => t.kill())
-    }
+    return () => { ScrollTrigger.getAll().forEach(t => t.kill()) }
   }, [])
 
   return (
@@ -642,9 +806,10 @@ export default function PalestrasPage() {
       <PalPageIntro />
       <PalCursor />
       <ScrollProgress />
-      <PalNav />
+      <PalNav setActiveTab={setActiveTab} />
       <PalHero />
-      <PalestrasTimeline />
+      <PalTabs activeTab={activeTab} setActiveTab={setActiveTab} />
+      {activeTab === 'palestras' ? <PalestrasTimeline /> : <GuestSection />}
       <PalFooter />
       <BackToHome />
       <BackToTop />

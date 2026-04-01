@@ -32,7 +32,14 @@
       "Read(//c/Users/ruben/Downloads/WhatsApp Unknown 2026-04-01 at 12.19.40/**)",
       "Read(//c/Users/ruben/Downloads/**)",
       "Bash(npx vite:*)",
-      "Bash(git checkout:*)"
+      "Bash(git checkout:*)",
+      "WebSearch",
+      "WebFetch(domain:commons.wikimedia.org)",
+      "WebFetch(domain:en.wikipedia.org)",
+      "WebFetch(domain:pt.wikipedia.org)",
+      "WebFetch(domain:heloisaseixas.com.br)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
     ]
   }
 }
