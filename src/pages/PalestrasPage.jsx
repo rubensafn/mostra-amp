@@ -7,6 +7,29 @@ import './PalestrasPage.css'
 gsap.registerPlugin(ScrollTrigger)
 
 /* ─── DATA ─── */
+const GUESTS = [
+  { name: 'Celso Camilo',       cargo: null,                                   bio: 'Tudo o que você precisa saber sobre inteligência artificial', color: 'accent' },
+  { name: 'Ruy Castro',         cargo: null,                                   bio: 'Ficção e não-ficção e Vice-Versa', color: 'gold' },
+  { name: 'Heloisa Seixas',     cargo: null,                                   bio: 'Ficção e não-ficção e Vice-Versa', color: 'cream' },
+  { name: 'Luiz Pondé',         cargo: 'Filósofo · Escritor',                 bio: 'Valor sentimental: angústia e reparação', color: 'accent' },
+  { name: 'Jossane Gonzaga',    cargo: 'Psicanalista',                         bio: 'Autismo e altas habilidades sob a lente do diagnóstico tardio', color: 'gold' },
+  { name: 'Jesse de Souza',     cargo: null,                                   bio: 'Por que a esquerda morreu', color: 'cream' },
+  { name: 'Marina Cançado',     cargo: 'Psicanalista',                         bio: 'Guimarães Rosa e Jacques Lacan', color: 'accent' },
+  { name: 'Beto Amaral',        cargo: 'Psicanalista',                         bio: 'Guimarães Rosa e Jacques Lacan', color: 'gold' },
+  { name: 'Rubens Machado Jr',  cargo: 'Prof. USP',                            bio: 'Debate pós-filme — O Agente Secreto', color: 'cream' },
+  { name: 'Alberto Silva',      cargo: 'Prof. de Cinema Sorbonne 3',           bio: 'Debate pós-filme — O Agente Secreto', color: 'accent' },
+  { name: 'Paula Febee',        cargo: 'Autora · Psicanalista · Roteirista',   bio: null, color: 'gold' },
+  { name: 'Maysa Balduino',     cargo: 'Psicanalista',                         bio: 'Debate pós-filme — Valor Sentimental', color: 'cream' },
+  { name: 'Wolney Fernandes',   cargo: 'Prof. de Cinema UFG',                  bio: 'Debate pós-filme — Valor Sentimental', color: 'accent' },
+  { name: 'João Pedro',         cargo: 'Crítico de Cinema',                    bio: 'Debate pós-filme — A Vida de Chuck', color: 'gold' },
+  { name: 'Pedro Andrade',      cargo: 'Crítico de Cinema',                    bio: 'Debate pós-filme — A Vida de Chuck', color: 'cream' },
+  { name: 'Cristian Dunker',    cargo: null,                                   bio: 'Transformar Mundos e Pessoas', color: 'accent' },
+  { name: 'Vladimir Safatle',   cargo: null,                                   bio: 'Transformar Mundos e Pessoas', color: 'gold' },
+  { name: 'Jeferson Tenório',   cargo: 'Escritor',                             bio: null, color: 'cream' },
+  { name: 'Jussara Santos',     cargo: null,                                   bio: 'Democratização do colo', color: 'accent' },
+  { name: 'Pedro Pacífico',     cargo: null,                                   bio: 'Encerramento da 17ª Mostra', color: 'gold' },
+]
+
 const PALESTRAS = [
   { id:1,  date:'08', month:'ABR', weekday:'Quarta-Feira',   time:'19:30h', local:'Coquetel de Abertura', convidados:['Elenco do Filme — A Definir'], tema:null, atracao:'Atração Musical — A Definir', tipo:'abertura' },
   { id:2,  date:'09', month:'ABR', weekday:'Quinta-Feira',   time:'18:30h', local:'Livraria',             convidados:['Celso Camilo'], tema:'Tudo o que você precisa saber sobre inteligência artificial' },
@@ -50,7 +73,24 @@ function PalCursor() {
     }
     window.addEventListener('mousemove', onMove)
     raf = requestAnimationFrame(loop)
-    return () => { window.removeEventListener('mousemove', onMove); cancelAnimationFrame(raf) }
+
+    document.body.classList.remove('cursor-hover')
+    const addHover = () => {
+      document.querySelectorAll('a, button, [data-hover]').forEach(el => {
+        el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'))
+        el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'))
+      })
+    }
+    addHover()
+    const obs = new MutationObserver(addHover)
+    obs.observe(document.body, { childList: true, subtree: true })
+
+    return () => {
+      window.removeEventListener('mousemove', onMove)
+      cancelAnimationFrame(raf)
+      obs.disconnect()
+      document.body.classList.remove('cursor-hover')
+    }
   }, [])
 
   return (
@@ -83,7 +123,9 @@ function ScrollProgress() {
    PAL NAV
 ════════════════════════════════════════ */
 function PalNav() {
-  const navRef = useRef(null)
+  const navRef    = useRef(null)
+  const closeTimer = useRef(null)
+  const [panelOpen, setPanelOpen] = useState(false)
 
   useEffect(() => {
     const nav = navRef.current
@@ -93,22 +135,52 @@ function PalNav() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
+  const openPanel  = () => { clearTimeout(closeTimer.current); setPanelOpen(true) }
+  const closePanel = () => { closeTimer.current = setTimeout(() => setPanelOpen(false), 160) }
+
   return (
-    <nav ref={navRef} className="pal-nav" role="navigation">
-      <Link to="/" className="pal-nav-back" aria-label="Voltar para o site">
-        <span className="pal-nav-back-arrow">←</span>
-        <span className="pal-nav-back-label">Voltar</span>
-      </Link>
+    <>
+      <nav ref={navRef} className="pal-nav" role="navigation">
+        <Link to="/" className="pal-nav-back" aria-label="Voltar para o site">
+          <span className="pal-nav-back-arrow">←</span>
+          <span className="pal-nav-back-label">Voltar</span>
+        </Link>
 
-      <Link to="/" className="pal-nav-brand">
-        <img src="/images/logo-lenco.png" alt="17ª Mostra de Cinema" className="pal-nav-logo" />
-        <span className="pal-nav-title">17ª MOSTRA</span>
-      </Link>
+        <Link to="/" className="pal-nav-brand">
+          <img src="/images/logo-lenco.png" alt="17ª Mostra de Cinema" className="pal-nav-logo" />
+          <span className="pal-nav-title">17ª MOSTRA</span>
+        </Link>
 
-      <ul className="pal-nav-links">
-        <li><a href="#pal-timeline">Convidados</a></li>
-      </ul>
-    </nav>
+        <ul className="pal-nav-links">
+          <li><Link to="/" className="pal-nav-link--home">Início</Link></li>
+          <li onMouseEnter={openPanel} onMouseLeave={closePanel}>
+            <a href="#pal-timeline" className={panelOpen ? 'pal-nav-guests-active' : ''}>
+              Convidados
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <div
+        className={`pal-guests-panel${panelOpen ? ' open' : ''}`}
+        onMouseEnter={openPanel}
+        onMouseLeave={closePanel}
+      >
+        <div className="pal-guests-scroll">
+          {GUESTS.map((g) => {
+            const initials = g.name.split(' ').filter(Boolean).map(w => w[0].toUpperCase()).slice(0, 2).join('')
+            return (
+              <div key={g.name} className={`pal-gp-card pal-gp-card--${g.color}`}>
+                <div className="pal-gp-avatar">{initials}</div>
+                <div className="pal-gp-name">{g.name}</div>
+                {g.cargo && <div className="pal-gp-cargo">{g.cargo}</div>}
+                {g.bio   && <div className="pal-gp-bio">{g.bio}</div>}
+              </div>
+            )
+          })}
+        </div>
+      </div>
+    </>
   )
 }
 
@@ -526,6 +598,35 @@ function BackToHome() {
 }
 
 /* ════════════════════════════════════════
+   PAGE INTRO OVERLAY
+════════════════════════════════════════ */
+function PalPageIntro() {
+  const overlayRef = useRef(null)
+
+  useEffect(() => {
+    const overlay = overlayRef.current
+    if (!overlay) return
+    gsap.to(overlay, {
+      opacity: 0, duration: 1.2, ease: 'power2.inOut', delay: 2.0,
+      onComplete: () => overlay.classList.add('hidden')
+    })
+  }, [])
+
+  return (
+    <div ref={overlayRef} id="pal-page-intro">
+      <div id="pal-intro-glow" />
+      <div id="pal-intro-line" />
+      <h1 id="pal-intro-title">
+        <span id="pal-intro-line1">CONVIDADOS</span>
+        <span id="pal-intro-amp">&amp;</span>
+        <span id="pal-intro-line2">PALESTRAS</span>
+      </h1>
+      <p id="pal-intro-sub">17ª Mostra de Cinema · Goiânia · 2026</p>
+    </div>
+  )
+}
+
+/* ════════════════════════════════════════
    PAGE
 ════════════════════════════════════════ */
 export default function PalestrasPage() {
@@ -538,6 +639,7 @@ export default function PalestrasPage() {
 
   return (
     <>
+      <PalPageIntro />
       <PalCursor />
       <ScrollProgress />
       <PalNav />

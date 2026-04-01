@@ -197,6 +197,7 @@ function Nav() {
         </a>
 
         <ul className="nav-links">
+          <li><a href="#" className="btn-nav-home" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }) }}>Início</a></li>
           <li><a href="#" onClick={(e) => goTo('sobre', e)}>Sobre</a></li>
           <li><Link to="/palestras">Convidados &amp; Palestras</Link></li>
           {SHOW_FILMS && <li><a href="#" onClick={(e) => goTo('programacao', e)}>Programação</a></li>}
@@ -217,6 +218,7 @@ function Nav() {
 
       <div id="mobile-menu">
         <ul>
+          <li><a href="#" className="btn-nav-home" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); close() }}>Início</a></li>
           <li><a href="#" onClick={(e) => { goTo('sobre', e); close() }}>Sobre</a></li>
           <li><Link to="/palestras" onClick={close}>Convidados &amp; Palestras</Link></li>
           {SHOW_FILMS && <li><a href="#" onClick={(e) => { goTo('programacao', e); close() }}>Programação</a></li>}
