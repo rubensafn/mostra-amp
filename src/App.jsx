@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
+import { Link } from 'react-router-dom'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import './App.css'
@@ -16,129 +17,18 @@ const MARQUEE_1 = [
   '·', 'Brasilidades', '·', 'Goiânia', '·', '08 a 22 de Abril', '·',
 ]
 const MARQUEE_2 = [
-  'Realização Cinex', '·', 'Curadoria Lisandro Nogueira', '·',
-  'Idealização Gerson Santos', '·', 'Cinema Brasileiro', '·',
-  'Longa-Metragem', '·', 'Curta-Metragem', '·', 'Realização Cinex', '·',
-  'Curadoria Lisandro Nogueira', '·', 'Idealização Gerson Santos', '·',
+  'Realização Cinex', '·', 'Curador Lisandro Nogueira', '·',
+  'Idealização Lisandro e Gerson', '·', 'Produtor Geral Gerson Santos', '·',
+  'Cinema Brasileiro', '·', 'Longa-Metragem', '·', 'Curta-Metragem', '·',
+  'Realização Cinex', '·', 'Curador Lisandro Nogueira', '·',
+  'Idealização Lisandro e Gerson', '·',
 ]
 
 /* ─── programação de filmes: ocultar até liberação oficial ─── */
 const SHOW_FILMS = false
 
-/* ─── PALESTRAS ─── */
-const PALESTRAS = [
-  {
-    id: 1, date: '08', month: 'ABR', weekday: 'Quarta-Feira',
-    time: '19:30h', local: 'Coquetel de Abertura',
-    convidados: ['Elenco do Filme — A Definir'],
-    tema: null, atracao: 'Atração Musical — A Definir', tipo: 'abertura',
-  },
-  {
-    id: 2, date: '09', month: 'ABR', weekday: 'Quinta-Feira',
-    time: '19:30h', local: 'Palco Central',
-    convidados: ['Ruy Castro', 'Heloisa Seixas'],
-    tema: 'Ficção e não-ficção e Vice-Versa',
-  },
-  {
-    id: 3, date: '10', month: 'ABR', weekday: 'Sexta-Feira',
-    time: '18:30h', local: 'Livraria',
-    convidados: ['Celso Camilo'],
-    tema: 'Tudo o que você precisa saber sobre inteligência artificial',
-    atracao: 'Atração Musical MPB · 20:30h',
-  },
-  {
-    id: 4, date: '11', month: 'ABR', weekday: 'Sábado',
-    time: '19:30h', local: 'Palco Central',
-    convidados: ['Luiz Pondé'],
-    cargo: 'Filósofo · Escritor · Professor Universitário',
-    tema: null,
-  },
-  {
-    id: 5, date: '12', month: 'ABR', weekday: 'Domingo',
-    time: '16:30h', local: 'Livraria',
-    convidados: ['Jossane Gonzaga'],
-    cargo: 'Psicanalista',
-    tema: 'Autismo e altas habilidades sob a lente do diagnóstico tardio',
-  },
-  {
-    id: 6, date: '13', month: 'ABR', weekday: 'Segunda-Feira',
-    time: '19:30h', local: null,
-    convidados: ['Jesse de Souza'],
-    tema: 'Por que a esquerda morreu',
-  },
-  {
-    id: 7, date: '14', month: 'ABR', weekday: 'Terça-Feira',
-    time: '19:30h', local: 'Livraria',
-    convidados: ['Marina Cançado', 'Beto Amaral'],
-    cargo: 'Psicanalistas',
-    tema: 'Guimarães Rosa e Jacques Lacan',
-  },
-  {
-    id: 8, date: '15', month: 'ABR', weekday: 'Quarta-Feira',
-    time: '19:30h', local: 'Livraria',
-    convidados: ['Rubens Machado Jr', 'Alberto Silva'],
-    cargo: 'Prof. USP · Prof. de Cinema Sorbonne 3',
-    tema: 'Debate pós-filme — O Agente Secreto',
-  },
-  {
-    id: 9, date: '16', month: 'ABR', weekday: 'Quinta-Feira',
-    time: '19:30h', local: 'Palco Central',
-    convidados: ['Paula Febee'],
-    cargo: 'Autora · Psicanalista · Roteirista',
-    tema: 'Horror e fantasia como linguagem literária',
-  },
-  {
-    id: 10, date: '16', month: 'ABR', weekday: 'Quinta-Feira',
-    time: '21:30h', local: 'Palco Central',
-    convidados: ['Maysa Balduino', 'Wolney Fernandes'],
-    cargo: 'Psicanalista · Prof. de Cinema UFG',
-    tema: 'Debate pós-filme — Valor Sentimental',
-  },
-  {
-    id: 11, date: '17', month: 'ABR', weekday: 'Sexta-Feira',
-    time: '20:30h', local: 'Livraria',
-    convidados: ['João Pedro', 'Pedro Andrade'],
-    cargo: 'Críticos de Cinema',
-    tema: 'Debate pós-filme — A Vida de Chuck',
-  },
-  {
-    id: 12, date: '17', month: 'ABR', weekday: 'Sexta-Feira',
-    time: '20:30h', local: 'Palco Central',
-    convidados: ['Pedro Pacífico'],
-    tema: null,
-  },
-  {
-    id: 13, date: '18', month: 'ABR', weekday: 'Sábado',
-    time: '16:00h', local: 'Palco Central',
-    convidados: ['Cristian Dunker', 'Vladimir Safatle'],
-    tema: 'Transformar Mundos e Pessoas',
-    atracao: 'Atração Musical — A Definir',
-  },
-  {
-    id: 14, date: '19', month: 'ABR', weekday: 'Domingo',
-    time: '18:00h', local: null,
-    convidados: ['Jeferson Tenório'],
-    tema: null,
-  },
-  {
-    id: 15, date: '20', month: 'ABR', weekday: 'Segunda-Feira',
-    time: '21:30h', local: null,
-    convidados: ['Raimundo Alves', 'Karla Rady', 'Fabiana Pulcinelli'],
-    tema: 'Debate pós-filme — O Peso do Silêncio: Tarzan e a Ditadura',
-  },
-  {
-    id: 16, date: '21', month: 'ABR', weekday: 'Terça-Feira',
-    time: '18:30h', local: null,
-    convidados: ['Jussara Santos'],
-    tema: 'Democratização do colo',
-  },
-  {
-    id: 17, date: '22', month: 'ABR', weekday: 'Quarta-Feira',
-    time: '19:30h', local: null,
-    convidados: ['Encerramento — A Definir'],
-    tema: null, tipo: 'encerramento',
-  },
-]
+/* ─── PALESTRAS (dados 01.04) ─── */
+/* Mantido aqui para referência — timeline completa em /palestras */
 
 /* ── helper ── */
 function getFilmSessions(title) {
@@ -301,11 +191,16 @@ function Nav() {
 
         <ul className="nav-links">
           <li><a href="#sobre">Sobre</a></li>
-          <li><a href="#palestras">Palestras</a></li>
+          <li><Link to="/palestras">Convidados &amp; Palestras</Link></li>
           {SHOW_FILMS && <li><a href="#programacao">Programação</a></li>}
           <li><a href="#curadoria">Curadoria</a></li>
           <li><a href="#espaco">Espaço</a></li>
-          <li><a href="#palestras" className="btn-nav">Ver Programação</a></li>
+          {!SHOW_FILMS && (
+            <li><Link to="/palestras" className="btn-nav">Convidados &amp; Palestras</Link></li>
+          )}
+          {SHOW_FILMS && (
+            <li><a href="#programacao" className="btn-nav">Ver Programação</a></li>
+          )}
         </ul>
 
         <button className="nav-hamburger" aria-label="Menu" onClick={toggle}>
@@ -316,15 +211,16 @@ function Nav() {
       <div id="mobile-menu">
         <ul>
           <li><a href="#sobre"      onClick={close}>Sobre</a></li>
-          <li><a href="#palestras"  onClick={close}>Palestras</a></li>
+          <li><Link to="/palestras" onClick={close}>Convidados &amp; Palestras</Link></li>
           {SHOW_FILMS && <li><a href="#programacao" onClick={close}>Programação</a></li>}
           <li><a href="#curadoria" onClick={close}>Curadoria</a></li>
           <li><a href="#espaco"    onClick={close}>Espaço</a></li>
         </ul>
         <div className="mobile-menu-credits">
           <div>Realização · Cinex</div>
-          <div>Curadoria · Lisandro Nogueira</div>
-          <div>Idealização · Gerson Santos</div>
+          <div>Curador · Lisandro Nogueira</div>
+          <div>Idealização · Lisandro e Gerson</div>
+          <div>Produtor Geral · Gerson Santos</div>
         </div>
       </div>
     </>
@@ -389,9 +285,15 @@ function Hero() {
         </p>
 
         <div className="hero-ctas">
-          <a href={SHOW_FILMS ? '#programacao' : '#palestras'} className="btn-primary">Ver Programação</a>
+          <Link to="/palestras" className="btn-primary">Convidados &amp; Palestras</Link>
           <a href="#sobre" className="btn-outline">Sobre a Mostra</a>
         </div>
+        {!SHOW_FILMS && (
+          <div className="hero-prog-breve">
+            <span className="hero-prog-breve-dot" />
+            Programação de Filmes · Em Breve
+          </div>
+        )}
 
         <div className="hero-countdown">
           <div className="countdown-item">
@@ -831,11 +733,15 @@ function Curadoria() {
             <span className="credit-name">Cinex</span>
           </div>
           <div className="credit-item">
-            <span className="credit-role">Curadoria</span>
+            <span className="credit-role">Curador</span>
             <span className="credit-name">Lisandro Nogueira</span>
           </div>
           <div className="credit-item">
             <span className="credit-role">Idealização</span>
+            <span className="credit-name">Lisandro e Gerson</span>
+          </div>
+          <div className="credit-item">
+            <span className="credit-role">Produtor Geral</span>
             <span className="credit-name">Gerson Santos</span>
           </div>
         </div>
@@ -973,9 +879,10 @@ function Footer() {
           <div className="footer-col">
             <span className="footer-col-title">Programação</span>
             <ul>
-              <li><a href="#programacao">Longas-Metragens</a></li>
-              <li><a href="#programacao">Curtas-Metragens</a></li>
-              <li><a href="#destaque">Destaque da Edição</a></li>
+              <li><Link to="/palestras">Convidados &amp; Palestras</Link></li>
+              {SHOW_FILMS && <li><a href="#programacao">Longas-Metragens</a></li>}
+              {SHOW_FILMS && <li><a href="#programacao">Curtas-Metragens</a></li>}
+              {!SHOW_FILMS && <li><a href="#" style={{opacity:0.4,pointerEvents:'none'}}>Filmes · Em Breve</a></li>}
             </ul>
           </div>
 
@@ -1006,11 +913,15 @@ function Footer() {
             <span className="footer-credit-name">Cinex</span>
           </div>
           <div className="footer-credit-item">
-            <span className="footer-credit-role">Curadoria</span>
+            <span className="footer-credit-role">Curador</span>
             <span className="footer-credit-name">Lisandro Nogueira</span>
           </div>
           <div className="footer-credit-item">
             <span className="footer-credit-role">Idealização</span>
+            <span className="footer-credit-name">Lisandro e Gerson</span>
+          </div>
+          <div className="footer-credit-item">
+            <span className="footer-credit-role">Produtor Geral</span>
             <span className="footer-credit-name">Gerson Santos</span>
           </div>
         </div>
@@ -1031,7 +942,64 @@ function Footer() {
 }
 
 /* ════════════════════════════════════════
-   PALESTRAS — TIMELINE CINEMATOGRÁFICA
+   PALESTRAS CTA  (card na página principal)
+════════════════════════════════════════ */
+function PalestrasCTA() {
+  return (
+    <section id="palestras-cta">
+      <div className="pal-cta-inner">
+        <div className="section-line" data-reveal>
+          <span className="label">Convidados &amp; Palestras · 08 a 22 de Abril</span>
+        </div>
+        <h2 data-reveal>
+          Vozes que<br /><em>iluminam</em>
+        </h2>
+        <p className="pal-cta-desc" data-reveal>
+          Pensadores, escritores e cineastas que aprofundam o debate ao redor da programação.
+          16 convidados ao longo dos 14 dias da Mostra.
+        </p>
+        <div className="pal-cta-names" data-reveal>
+          {['Ruy Castro','Celso Camilo','Luiz Pondé','Cristian Dunker',
+            'Vladimir Safatle','Jesse de Souza','Jeferson Tenório','Paula Febee',
+            'Jussara Santos','Pedro Pacífico','e mais…'
+          ].map((n, i) => (
+            <span key={i} className="pal-cta-name">{n}</span>
+          ))}
+        </div>
+        <Link to="/palestras" className="btn-primary" data-reveal>
+          Ver Todos os Convidados
+        </Link>
+      </div>
+    </section>
+  )
+}
+
+/* ════════════════════════════════════════
+   PROGRAMAÇÃO EM BREVE  (teaser filmes)
+════════════════════════════════════════ */
+function ProgramacaoEmBreve() {
+  return (
+    <section id="prog-em-breve">
+      <div className="peb-inner" data-reveal>
+        <span className="peb-icon">🎬</span>
+        <div className="peb-text">
+          <span className="label-gold">Programação Oficial de Filmes</span>
+          <h3>Longas &amp; Curtas · <em>Em Breve</em></h3>
+          <p>A grade completa de filmes será divulgada em breve. Acompanhe.</p>
+        </div>
+        <div className="peb-dates">
+          <span>08</span>
+          <span className="peb-sep">—</span>
+          <span>22</span>
+          <span className="peb-month">ABR 2026</span>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+/* ════════════════════════════════════════
+   PALESTRAS — TIMELINE (mantida no código, oculta via SHOW_FILMS)
 ════════════════════════════════════════ */
 function Palestras() {
   const sectionRef = useRef(null)
@@ -1235,7 +1203,8 @@ export default function App() {
       {SHOW_FILMS && <FilmesStrip />}
       {SHOW_FILMS && <Programacao />}
       {SHOW_FILMS && <Destaque />}
-      <Palestras />
+      <PalestrasCTA />
+      {!SHOW_FILMS && <ProgramacaoEmBreve />}
       <Marquee items={MARQUEE_2} reversed />
       <Curadoria />
       <Espaco />

@@ -1023,8 +1023,11 @@
 .curadoria-credits {
   border-top: 1px solid var(--border);
   padding-top: 64px;
-  display: grid; grid-template-columns: repeat(3, 1fr);
+  display: grid; grid-template-columns: repeat(4, 1fr);
   gap: 40px; text-align: center;
+}
+@media (max-width: 768px) {
+  .curadoria-credits { grid-template-columns: 1fr 1fr; gap: 28px; }
 }
 .credit-item {}
 .credit-role {
@@ -1999,12 +2002,11 @@
   button, a, [data-hover] { cursor: pointer; }
 }
 
-/* Hero: evitar artefato de elemento flutuando no scroll iOS */
+/* Hero: fix iOS scroll (sem transform para não quebrar z-index do nav fixo) */
 @media (max-width: 768px) {
   #hero {
-    /* Garante que nada escape ao rolar */
-    transform: translateZ(0);
-    -webkit-transform: translateZ(0);
+    /* NÃO usar transform aqui — quebra z-index do nav fixo */
+    isolation: isolate;
   }
   /* Reduce blob intensity on mobile for perf */
   .ambient-blob { opacity: 0.45 !important; }
@@ -2053,4 +2055,137 @@
 @media (min-width: 2000px) {
   .sobre-grid, .curadoria-inner, .anteriores-inner { max-width: 1600px; }
   .prog-header, .day-nav-wrap, .schedule-wrap { max-width: 1600px; }
+}
+
+/* ════════════════════════════════════════
+   PALESTRAS CTA SECTION
+════════════════════════════════════════ */
+#palestras-cta {
+  padding: 140px 56px;
+  background: var(--bg-2);
+  position: relative; overflow: hidden;
+  text-align: center;
+}
+#palestras-cta::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(to right, transparent, var(--border-gold), transparent);
+}
+#palestras-cta::after {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: url('/images/texture-interior.jpeg');
+  background-size: cover; opacity: 0.03; pointer-events: none;
+}
+.pal-cta-inner {
+  position: relative; z-index: 1;
+  max-width: 860px; margin: 0 auto;
+  display: flex; flex-direction: column; align-items: center; gap: 0;
+}
+.pal-cta-inner .section-line { margin-bottom: 20px; }
+.pal-cta-inner h2 {
+  font-family: var(--font-serif);
+  font-size: clamp(48px, 6vw, 88px);
+  font-weight: 300; font-style: italic;
+  color: var(--cream); line-height: 1.05; margin-bottom: 28px;
+}
+.pal-cta-inner h2 em {
+  font-style: normal; color: var(--accent);
+  text-shadow: 0 0 30px rgba(224,24,101,0.3);
+}
+.pal-cta-desc {
+  font-size: 17px; line-height: 1.8; color: var(--cream-dim);
+  max-width: 540px; margin-bottom: 48px;
+}
+
+/* nomes em chips */
+.pal-cta-names {
+  display: flex; flex-wrap: wrap; gap: 10px;
+  justify-content: center; margin-bottom: 52px;
+}
+.pal-cta-name {
+  font-family: var(--font-serif);
+  font-size: 15px; font-style: italic;
+  color: var(--cream-dim);
+  padding: 6px 18px;
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  transition: border-color 0.25s, color 0.25s, background 0.25s;
+}
+.pal-cta-name:hover {
+  border-color: rgba(224,24,101,0.35);
+  color: var(--cream);
+  background: rgba(224,24,101,0.05);
+}
+
+@media (max-width: 768px) {
+  #palestras-cta { padding: 80px 24px; }
+  .pal-cta-inner h2 { font-size: clamp(40px, 10vw, 64px); }
+  .pal-cta-names { gap: 8px; }
+  .pal-cta-name { font-size: 13px; padding: 5px 14px; }
+}
+
+/* ════════════════════════════════════════
+   PROGRAMAÇÃO EM BREVE
+════════════════════════════════════════ */
+#prog-em-breve {
+  padding: 64px 56px;
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.peb-inner {
+  max-width: 1280px; margin: 0 auto;
+  display: flex; align-items: center; gap: 48px;
+  flex-wrap: wrap;
+}
+.peb-icon {
+  font-size: 48px; flex-shrink: 0; opacity: 0.6;
+}
+.peb-text { flex: 1; min-width: 240px; }
+.peb-text .label-gold { margin-bottom: 10px; display: block; }
+.peb-text h3 {
+  font-family: var(--font-serif);
+  font-size: clamp(22px, 3vw, 36px);
+  font-weight: 300; font-style: italic;
+  color: var(--cream); margin-bottom: 8px; line-height: 1.2;
+}
+.peb-text h3 em { font-style: normal; color: var(--gold); }
+.peb-text p {
+  font-size: 14px; color: var(--cream-dim); line-height: 1.7;
+}
+.peb-dates {
+  display: flex; align-items: center; gap: 10px;
+  font-family: var(--font-display);
+  font-size: clamp(36px, 5vw, 64px); color: var(--cream);
+  letter-spacing: 0.05em; opacity: 0.35;
+  flex-shrink: 0;
+}
+.peb-sep { color: var(--accent); font-size: 0.7em; }
+.peb-month {
+  font-family: var(--font-body);
+  font-size: 11px; letter-spacing: 0.28em; text-transform: uppercase;
+  color: var(--gold); align-self: flex-end; padding-bottom: 8px;
+}
+
+@media (max-width: 768px) {
+  #prog-em-breve { padding: 48px 24px; }
+  .peb-inner { gap: 28px; }
+  .peb-icon { font-size: 36px; }
+  .peb-dates { font-size: 40px; opacity: 0.25; }
+}
+
+/* ── Hero "Programação em Breve" chip ── */
+.hero-prog-breve {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 9px; letter-spacing: 0.28em; text-transform: uppercase;
+  color: rgba(224,176,64,0.6);
+  border: 1px solid rgba(224,176,64,0.2);
+  padding: 7px 18px; border-radius: 24px;
+  margin-top: 20px;
+}
+.hero-prog-breve-dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--gold); opacity: 0.5;
+  animation: pulseGlow 2.5s ease-in-out infinite;
 }

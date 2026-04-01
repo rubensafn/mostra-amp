@@ -1,0 +1,528 @@
+import { useEffect, useRef } from 'react'
+import { Link } from 'react-router-dom'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import './PalestrasPage.css'
+
+gsap.registerPlugin(ScrollTrigger)
+
+/* ─── DATA ─── */
+const PALESTRAS = [
+  { id:1,  date:'08', month:'ABR', weekday:'Quarta-Feira',   time:'19:30h', local:'Coquetel de Abertura', convidados:['Elenco do Filme — A Definir'], tema:null, atracao:'Atração Musical — A Definir', tipo:'abertura' },
+  { id:2,  date:'09', month:'ABR', weekday:'Quinta-Feira',   time:'18:30h', local:'Livraria',             convidados:['Celso Camilo'], tema:'Tudo o que você precisa saber sobre inteligência artificial' },
+  { id:3,  date:'10', month:'ABR', weekday:'Sexta-Feira',    time:'19:00h', local:'Palco Central',        convidados:['Ruy Castro','Heloisa Seixas'], tema:'Ficção e não-ficção e Vice-Versa', atracao:'Atração Musical MPB · 20:30h' },
+  { id:4,  date:'11', month:'ABR', weekday:'Sábado',         time:'19:30h', local:'Palco Central',        convidados:['Luiz Pondé'], cargo:'Filósofo · Escritor · Professor Universitário', tema:'Valor sentimental: angústia e reparação' },
+  { id:5,  date:'12', month:'ABR', weekday:'Domingo',        time:'16:30h', local:'Livraria',             convidados:['Jossane Gonzaga'], cargo:'Psicanalista', tema:'Autismo e altas habilidades sob a lente do diagnóstico tardio' },
+  { id:6,  date:'13', month:'ABR', weekday:'Segunda-Feira',  time:'19:30h', local:'Palco Central',        convidados:['Jesse de Souza'], tema:'Por que a esquerda morreu' },
+  { id:7,  date:'14', month:'ABR', weekday:'Terça-Feira',    time:'19:30h', local:'Livraria',             convidados:['Marina Cançado','Beto Amaral'], cargo:'Psicanalistas', tema:'Guimarães Rosa e Jacques Lacan' },
+  { id:8,  date:'15', month:'ABR', weekday:'Quarta-Feira',   time:'19:30h', local:'Livraria',             convidados:['Rubens Machado Jr','Alberto Silva'], cargo:'Prof. USP · Prof. de Cinema Sorbonne 3', tema:'Debate pós-filme — O Agente Secreto' },
+  { id:9,  date:'16', month:'ABR', weekday:'Quinta-Feira',   time:'19:30h', local:'Palco Central',        convidados:['Paula Febee'], cargo:'Autora · Psicanalista · Roteirista', tema:null },
+  { id:10, date:'16', month:'ABR', weekday:'Quinta-Feira',   time:'21:30h', local:'Palco Central',        convidados:['Maysa Balduino','Wolney Fernandes'], cargo:'Psicanalista · Prof. de Cinema UFG', tema:'Debate pós-filme — Valor Sentimental' },
+  { id:11, date:'17', month:'ABR', weekday:'Sexta-Feira',    time:'20:30h', local:'Livraria',             convidados:['João Pedro','Pedro Andrade'], cargo:'Críticos de Cinema', tema:'Debate pós-filme — A Vida de Chuck' },
+  { id:12, date:'18', month:'ABR', weekday:'Sábado',         time:'16:00h', local:'Palco Central',        convidados:['Cristian Dunker','Vladimir Safatle'], tema:'Transformar Mundos e Pessoas' },
+  { id:13, date:'19', month:'ABR', weekday:'Domingo',        time:'18:00h', local:null,                   convidados:['Jeferson Tenório'], tema:null },
+  { id:14, date:'20', month:'ABR', weekday:'Segunda-Feira',  time:'21:30h', local:null,                   convidados:['Raimundo Alves','Karla Rady','Fabiana Pulcinelli'], tema:'Debate pós-filme — O Peso do Silêncio: Tarzan e a Ditadura' },
+  { id:15, date:'21', month:'ABR', weekday:'Terça-Feira',    time:'18:30h', local:null,                   convidados:['Jussara Santos'], tema:'Democratização do colo' },
+  { id:16, date:'22', month:'ABR', weekday:'Sexta-Feira',    time:'19:00h', local:'Palco Central',        convidados:['Pedro Pacífico'], tema:null, tipo:'encerramento' },
+]
+
+/* ════════════════════════════════════════
+   SCROLL PROGRESS
+════════════════════════════════════════ */
+function ScrollProgress() {
+  const barRef = useRef(null)
+  useEffect(() => {
+    const bar = barRef.current
+    if (!bar) return
+    const onScroll = () => {
+      const pct = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100
+      bar.style.width = pct + '%'
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+  return <div id="pal-scroll-progress" ref={barRef} />
+}
+
+/* ════════════════════════════════════════
+   PAL NAV
+════════════════════════════════════════ */
+function PalNav() {
+  const navRef = useRef(null)
+
+  useEffect(() => {
+    const nav = navRef.current
+    if (!nav) return
+    const onScroll = () => nav.classList.toggle('pal-nav--solid', window.scrollY > 60)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  return (
+    <nav ref={navRef} className="pal-nav" role="navigation">
+      <Link to="/" className="pal-nav-back" aria-label="Voltar para o site">
+        <span className="pal-nav-back-arrow">←</span>
+        <span className="pal-nav-back-label">Voltar</span>
+      </Link>
+
+      <Link to="/" className="pal-nav-brand">
+        <img src="/images/logo-lenco.png" alt="17ª Mostra de Cinema" className="pal-nav-logo" />
+        <span className="pal-nav-title">17ª MOSTRA</span>
+      </Link>
+
+      <ul className="pal-nav-links">
+        <li><a href="#pal-timeline">Programação</a></li>
+        <li><a href="#pal-footer">Créditos</a></li>
+      </ul>
+    </nav>
+  )
+}
+
+/* ════════════════════════════════════════
+   PAL HERO
+════════════════════════════════════════ */
+function PalHero() {
+  const heroRef    = useRef(null)
+  const line1Ref   = useRef(null)
+  const line2Ref   = useRef(null)
+  const subRef     = useRef(null)
+  const statsRef   = useRef(null)
+  const arrowRef   = useRef(null)
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      /* split line1 and line2 into individual letter spans */
+      const splitLine = (el) => {
+        const text = el.textContent
+        el.innerHTML = text
+          .split('')
+          .map(ch => ch === ' '
+            ? `<span class="pal-hero-space"> </span>`
+            : `<span class="pal-hero-char">${ch}</span>`)
+          .join('')
+        return el.querySelectorAll('.pal-hero-char')
+      }
+
+      const chars1 = splitLine(line1Ref.current)
+      const chars2 = splitLine(line2Ref.current)
+
+      const tl = gsap.timeline({ defaults: { ease: 'power4.out' } })
+
+      tl.fromTo([...chars1, ...chars2],
+        { opacity: 0, y: 80, rotateX: -40 },
+        {
+          opacity: 1, y: 0, rotateX: 0,
+          duration: 1.1,
+          stagger: { amount: 0.7, from: 'start' },
+        }
+      )
+      .fromTo(subRef.current,
+        { opacity: 0, y: 20, letterSpacing: '0.5em' },
+        { opacity: 1, y: 0, letterSpacing: '0.28em', duration: 0.9, ease: 'expo.out' },
+        '-=0.4'
+      )
+      .fromTo(statsRef.current,
+        { opacity: 0, y: 16 },
+        { opacity: 1, y: 0, duration: 0.7 },
+        '-=0.3'
+      )
+      .fromTo(arrowRef.current,
+        { opacity: 0, y: -10 },
+        { opacity: 1, y: 0, duration: 0.6 },
+        '-=0.2'
+      )
+    }, heroRef)
+
+    return () => ctx.revert()
+  }, [])
+
+  return (
+    <section className="pal-hero" ref={heroRef} id="pal-hero">
+      <div className="pal-hero-bg">
+        <img src="/images/fundo-geral.png" alt="" className="pal-hero-bg-img" aria-hidden="true" />
+        <div className="pal-hero-overlay" />
+      </div>
+
+      <div className="pal-hero-grain" aria-hidden="true" />
+
+      {/* decorative lines */}
+      <div className="pal-hero-rule pal-hero-rule--top" aria-hidden="true" />
+      <div className="pal-hero-rule pal-hero-rule--bottom" aria-hidden="true" />
+
+      <div className="pal-hero-content">
+        <div className="pal-hero-eyebrow">
+          <span className="pal-hero-eyebrow-line" />
+          <span className="pal-hero-eyebrow-text">17ª Mostra de Cinema · Goiânia</span>
+          <span className="pal-hero-eyebrow-line" />
+        </div>
+
+        <h1 className="pal-hero-title" aria-label="Convidados & Palestras">
+          <span ref={line1Ref} className="pal-hero-line pal-hero-line--1">CONVIDADOS</span>
+          <span ref={line2Ref} className="pal-hero-line pal-hero-line--2">&amp; PALESTRAS</span>
+        </h1>
+
+        <p ref={subRef} className="pal-hero-sub">
+          17ª Mostra de Cinema&nbsp;&nbsp;·&nbsp;&nbsp;08 a 22 de Abril&nbsp;&nbsp;·&nbsp;&nbsp;Goiânia
+        </p>
+
+        <div ref={statsRef} className="pal-hero-stats">
+          <div className="pal-hero-stat">
+            <span className="pal-hero-stat-num">16</span>
+            <span className="pal-hero-stat-label">Convidados</span>
+          </div>
+          <span className="pal-hero-stat-sep" aria-hidden="true">·</span>
+          <div className="pal-hero-stat">
+            <span className="pal-hero-stat-num">14</span>
+            <span className="pal-hero-stat-label">Dias de Mostra</span>
+          </div>
+          <span className="pal-hero-stat-sep" aria-hidden="true">·</span>
+          <div className="pal-hero-stat">
+            <span className="pal-hero-stat-num">16</span>
+            <span className="pal-hero-stat-label">Eventos</span>
+          </div>
+        </div>
+
+        <a href="#pal-timeline" className="pal-hero-scroll" ref={arrowRef} aria-label="Ver programação">
+          <span className="pal-hero-scroll-label">Ver Programação</span>
+          <span className="pal-hero-scroll-drop" aria-hidden="true" />
+        </a>
+      </div>
+    </section>
+  )
+}
+
+/* ════════════════════════════════════════
+   PAL TIMELINE CARD
+════════════════════════════════════════ */
+function PalCard({ palestra, side }) {
+  const cardRef    = useRef(null)
+  const dotRef     = useRef(null)
+  const dateRef    = useRef(null)
+  const innerRef   = useRef(null)
+
+  /* magnetic hover state */
+  const magState = useRef({ x: 0, y: 0, tween: null })
+
+  useEffect(() => {
+    const card  = cardRef.current
+    const dot   = dotRef.current
+    const inner = innerRef.current
+    if (!card || !dot) return
+
+    const ctx = gsap.context(() => {
+      /* reveal: clip-path wipe bottom → top + scale */
+      gsap.fromTo(card,
+        { clipPath: 'inset(0 0 100% 0)', scale: 0.94, opacity: 0 },
+        {
+          clipPath: 'inset(0 0 0% 0)',
+          scale: 1,
+          opacity: 1,
+          duration: 0.95,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: card,
+            start: 'top 88%',
+            toggleActions: 'play none none none',
+          },
+        }
+      )
+
+      /* dot scale in with spring bounce */
+      gsap.fromTo(dot,
+        { scale: 0, opacity: 0 },
+        {
+          scale: 1,
+          opacity: 1,
+          duration: 0.6,
+          ease: 'back.out(2.5)',
+          scrollTrigger: {
+            trigger: card,
+            start: 'top 88%',
+            toggleActions: 'play none none none',
+          },
+          onComplete: () => {
+            /* pulse glow after dot appears */
+            gsap.fromTo(dot,
+              { boxShadow: '0 0 0 0 rgba(224,24,101,0)' },
+              {
+                boxShadow: '0 0 0 8px rgba(224,24,101,0)',
+                duration: 0.8,
+                ease: 'power2.out',
+                repeat: 1,
+                yoyo: false,
+              }
+            )
+          },
+        }
+      )
+
+      /* parallax on the big date number */
+      if (dateRef.current) {
+        gsap.to(dateRef.current, {
+          y: -40,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: card,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: 1.5,
+          },
+        })
+      }
+    })
+
+    /* magnetic hover — desktop only */
+    const handleMouseMove = (e) => {
+      if (window.innerWidth < 900) return
+      const rect = card.getBoundingClientRect()
+      const cx   = rect.left + rect.width  / 2
+      const cy   = rect.top  + rect.height / 2
+      const dx   = (e.clientX - cx) / (rect.width  / 2)
+      const dy   = (e.clientY - cy) / (rect.height / 2)
+      const maxX = 7
+      const maxY = 5
+      gsap.to(inner, { x: dx * maxX, y: dy * maxY, duration: 0.35, ease: 'power2.out' })
+    }
+    const handleMouseLeave = () => {
+      gsap.to(inner, { x: 0, y: 0, duration: 0.5, ease: 'expo.out' })
+    }
+
+    card.addEventListener('mousemove', handleMouseMove)
+    card.addEventListener('mouseleave', handleMouseLeave)
+
+    return () => {
+      ctx.revert()
+      card.removeEventListener('mousemove', handleMouseMove)
+      card.removeEventListener('mouseleave', handleMouseLeave)
+    }
+  }, [])
+
+  const isAbertura    = palestra.tipo === 'abertura'
+  const isEncerramento = palestra.tipo === 'encerramento'
+  const isSpecial     = isAbertura || isEncerramento
+  const isBigDate     = palestra.convidados.length >= 2
+
+  const typeLabel = isAbertura ? 'Abertura' : isEncerramento ? 'Encerramento' : null
+
+  return (
+    <div className={`pal-item pal-item--${side}`} data-id={palestra.id}>
+      {/* Dot on the timeline axis */}
+      <div
+        ref={dotRef}
+        className={`pal-dot${isSpecial ? ' pal-dot--special' : ''}`}
+        aria-hidden="true"
+      />
+
+      {/* Card */}
+      <article
+        ref={cardRef}
+        className={`pal-card${isSpecial ? ' pal-card--special' : ''}`}
+        aria-label={`${palestra.weekday}, ${palestra.date} de ${palestra.month} — ${palestra.convidados.join(', ')}`}
+      >
+        {/* big decorative date number with parallax */}
+        <span ref={dateRef} className="pal-date-bg" aria-hidden="true">
+          {palestra.date}
+        </span>
+
+        <div ref={innerRef} className="pal-card-inner">
+          {/* header row */}
+          <header className="pal-card-header">
+            <div className="pal-card-date-block">
+              <span className="pal-card-day">{palestra.date}</span>
+              <span className="pal-card-month">{palestra.month}</span>
+            </div>
+            <div className="pal-card-meta">
+              <span className="pal-card-weekday">{palestra.weekday}</span>
+              <div className="pal-card-meta-row">
+                <span className="pal-card-time">{palestra.time}</span>
+                {palestra.local && (
+                  <>
+                    <span className="pal-card-meta-dot" aria-hidden="true">·</span>
+                    <span className="pal-card-local">{palestra.local}</span>
+                  </>
+                )}
+              </div>
+            </div>
+            {typeLabel && (
+              <span className={`pal-card-badge pal-card-badge--${palestra.tipo}`}>
+                {typeLabel}
+              </span>
+            )}
+          </header>
+
+          {/* divider */}
+          <div className="pal-card-divider" aria-hidden="true" />
+
+          {/* convidados */}
+          <div className="pal-card-guests">
+            {palestra.convidados.map((name, i) => (
+              <span key={i} className="pal-card-guest">{name}</span>
+            ))}
+          </div>
+
+          {palestra.cargo && (
+            <p className="pal-card-cargo">{palestra.cargo}</p>
+          )}
+
+          {/* tema */}
+          {palestra.tema
+            ? <p className="pal-card-tema">"{palestra.tema}"</p>
+            : <p className="pal-card-tema pal-card-tema--tbd">Tema a definir</p>
+          }
+
+          {/* atração */}
+          {palestra.atracao && (
+            <div className="pal-card-atracao">
+              <span className="pal-card-atracao-icon" aria-hidden="true">♪</span>
+              {palestra.atracao}
+            </div>
+          )}
+        </div>
+      </article>
+    </div>
+  )
+}
+
+/* ════════════════════════════════════════
+   PAL TIMELINE
+════════════════════════════════════════ */
+function PalestrasTimeline() {
+  const sectionRef = useRef(null)
+  const lineRef    = useRef(null)
+  const lineTrackRef = useRef(null)
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      /* growing timeline line driven by scroll scrub */
+      gsap.fromTo(lineRef.current,
+        { scaleY: 0 },
+        {
+          scaleY: 1,
+          ease: 'none',
+          transformOrigin: 'top center',
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top 80%',
+            end: 'bottom 20%',
+            scrub: 0.8,
+          },
+        }
+      )
+    }, sectionRef)
+
+    return () => ctx.revert()
+  }, [])
+
+  return (
+    <section className="pal-timeline-section" ref={sectionRef} id="pal-timeline">
+      <div className="pal-timeline-header">
+        <span className="pal-tl-eyebrow">Agenda Completa</span>
+        <h2 className="pal-tl-title">Programação de<br /><em>Convidados</em></h2>
+        <p className="pal-tl-desc">
+          08 a 22 de Abril de 2026 · Goiânia
+        </p>
+      </div>
+
+      <div className="pal-timeline-wrap" ref={lineTrackRef}>
+        {/* the growing vertical line */}
+        <div className="pal-line-track" aria-hidden="true">
+          <div ref={lineRef} className="pal-line" />
+        </div>
+
+        {/* top cap */}
+        <div className="pal-line-cap pal-line-cap--top" aria-hidden="true" />
+
+        {/* cards */}
+        <div className="pal-items">
+          {PALESTRAS.map((p, i) => (
+            <PalCard
+              key={p.id}
+              palestra={p}
+              side={i % 2 === 0 ? 'left' : 'right'}
+            />
+          ))}
+        </div>
+
+        {/* bottom cap */}
+        <div className="pal-line-cap pal-line-cap--bottom" aria-hidden="true" />
+      </div>
+    </section>
+  )
+}
+
+/* ════════════════════════════════════════
+   PAL FOOTER
+════════════════════════════════════════ */
+function PalFooter() {
+  return (
+    <footer className="pal-footer" id="pal-footer">
+      <div className="pal-footer-inner">
+        <Link to="/" className="pal-footer-brand">
+          <img src="/images/logo-lenco.png" alt="17ª Mostra de Cinema" className="pal-footer-logo" />
+          <div className="pal-footer-brand-text">
+            <span className="pal-footer-brand-title">17ª Mostra de Cinema</span>
+            <span className="pal-footer-brand-sub">O Amor · A Morte · As Paixões</span>
+          </div>
+        </Link>
+
+        <div className="pal-footer-divider" aria-hidden="true" />
+
+        <div className="pal-footer-credits">
+          <div className="pal-footer-credit-col">
+            <span className="pal-footer-credit-label">Idealização</span>
+            <span className="pal-footer-credit-value">Lisandro e Gerson</span>
+          </div>
+          <div className="pal-footer-credit-col">
+            <span className="pal-footer-credit-label">Produtor Geral</span>
+            <span className="pal-footer-credit-value">Gerson Santos</span>
+          </div>
+          <div className="pal-footer-credit-col">
+            <span className="pal-footer-credit-label">Curador</span>
+            <span className="pal-footer-credit-value">Lisandro Nogueira</span>
+          </div>
+          <div className="pal-footer-credit-col">
+            <span className="pal-footer-credit-label">Realização</span>
+            <span className="pal-footer-credit-value">Cinex</span>
+          </div>
+        </div>
+
+        <div className="pal-footer-divider" aria-hidden="true" />
+
+        <div className="pal-footer-bottom">
+          <span className="pal-footer-copy">
+            &copy; 2026 17ª Mostra de Cinema · Goiânia · Todos os direitos reservados
+          </span>
+          <Link to="/" className="pal-footer-back-link">
+            ← Voltar ao site principal
+          </Link>
+        </div>
+      </div>
+    </footer>
+  )
+}
+
+/* ════════════════════════════════════════
+   PAGE
+════════════════════════════════════════ */
+export default function PalestrasPage() {
+  useEffect(() => {
+    /* scroll to top on mount */
+    window.scrollTo(0, 0)
+    /* re-trigger ScrollTrigger after layout paint */
+    const raf = requestAnimationFrame(() => ScrollTrigger.refresh())
+    return () => {
+      cancelAnimationFrame(raf)
+      ScrollTrigger.getAll().forEach(t => t.kill())
+    }
+  }, [])
+
+  return (
+    <>
+      <ScrollProgress />
+      <PalNav />
+      <PalHero />
+      <PalestrasTimeline />
+      <PalFooter />
+    </>
+  )
+}
