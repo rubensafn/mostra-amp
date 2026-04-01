@@ -2180,10 +2180,11 @@
 .hero-prog-breve {
   display: inline-flex; align-items: center; gap: 10px;
   font-size: 9px; letter-spacing: 0.28em; text-transform: uppercase;
-  color: rgba(224,176,64,0.6);
-  border: 1px solid rgba(224,176,64,0.2);
-  padding: 7px 18px; border-radius: 24px;
-  margin-top: 20px;
+  color: rgba(224,176,64,0.55);
+  border: 1px solid rgba(224,176,64,0.18);
+  padding: 6px 16px; border-radius: 24px;
+  margin-top: 28px;
+  opacity: 0; animation: fadeUp 0.8s var(--ease-expo) 1.6s forwards;
 }
 .hero-prog-breve-dot {
   width: 5px; height: 5px; border-radius: 50%;

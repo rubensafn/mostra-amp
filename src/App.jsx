@@ -284,13 +284,6 @@ function Hero() {
           Goiânia
         </p>
 
-        {!SHOW_FILMS && (
-          <div className="hero-prog-breve">
-            <span className="hero-prog-breve-dot" />
-            Programação de Filmes · Em Breve
-          </div>
-        )}
-
         <div className="hero-ctas">
           <Link to="/palestras" className="btn-primary">Convidados &amp; Palestras</Link>
           <a href="#sobre" className="btn-outline">Sobre a Mostra</a>
@@ -317,6 +310,13 @@ function Hero() {
             <span className="countdown-label">Seg</span>
           </div>
         </div>
+
+        {!SHOW_FILMS && (
+          <div className="hero-prog-breve">
+            <span className="hero-prog-breve-dot" />
+            Programação de Filmes · Em Breve
+          </div>
+        )}
       </div>
 
       {/* scroll cue */}

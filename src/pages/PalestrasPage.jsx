@@ -244,16 +244,16 @@ function PalCard({ palestra, side }) {
     if (!card || !dot) return
 
     const ctx = gsap.context(() => {
-      /* reveal: opacity + translateY (clipPath como bônus se suportado) */
-      gsap.set(card, { opacity: 0, y: 32 })
-      gsap.to(card, {
-        opacity: 1,
-        y: 0,
-        duration: 0.9,
+      /* gsap.from: card já está visível no CSS, anima apenas na entrada */
+      gsap.from(card, {
+        opacity: 0,
+        y: 40,
+        duration: 0.85,
         ease: 'power3.out',
+        immediateRender: false,
         scrollTrigger: {
           trigger: card,
-          start: 'top 90%',
+          start: 'top 92%',
           toggleActions: 'play none none none',
           once: true,
         },
