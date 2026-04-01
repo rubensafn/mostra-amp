@@ -53,17 +53,17 @@ const GUESTS = [
     tema: 'Guimarães Rosa e Jacques Lacan', date: '14 ABR',
   },
   {
-    name: 'Rubens Machado Jr', cargo: 'Prof. Titular ECA-USP', color: 'cream', photo: null,
+    name: 'Rubens Machado Jr', cargo: 'Prof. Titular ECA-USP', color: 'cream', photo: 'https://0.academia-photos.com/22596210/28055270/26292391/s200_rubens.machado_jr..jpg',
     bio: 'Professor Titular de Análise e Crítica Audiovisual na ECA-USP, pesquisador do cinema experimental brasileiro e da presença da cidade no audiovisual.',
     tema: 'Debate pós-filme — O Agente Secreto', date: '15 ABR',
   },
   {
-    name: 'Alberto Silva', cargo: 'Prof. de Cinema · Sorbonne 3', color: 'accent', photo: null,
+    name: 'Alberto Silva', cargo: 'Prof. de Cinema · Sorbonne 3', color: 'accent', photo: 'https://crimic-sorbonne.fr/wp-content/uploads/2011/03/alberto-da-silva.jpeg',
     bio: 'Maître de conférences HDR em Civilização Brasileira e Cinema na Sorbonne Université, especialista em cinema brasileiro, gênero e ditadura.',
     tema: 'Debate pós-filme — O Agente Secreto', date: '15 ABR',
   },
   {
-    name: 'Paula Febee', cargo: 'Autora · Psicanalista · Roteirista', color: 'gold', photo: null,
+    name: 'Paula Febee', cargo: 'Autora · Psicanalista · Roteirista', color: 'gold', photo: 'https://darkside.vtexassets.com/arquivos/ids/188552/Paula-Febbe.png?v=637880699179330000',
     bio: 'Escritora com oito livros publicados pela DarkSide Books, psicanalista e roteirista com passagem pelo Goldcrest Production Theater em Nova York.',
     tema: null, date: '16 ABR',
   },
@@ -73,7 +73,7 @@ const GUESTS = [
     tema: 'Debate pós-filme — Valor Sentimental', date: '16 ABR',
   },
   {
-    name: 'Wolney Fernandes', cargo: 'Prof. de Cinema · UFG', color: 'accent', photo: null,
+    name: 'Wolney Fernandes', cargo: 'Prof. de Cinema · UFG', color: 'accent', photo: 'https://diariodoestadogo.com.br/wp-content/uploads/2023/11/WhatsApp-Image-2023-11-07-at-09.04.59.jpeg',
     bio: 'Professor doutor da Universidade Federal de Goiás, artista visual e pesquisador na interseção entre colagem, literatura e cinema.',
     tema: 'Debate pós-filme — Valor Sentimental', date: '16 ABR',
   },
@@ -111,7 +111,7 @@ const GUESTS = [
     tema: 'Democratização do colo', date: '21 ABR',
   },
   {
-    name: 'Pedro Pacífico', cargo: null, color: 'gold', photo: null,
+    name: 'Pedro Pacífico', cargo: null, color: 'gold', photo: 'https://images.metroimg.com/2023/08/25181234/Pedro-Pacifico.jpg',
     bio: 'Convidado de encerramento da 17ª Mostra de Cinema, com participação especial na noite de fechamento do festival.',
     tema: null, date: '22 ABR',
   },
@@ -588,13 +588,17 @@ function PalestrasTimeline() {
         )
       })
 
-      /* cards: slide do lado de origem — esquerda ou direita */
+      /* cards: slide entrada/saída fluida em ambos os sentidos */
       gsap.utils.toArray('.palestra-card', section).forEach((card) => {
         const isLeft = card.closest('.pal-item--left') !== null
-        gsap.from(card,
+        gsap.fromTo(card,
+          { x: isLeft ? -40 : 40 },
           {
-            x: isLeft ? -40 : 40, duration: 1.4, ease: 'power2.out', immediateRender: false,
-            scrollTrigger: { trigger: card, start: 'top 92%', toggleActions: 'play none none none', once: true },
+            x: 0, duration: 1.1, ease: 'expo.out', immediateRender: false,
+            scrollTrigger: {
+              trigger: card, start: 'top 92%',
+              toggleActions: 'play reverse play reverse',
+            },
           }
         )
       })
@@ -696,10 +700,13 @@ function GuestSection() {
           return (
             <div key={g.name} className={`pal-gs-card pal-gs-card--${g.color}`}>
               <div className="pal-gs-photo-wrap">
-                {g.photo
-                  ? <img src={g.photo} alt={g.name} className="pal-gs-photo" loading="lazy" />
-                  : <div className="pal-gs-avatar">{initials}</div>
-                }
+                <div className="pal-gs-avatar">{initials}</div>
+                {g.photo && (
+                  <img
+                    src={g.photo} alt={g.name} className="pal-gs-photo" loading="lazy"
+                    onError={(e) => { e.currentTarget.style.display = 'none' }}
+                  />
+                )}
                 <div className="pal-gs-date">{g.date}</div>
               </div>
               <div className="pal-gs-body">

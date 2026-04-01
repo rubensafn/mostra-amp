@@ -39,7 +39,30 @@
       "WebFetch(domain:pt.wikipedia.org)",
       "WebFetch(domain:heloisaseixas.com.br)",
       "Bash(git add:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(git merge:*)",
+      "Bash(git stash:*)",
+      "WebFetch(domain:www.eca.usp.br)",
+      "WebFetch(domain:crimic-sorbonne.fr)",
+      "WebFetch(domain:www.darksidebooks.com.br)",
+      "WebFetch(domain:wolneyfernandes.wordpress.com)",
+      "WebFetch(domain:www.paulafebbe.com)",
+      "WebFetch(domain:usp-br.academia.edu)",
+      "WebFetch(domain:www.instagram.com)",
+      "WebFetch(domain:www.planoaberto.com.br)",
+      "WebFetch(domain:www.metropoles.com)",
+      "WebFetch(domain:sbpgoiania.com.br)",
+      "WebFetch(domain:febrapsi.org)",
+      "WebFetch(domain:diariodoestadogo.com.br)",
+      "WebFetch(domain:www.revistas.udesc.br)",
+      "WebFetch(domain:www.cinex.art.br)",
+      "WebFetch(domain:curtamais.com.br)",
+      "WebFetch(domain:www.podergoias.com.br)",
+      "WebFetch(domain:darkside.blog.br)",
+      "WebFetch(domain:www.revistastile.com.br)",
+      "WebFetch(domain:www.programaqueziaramos.com.br)",
+      "WebFetch(domain:revistafactual.com.br)"
     ]
   }
 }
