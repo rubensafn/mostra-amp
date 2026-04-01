@@ -228,28 +228,16 @@ function PalHero() {
 /* ════════════════════════════════════════
    PAL TIMELINE CARD
 ════════════════════════════════════════ */
-function PalCard({ palestra, side }) {
+function PalCard({ palestra }) {
   const cardRef  = useRef(null)
   const innerRef = useRef(null)
 
   useEffect(() => {
     const card  = cardRef.current
     const inner = innerRef.current
-    if (!card) return
+    if (!card || !inner) return
 
-    /* IntersectionObserver: slide-in via CSS class — sem GSAP no scroll */
-    const io = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          card.classList.add('pal-card--visible')
-          io.disconnect()
-        }
-      },
-      { threshold: 0.05 }
-    )
-    io.observe(card)
-
-    /* magnetic hover — desktop only, GSAP ok aqui (interação pura) */
+    /* magnetic hover — desktop only */
     const handleMouseMove = (e) => {
       if (window.innerWidth < 900) return
       const rect = card.getBoundingClientRect()
@@ -267,7 +255,6 @@ function PalCard({ palestra, side }) {
     card.addEventListener('mouseleave', handleMouseLeave)
 
     return () => {
-      io.disconnect()
       card.removeEventListener('mousemove', handleMouseMove)
       card.removeEventListener('mouseleave', handleMouseLeave)
     }
@@ -280,7 +267,7 @@ function PalCard({ palestra, side }) {
   const typeLabel = isAbertura ? 'Abertura' : isEncerramento ? 'Encerramento' : null
 
   return (
-    <div className={`pal-item pal-item--${side}`} data-id={palestra.id}>
+    <div className="pal-item" data-id={palestra.id}>
       {/* Dot on the timeline axis */}
       <div
         className={`pal-dot${isSpecial ? ' pal-dot--special' : ''}`}
@@ -290,7 +277,7 @@ function PalCard({ palestra, side }) {
       {/* Card */}
       <article
         ref={cardRef}
-        className={`pal-card${isSpecial ? ' pal-card--special' : ''}`}
+        className={`pal-card palestra-card${isSpecial ? ' pal-card--special' : ''}`}
         aria-label={`${palestra.weekday}, ${palestra.date} de ${palestra.month} — ${palestra.convidados.join(', ')}`}
       >
         {/* big decorative date number */}
@@ -361,28 +348,48 @@ function PalCard({ palestra, side }) {
    PAL TIMELINE
 ════════════════════════════════════════ */
 function PalestrasTimeline() {
-  const sectionRef = useRef(null)
-  const lineRef    = useRef(null)
-  const lineTrackRef = useRef(null)
+  const sectionRef    = useRef(null)
+  const lineRef       = useRef(null)
 
   useEffect(() => {
+    const section = sectionRef.current
+    if (!section) return
+
     const ctx = gsap.context(() => {
-      /* growing timeline line driven by scroll scrub */
+      /* linha cresce com scroll */
       gsap.fromTo(lineRef.current,
         { scaleY: 0 },
         {
-          scaleY: 1,
-          ease: 'none',
-          transformOrigin: 'top center',
+          scaleY: 1, ease: 'none', transformOrigin: 'top center',
           scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top 80%',
-            end: 'bottom 20%',
-            scrub: 0.8,
+            trigger: section,
+            start: 'top 75%', end: 'bottom 20%', scrub: 0.8,
           },
         }
       )
-    }, sectionRef)
+
+      /* dots entram com bounce */
+      gsap.utils.toArray('.pal-dot', section).forEach((dot) => {
+        gsap.fromTo(dot,
+          { scale: 0, opacity: 0 },
+          {
+            scale: 1, opacity: 1, duration: 0.55, ease: 'back.out(2.5)',
+            scrollTrigger: { trigger: dot, start: 'top 92%', toggleActions: 'play none none none' },
+          }
+        )
+      })
+
+      /* cards entram — UMA animação por card no contexto pai (confiável) */
+      gsap.utils.toArray('.palestra-card', section).forEach((card) => {
+        gsap.fromTo(card,
+          { opacity: 0, y: 28 },
+          {
+            opacity: 1, y: 0, duration: 0.75, ease: 'power3.out',
+            scrollTrigger: { trigger: card, start: 'top 92%', toggleActions: 'play none none none' },
+          }
+        )
+      })
+    }, section)
 
     return () => ctx.revert()
   }, [])
@@ -408,12 +415,8 @@ function PalestrasTimeline() {
 
         {/* cards */}
         <div className="pal-items">
-          {PALESTRAS.map((p, i) => (
-            <PalCard
-              key={p.id}
-              palestra={p}
-              side={i % 2 === 0 ? 'left' : 'right'}
-            />
+          {PALESTRAS.map((p) => (
+            <PalCard key={p.id} palestra={p} />
           ))}
         </div>
 

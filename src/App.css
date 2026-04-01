@@ -290,6 +290,8 @@
   text-align: center;
   display: flex; flex-direction: column; align-items: center;
   gap: 0; padding: 0 24px;
+  /* garante que o conteúdo começa abaixo da nav fixa */
+  padding-top: 80px;
 }
 .hero-edicao {
   font-family: var(--font-display);
@@ -2021,7 +2023,7 @@
   /* Hero content safe padding para notch iOS */
   .hero-content {
     padding: 0 20px;
-    padding-top: env(safe-area-inset-top, 0px);
+    padding-top: calc(72px + env(safe-area-inset-top, 0px));
   }
 
   /* Indicador de scroll: hidden em mobile (resolve o "elemento flutuando") */

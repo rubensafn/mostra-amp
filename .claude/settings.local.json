@@ -31,7 +31,8 @@
       "Bash(npm install:*)",
       "Read(//c/Users/ruben/Downloads/WhatsApp Unknown 2026-04-01 at 12.19.40/**)",
       "Read(//c/Users/ruben/Downloads/**)",
-      "Bash(npx vite:*)"
+      "Bash(npx vite:*)",
+      "Bash(git checkout:*)"
     ]
   }
 }

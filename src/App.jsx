@@ -296,6 +296,7 @@ function Hero() {
         )}
 
         <div className="hero-countdown">
+
           <div className="countdown-item">
             <span className="countdown-num">{String(countdown.days).padStart(2,'0')}</span>
             <span className="countdown-label">Dias</span>
@@ -316,13 +317,6 @@ function Hero() {
             <span className="countdown-label">Seg</span>
           </div>
         </div>
-
-        {!SHOW_FILMS && (
-          <div className="hero-prog-breve">
-            <span className="hero-prog-breve-dot" />
-            Programação de Filmes · Em Breve
-          </div>
-        )}
       </div>
 
       {/* scroll cue */}

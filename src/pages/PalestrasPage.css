@@ -181,12 +181,14 @@
   letter-spacing: 0.04em;
   line-height: 0.92;
   color: var(--cream);
+  white-space: nowrap;   /* nunca quebra palavra no meio */
+  overflow: visible;
 }
 .pal-hero-line--1 {
-  font-size: clamp(72px, 12vw, 160px);
+  font-size: clamp(40px, 10vw, 160px);
 }
 .pal-hero-line--2 {
-  font-size: clamp(52px, 8.5vw, 112px);
+  font-size: clamp(28px, 7vw, 112px);
   color: transparent;
   -webkit-text-stroke: 1.5px rgba(242,230,208,0.55);
   letter-spacing: 0.06em;
@@ -299,23 +301,7 @@
   color: var(--cream-dim);
 }
 
-/* ─── wrapper ─── */
-.pal-timeline-wrap {
-  position: relative;
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 0 24px;
-}
-
-/* ─── vertical line ─── */
-.pal-line-track {
-  position: absolute;
-  left: 50%; top: 0; bottom: 0;
-  transform: translateX(-50%);
-  width: 1px;
-  z-index: 1;
-  overflow: hidden;
-}
+/* ─── vertical line fill ─── */
 .pal-line {
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
@@ -330,17 +316,35 @@
   box-shadow: 0 0 8px rgba(224,24,101,0.3);
 }
 
-/* line caps */
+.pal-line-cap--top    { margin-bottom: 0; }
+.pal-line-cap--bottom { margin-top: 0; }
+
+/* ─── wrapper ─── */
+.pal-timeline-wrap {
+  position: relative;
+  max-width: 720px;          /* single column, largura confortável */
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ─── linha vertical (sempre à esquerda) ─── */
+.pal-line-track {
+  position: absolute;
+  left: 44px; top: 0; bottom: 0;
+  width: 1px;
+  z-index: 1;
+  overflow: hidden;
+}
+
+/* caps da linha */
 .pal-line-cap {
   position: relative; z-index: 3;
   width: 10px; height: 10px;
   border-radius: 50%;
   background: var(--accent);
   box-shadow: 0 0 12px rgba(224,24,101,0.6), 0 0 24px rgba(224,24,101,0.3);
-  margin: 0 auto;
+  margin-left: 39px;
 }
-.pal-line-cap--top    { margin-bottom: 0; }
-.pal-line-cap--bottom { margin-top: 0; }
 
 /* ─── items list ─── */
 .pal-items {
@@ -349,33 +353,21 @@
   gap: 0;
 }
 
-/* ─── single item ─── */
+/* ─── single item — coluna única em todas as telas ─── */
 .pal-item {
   position: relative;
   display: flex;
-  padding: 24px 0;
-  min-height: 60px;
-  /* ensures dot is placed on the center axis */
+  padding: 20px 0;
+  padding-left: 72px;   /* espaço para o dot + linha */
   align-items: flex-start;
-}
-
-/* left side: card left, dot right edge of left half */
-.pal-item--left {
-  justify-content: flex-start;
-  padding-right: calc(50% + 36px);
-}
-/* right side: card right, dot left edge of right half */
-.pal-item--right {
-  justify-content: flex-end;
-  padding-left: calc(50% + 36px);
 }
 
 /* ─── dot ─── */
 .pal-dot {
   position: absolute;
-  top: 38px;
-  left: 50%;
-  transform: translate(-50%, 0);
+  top: 34px;
+  left: 37px;
+  transform: translateX(-50%);
   width: 14px; height: 14px;
   border-radius: 50%;
   background: var(--bg-3);
@@ -386,6 +378,7 @@
 }
 .pal-dot--special {
   width: 18px; height: 18px;
+  left: 35px;
   background: var(--accent);
   box-shadow: 0 0 14px rgba(224,24,101,0.7), 0 0 28px rgba(224,24,101,0.35);
 }
@@ -398,19 +391,9 @@
   border-radius: 4px;
   overflow: hidden;
   width: 100%;
-  max-width: 440px;
-  /* sempre visível por padrão — animação é só enhancement */
+  /* sempre visível — GSAP anima a entrada */
   opacity: 1;
   transition: border-color 0.3s;
-}
-
-/* animação de entrada — SEM opacity, card nunca fica invisível */
-@keyframes pal-card-enter {
-  from { transform: translateY(20px); }
-  to   { transform: translateY(0); }
-}
-.pal-card.pal-card--visible {
-  animation: pal-card-enter 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 .pal-card::before {
   content: '';
@@ -583,31 +566,12 @@
   font-size: 13px; opacity: 0.8;
 }
 
-/* ─── MOBILE TIMELINE ─── */
-@media (max-width: 900px) {
-  .pal-line-track { left: 28px; transform: none; }
-  .pal-line-cap   { margin-left: 28px; }
-
-  .pal-item--left,
-  .pal-item--right {
-    justify-content: flex-start;
-    padding-left: 64px;
-    padding-right: 12px;
-  }
-
-  .pal-dot {
-    left: 28px;
-    transform: translateX(-50%);
-  }
-
-  .pal-card { max-width: 100%; }
-
-  .pal-timeline-section { padding: 80px 0 100px; }
-  .pal-timeline-header  { padding-bottom: 48px; }
-
-  .pal-card-inner { padding: 18px 18px 16px; }
-  .pal-date-bg    { font-size: 64px; }
-  .pal-card-guest { font-size: 15px; }
+/* ─── SMALL SCREENS ─── */
+@media (max-width: 480px) {
+  .pal-timeline-section { padding: 72px 0 88px; }
+  .pal-timeline-header  { padding-bottom: 40px; }
+  .pal-card-inner { padding: 16px 16px 14px; }
+  .pal-date-bg    { font-size: 56px; }
 }
 
 @media (max-width: 480px) {
