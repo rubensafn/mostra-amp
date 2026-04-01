@@ -23,7 +23,12 @@
       "Bash(__NEW_LINE_3755fdbf7c712d49__ ls:*)",
       "Bash(__NEW_LINE_3755fdbf7c712d49__ done:*)",
       "Bash(ls -la C:/Users/ruben/mostra-amp/public/images/*.jpg C:/Users/ruben/mostra-amp/public/images/*.png)",
-      "Bash(node --input-type=module --eval \":*)"
+      "Bash(node --input-type=module --eval \":*)",
+      "Bash(python -c ':*)",
+      "Bash(python3:*)",
+      "Bash(node -e ':*)",
+      "Bash(node:*)",
+      "Bash(npm install:*)"
     ]
   }
 }

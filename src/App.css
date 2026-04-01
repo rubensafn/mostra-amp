@@ -1753,3 +1753,304 @@
 }
 .destaque-pick-btn.active .destaque-pick-title,
 .destaque-pick-btn:hover .destaque-pick-title { color: var(--cream); }
+
+/* ════════════════════════════════════════
+   PALESTRAS — TIMELINE CINEMATOGRÁFICA
+════════════════════════════════════════ */
+#palestras {
+  padding: 140px 0 160px;
+  background: var(--bg-2);
+  position: relative; overflow: hidden;
+}
+#palestras::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: url('/images/texture-interior.jpeg');
+  background-size: cover; background-position: center;
+  opacity: 0.04; mix-blend-mode: overlay; pointer-events: none;
+}
+#palestras::after {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(to right, transparent, var(--border-gold), transparent);
+}
+
+.palestras-header {
+  text-align: center;
+  max-width: 800px; margin: 0 auto 96px;
+  padding: 0 24px;
+}
+.palestras-header h2 {
+  font-family: var(--font-serif);
+  font-size: clamp(48px, 6vw, 88px);
+  font-weight: 300; font-style: italic;
+  color: var(--cream); line-height: 1.05; margin-bottom: 24px;
+}
+.palestras-header h2 em {
+  font-style: normal; color: var(--accent);
+  text-shadow: 0 0 30px rgba(224,24,101,0.3), 0 0 80px rgba(224,24,101,0.1);
+}
+.palestras-desc {
+  font-size: 16px; line-height: 1.85; color: var(--cream-dim);
+  max-width: 520px; margin: 0 auto;
+}
+
+/* ── timeline container ── */
+.pal-timeline {
+  position: relative;
+  max-width: 1080px; margin: 0 auto;
+  padding: 0 48px 40px;
+}
+
+/* ── linha vertical central ── */
+.pal-line {
+  position: absolute;
+  left: 50%; top: 0; bottom: 0;
+  width: 1px; transform: translateX(-50%);
+  background: rgba(242,230,208,0.06);
+}
+.pal-line-inner {
+  position: absolute; inset: 0;
+  background: linear-gradient(
+    to bottom,
+    var(--accent) 0%,
+    rgba(224,176,64,0.9) 50%,
+    var(--accent) 100%
+  );
+  transform: scaleY(0); transform-origin: top center;
+}
+
+/* ── item ── */
+.pal-item {
+  position: relative;
+  width: 46%;
+  margin-bottom: 48px;
+}
+.pal-left  { margin-right: auto; padding-right: 52px; }
+.pal-right { margin-left: auto;  padding-left: 52px;  }
+
+/* ── dot ── */
+.pal-dot {
+  position: absolute; top: 28px;
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 3px rgba(224,24,101,0.15), 0 0 14px rgba(224,24,101,0.7);
+  z-index: 2;
+  transform: scale(0); opacity: 0; /* GSAP animates */
+}
+.pal-left  .pal-dot { right: -5px; }
+.pal-right .pal-dot { left:  -5px; }
+
+.pal-tipo-abertura .pal-dot,
+.pal-tipo-encerramento .pal-dot {
+  background: var(--gold);
+  box-shadow: 0 0 0 3px rgba(224,176,64,0.15), 0 0 16px rgba(224,176,64,0.8);
+  width: 14px; height: 14px; top: 26px;
+}
+.pal-tipo-abertura.pal-left  .pal-dot { right: -7px; }
+.pal-tipo-abertura.pal-right .pal-dot { left:  -7px; }
+.pal-tipo-encerramento.pal-left  .pal-dot { right: -7px; }
+.pal-tipo-encerramento.pal-right .pal-dot { left:  -7px; }
+
+/* ── card ── */
+.palestra-card {
+  position: relative; overflow: hidden;
+  background: rgba(242,230,208,0.025);
+  border: 1px solid var(--border); border-radius: 18px;
+  padding: 28px 28px 24px;
+  transition:
+    border-color 0.35s,
+    background   0.35s,
+    transform    0.4s  var(--ease-expo),
+    box-shadow   0.4s;
+  will-change: transform;
+}
+.palestra-card:hover {
+  border-color: rgba(224,24,101,0.28);
+  background: rgba(224,24,101,0.04);
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: 0 20px 56px rgba(0,0,0,0.4), 0 0 0 1px rgba(224,24,101,0.1);
+}
+
+.pal-tipo-abertura .palestra-card,
+.pal-tipo-encerramento .palestra-card {
+  border-color: var(--border-gold);
+  background: rgba(224,176,64,0.04);
+}
+.pal-tipo-abertura .palestra-card:hover,
+.pal-tipo-encerramento .palestra-card:hover {
+  border-color: rgba(224,176,64,0.5);
+  background: rgba(224,176,64,0.07);
+  box-shadow: 0 20px 56px rgba(0,0,0,0.4), 0 0 36px rgba(224,176,64,0.1);
+}
+
+/* ── data decorativa em bg ── */
+.pal-date-bg {
+  position: absolute; right: -4px; top: -24px;
+  font-family: var(--font-display);
+  font-size: 112px; line-height: 1; letter-spacing: -0.06em;
+  color: var(--cream); opacity: 0.03;
+  pointer-events: none; user-select: none; z-index: 0;
+}
+
+.pal-card-inner { position: relative; z-index: 1; }
+
+/* ── meta: data · hora · local ── */
+.pal-meta {
+  display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+  margin-bottom: 18px;
+}
+.pal-date-label {
+  font-size: 9px; letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--accent);
+}
+.pal-time {
+  font-size: 8px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--cream-dim); padding: 3px 10px;
+  border: 1px solid rgba(242,230,208,0.1); border-radius: 20px;
+}
+.pal-local {
+  font-size: 8px; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--gold); padding: 3px 10px;
+  border: 1px solid var(--border-gold); border-radius: 20px;
+}
+
+/* ── nome do palestrante ── */
+.pal-speakers { margin-bottom: 10px; }
+.pal-speaker-name {
+  font-family: var(--font-serif);
+  font-size: clamp(20px, 2.2vw, 28px);
+  font-style: italic; font-weight: 400;
+  color: var(--cream); line-height: 1.2;
+  text-shadow: 0 0 24px rgba(224,24,101,0.12);
+}
+
+/* ── cargo ── */
+.pal-cargo {
+  font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 14px; line-height: 1.5;
+}
+
+/* ── tema / palestra ── */
+.pal-tema {
+  font-family: var(--font-serif);
+  font-size: 15px; font-style: italic; font-weight: 300;
+  color: var(--cream-dim); line-height: 1.7; margin-top: 4px;
+}
+.pal-tema-mark {
+  color: var(--accent); font-style: normal;
+  font-size: 20px; line-height: 0.8; vertical-align: -3px;
+}
+
+/* ── atração musical ── */
+.pal-atracao {
+  display: flex; align-items: center; gap: 10px;
+  margin-top: 18px; padding-top: 16px;
+  border-top: 1px solid var(--border-gold);
+  font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--gold);
+}
+.pal-atracao-icon { font-size: 16px; opacity: 0.8; }
+
+/* ── RESPONSIVE PALESTRAS ── */
+@media (max-width: 860px) {
+  .pal-timeline { padding: 0 20px 40px; }
+  .pal-item { width: 47%; }
+  .pal-left  { padding-right: 40px; }
+  .pal-right { padding-left: 40px; }
+}
+
+@media (max-width: 640px) {
+  #palestras { padding: 80px 0 100px; }
+  .palestras-header { margin-bottom: 56px; }
+
+  /* linha vai para a esquerda */
+  .pal-line { left: 20px; transform: none; }
+
+  /* todos os items ficam à direita da linha */
+  .pal-item { width: 100%; margin-bottom: 28px; }
+  .pal-left,
+  .pal-right {
+    padding-left: 44px; padding-right: 0;
+    margin-left: 0; margin-right: 0;
+  }
+  .pal-left  .pal-dot,
+  .pal-right .pal-dot { left: -5px; right: auto; }
+
+  .pal-tipo-abertura.pal-left  .pal-dot,
+  .pal-tipo-abertura.pal-right .pal-dot,
+  .pal-tipo-encerramento.pal-left  .pal-dot,
+  .pal-tipo-encerramento.pal-right .pal-dot { left: -7px; right: auto; }
+
+  .palestra-card { padding: 20px 16px; border-radius: 12px; }
+  .pal-date-bg { font-size: 72px; }
+  .pal-speaker-name { font-size: 19px; }
+  .pal-tema { font-size: 14px; }
+}
+
+/* ════════════════════════════════════════
+   MOBILE GLOBAL FIXES
+════════════════════════════════════════ */
+
+/* Esconder cursor em dispositivos touch */
+@media (hover: none) and (pointer: coarse) {
+  #cursor-dot, #cursor-ring { display: none !important; }
+  body { cursor: auto !important; }
+  button, a, [data-hover] { cursor: pointer; }
+}
+
+/* Hero: evitar artefato de elemento flutuando no scroll iOS */
+@media (max-width: 768px) {
+  #hero {
+    /* Garante que nada escape ao rolar */
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+  }
+  /* Reduce blob intensity on mobile for perf */
+  .ambient-blob { opacity: 0.45 !important; }
+
+  /* Hero content safe padding para notch iOS */
+  .hero-content {
+    padding: 0 20px;
+    padding-top: env(safe-area-inset-top, 0px);
+  }
+
+  /* Indicador de scroll: hidden em mobile (resolve o "elemento flutuando") */
+  .hero-scroll { display: none; }
+
+  /* Logo menor em mobile */
+  .hero-logo { width: min(340px, 82vw); }
+
+  /* CTAs empilhados */
+  .hero-ctas { flex-direction: column; align-items: center; gap: 12px; }
+
+  /* Countdown: fonte menor */
+  .countdown-num { font-size: 28px; }
+  .countdown-item { min-width: 48px; }
+}
+
+/* ── Nav mobile: evitar conteúdo sobrepondo ── */
+@media (max-width: 900px) {
+  /* Gradient mais sólido no topo para cobrir elementos abaixo */
+  #nav:not(.nav--solid) {
+    background: linear-gradient(
+      to bottom,
+      rgba(6,4,2,0.96) 0%,
+      rgba(6,4,2,0.80) 65%,
+      transparent 100%
+    );
+  }
+}
+
+/* ── Large screens: melhor aproveitamento ── */
+@media (min-width: 1600px) {
+  #sobre, #curadoria { padding-left: 80px; padding-right: 80px; }
+  .sobre-grid { max-width: 1440px; gap: 120px; }
+  .palestras-header { max-width: 1000px; }
+  .pal-timeline { max-width: 1280px; }
+}
+
+@media (min-width: 2000px) {
+  .sobre-grid, .curadoria-inner, .anteriores-inner { max-width: 1600px; }
+  .prog-header, .day-nav-wrap, .schedule-wrap { max-width: 1600px; }
+}

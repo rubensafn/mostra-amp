@@ -22,6 +22,124 @@ const MARQUEE_2 = [
   'Curadoria Lisandro Nogueira', '·', 'Idealização Gerson Santos', '·',
 ]
 
+/* ─── programação de filmes: ocultar até liberação oficial ─── */
+const SHOW_FILMS = false
+
+/* ─── PALESTRAS ─── */
+const PALESTRAS = [
+  {
+    id: 1, date: '08', month: 'ABR', weekday: 'Quarta-Feira',
+    time: '19:30h', local: 'Coquetel de Abertura',
+    convidados: ['Elenco do Filme — A Definir'],
+    tema: null, atracao: 'Atração Musical — A Definir', tipo: 'abertura',
+  },
+  {
+    id: 2, date: '09', month: 'ABR', weekday: 'Quinta-Feira',
+    time: '19:30h', local: 'Palco Central',
+    convidados: ['Ruy Castro', 'Heloisa Seixas'],
+    tema: 'Ficção e não-ficção e Vice-Versa',
+  },
+  {
+    id: 3, date: '10', month: 'ABR', weekday: 'Sexta-Feira',
+    time: '18:30h', local: 'Livraria',
+    convidados: ['Celso Camilo'],
+    tema: 'Tudo o que você precisa saber sobre inteligência artificial',
+    atracao: 'Atração Musical MPB · 20:30h',
+  },
+  {
+    id: 4, date: '11', month: 'ABR', weekday: 'Sábado',
+    time: '19:30h', local: 'Palco Central',
+    convidados: ['Luiz Pondé'],
+    cargo: 'Filósofo · Escritor · Professor Universitário',
+    tema: null,
+  },
+  {
+    id: 5, date: '12', month: 'ABR', weekday: 'Domingo',
+    time: '16:30h', local: 'Livraria',
+    convidados: ['Jossane Gonzaga'],
+    cargo: 'Psicanalista',
+    tema: 'Autismo e altas habilidades sob a lente do diagnóstico tardio',
+  },
+  {
+    id: 6, date: '13', month: 'ABR', weekday: 'Segunda-Feira',
+    time: '19:30h', local: null,
+    convidados: ['Jesse de Souza'],
+    tema: 'Por que a esquerda morreu',
+  },
+  {
+    id: 7, date: '14', month: 'ABR', weekday: 'Terça-Feira',
+    time: '19:30h', local: 'Livraria',
+    convidados: ['Marina Cançado', 'Beto Amaral'],
+    cargo: 'Psicanalistas',
+    tema: 'Guimarães Rosa e Jacques Lacan',
+  },
+  {
+    id: 8, date: '15', month: 'ABR', weekday: 'Quarta-Feira',
+    time: '19:30h', local: 'Livraria',
+    convidados: ['Rubens Machado Jr', 'Alberto Silva'],
+    cargo: 'Prof. USP · Prof. de Cinema Sorbonne 3',
+    tema: 'Debate pós-filme — O Agente Secreto',
+  },
+  {
+    id: 9, date: '16', month: 'ABR', weekday: 'Quinta-Feira',
+    time: '19:30h', local: 'Palco Central',
+    convidados: ['Paula Febee'],
+    cargo: 'Autora · Psicanalista · Roteirista',
+    tema: 'Horror e fantasia como linguagem literária',
+  },
+  {
+    id: 10, date: '16', month: 'ABR', weekday: 'Quinta-Feira',
+    time: '21:30h', local: 'Palco Central',
+    convidados: ['Maysa Balduino', 'Wolney Fernandes'],
+    cargo: 'Psicanalista · Prof. de Cinema UFG',
+    tema: 'Debate pós-filme — Valor Sentimental',
+  },
+  {
+    id: 11, date: '17', month: 'ABR', weekday: 'Sexta-Feira',
+    time: '20:30h', local: 'Livraria',
+    convidados: ['João Pedro', 'Pedro Andrade'],
+    cargo: 'Críticos de Cinema',
+    tema: 'Debate pós-filme — A Vida de Chuck',
+  },
+  {
+    id: 12, date: '17', month: 'ABR', weekday: 'Sexta-Feira',
+    time: '20:30h', local: 'Palco Central',
+    convidados: ['Pedro Pacífico'],
+    tema: null,
+  },
+  {
+    id: 13, date: '18', month: 'ABR', weekday: 'Sábado',
+    time: '16:00h', local: 'Palco Central',
+    convidados: ['Cristian Dunker', 'Vladimir Safatle'],
+    tema: 'Transformar Mundos e Pessoas',
+    atracao: 'Atração Musical — A Definir',
+  },
+  {
+    id: 14, date: '19', month: 'ABR', weekday: 'Domingo',
+    time: '18:00h', local: null,
+    convidados: ['Jeferson Tenório'],
+    tema: null,
+  },
+  {
+    id: 15, date: '20', month: 'ABR', weekday: 'Segunda-Feira',
+    time: '21:30h', local: null,
+    convidados: ['Raimundo Alves', 'Karla Rady', 'Fabiana Pulcinelli'],
+    tema: 'Debate pós-filme — O Peso do Silêncio: Tarzan e a Ditadura',
+  },
+  {
+    id: 16, date: '21', month: 'ABR', weekday: 'Terça-Feira',
+    time: '18:30h', local: null,
+    convidados: ['Jussara Santos'],
+    tema: 'Democratização do colo',
+  },
+  {
+    id: 17, date: '22', month: 'ABR', weekday: 'Quarta-Feira',
+    time: '19:30h', local: null,
+    convidados: ['Encerramento — A Definir'],
+    tema: null, tipo: 'encerramento',
+  },
+]
+
 /* ── helper ── */
 function getFilmSessions(title) {
   const result = []
@@ -92,6 +210,9 @@ function Cursor() {
   const ringRef = useRef(null)
 
   useEffect(() => {
+    // Skip cursor on touch devices
+    if (window.matchMedia('(hover: none)').matches) return
+
     const dot  = dotRef.current
     const ring = ringRef.current
     let mx = 0, my = 0, rx = 0, ry = 0, raf
@@ -180,10 +301,11 @@ function Nav() {
 
         <ul className="nav-links">
           <li><a href="#sobre">Sobre</a></li>
-          <li><a href="#programacao">Programação</a></li>
+          <li><a href="#palestras">Palestras</a></li>
+          {SHOW_FILMS && <li><a href="#programacao">Programação</a></li>}
           <li><a href="#curadoria">Curadoria</a></li>
           <li><a href="#espaco">Espaço</a></li>
-          <li><a href="#programacao" className="btn-nav">Ver Filmes</a></li>
+          <li><a href="#palestras" className="btn-nav">Ver Programação</a></li>
         </ul>
 
         <button className="nav-hamburger" aria-label="Menu" onClick={toggle}>
@@ -193,10 +315,11 @@ function Nav() {
 
       <div id="mobile-menu">
         <ul>
-          <li><a href="#sobre"       onClick={close}>Sobre</a></li>
-          <li><a href="#programacao" onClick={close}>Programação</a></li>
-          <li><a href="#curadoria"   onClick={close}>Curadoria</a></li>
-          <li><a href="#espaco"      onClick={close}>Espaço</a></li>
+          <li><a href="#sobre"      onClick={close}>Sobre</a></li>
+          <li><a href="#palestras"  onClick={close}>Palestras</a></li>
+          {SHOW_FILMS && <li><a href="#programacao" onClick={close}>Programação</a></li>}
+          <li><a href="#curadoria" onClick={close}>Curadoria</a></li>
+          <li><a href="#espaco"    onClick={close}>Espaço</a></li>
         </ul>
         <div className="mobile-menu-credits">
           <div>Realização · Cinex</div>
@@ -266,8 +389,8 @@ function Hero() {
         </p>
 
         <div className="hero-ctas">
-          <a href="#programacao" className="btn-primary">Ver Programação</a>
-          <a href="#sobre"       className="btn-outline">Sobre a Mostra</a>
+          <a href={SHOW_FILMS ? '#programacao' : '#palestras'} className="btn-primary">Ver Programação</a>
+          <a href="#sobre" className="btn-outline">Sobre a Mostra</a>
         </div>
 
         <div className="hero-countdown">
@@ -908,6 +1031,132 @@ function Footer() {
 }
 
 /* ════════════════════════════════════════
+   PALESTRAS — TIMELINE CINEMATOGRÁFICA
+════════════════════════════════════════ */
+function Palestras() {
+  const sectionRef = useRef(null)
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      /* linha cresce com o scroll */
+      gsap.fromTo('.pal-line-inner',
+        { scaleY: 0 },
+        {
+          scaleY: 1, ease: 'none', transformOrigin: 'top center',
+          scrollTrigger: {
+            trigger: '#palestras',
+            start: 'top 70%',
+            end: 'bottom 40%',
+            scrub: 1.2,
+          },
+        }
+      )
+
+      /* cards entram de lados alternados */
+      sectionRef.current?.querySelectorAll('.pal-item').forEach((item, i) => {
+        const isLeft = item.classList.contains('pal-left')
+        const card = item.querySelector('.palestra-card')
+        if (!card) return
+        gsap.fromTo(card,
+          { opacity: 0, x: isLeft ? -64 : 64, y: 20 },
+          {
+            opacity: 1, x: 0, y: 0,
+            duration: 1.1, ease: 'power3.out',
+            scrollTrigger: { trigger: card, start: 'top 88%' },
+          }
+        )
+      })
+
+      /* dots aparecem */
+      gsap.utils.toArray('.pal-dot').forEach((dot) => {
+        gsap.fromTo(dot,
+          { scale: 0, opacity: 0 },
+          {
+            scale: 1, opacity: 1, duration: 0.6, ease: 'back.out(2.5)',
+            scrollTrigger: { trigger: dot, start: 'top 92%' },
+          }
+        )
+      })
+    }, sectionRef)
+
+    return () => ctx.revert()
+  }, [])
+
+  return (
+    <section id="palestras" ref={sectionRef}>
+      <div className="palestras-header">
+        <div className="section-line">
+          <span className="label">Convidados &amp; Palestras · 08 a 22 de Abril</span>
+        </div>
+        <h2 data-reveal>
+          Vozes que<br /><em>iluminam</em>
+        </h2>
+        <p className="palestras-desc" data-reveal>
+          Pensadores, escritores e cineastas que aprofundam o debate ao redor da programação.
+        </p>
+      </div>
+
+      <div className="pal-timeline">
+        {/* linha vertical */}
+        <div className="pal-line">
+          <div className="pal-line-inner" />
+        </div>
+
+        {PALESTRAS.map((p, i) => (
+          <div
+            key={p.id}
+            className={`pal-item ${i % 2 === 0 ? 'pal-left' : 'pal-right'} ${p.tipo ? `pal-tipo-${p.tipo}` : ''}`}
+          >
+            <div className="pal-dot" />
+
+            <div className="palestra-card">
+              {/* data decorativa em bg */}
+              <span className="pal-date-bg" aria-hidden="true">{p.date}</span>
+
+              <div className="pal-card-inner">
+                {/* topo: data + time + local */}
+                <div className="pal-meta">
+                  <span className="pal-date-label">{p.date} {p.month} · {p.weekday}</span>
+                  <span className="pal-time">{p.time}</span>
+                  {p.local && <span className="pal-local">{p.local}</span>}
+                </div>
+
+                {/* palestrante(s) */}
+                <div className="pal-speakers">
+                  {p.convidados.map((c, ci) => (
+                    <h3 key={ci} className="pal-speaker-name">{c}</h3>
+                  ))}
+                </div>
+
+                {/* cargo */}
+                {p.cargo && <p className="pal-cargo">{p.cargo}</p>}
+
+                {/* tema */}
+                {p.tema && (
+                  <p className="pal-tema">
+                    <span className="pal-tema-mark">&ldquo;</span>
+                    {p.tema}
+                    <span className="pal-tema-mark">&rdquo;</span>
+                  </p>
+                )}
+
+                {/* atração musical */}
+                {p.atracao && (
+                  <div className="pal-atracao">
+                    <span className="pal-atracao-icon">♩</span>
+                    {p.atracao}
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  )
+}
+
+/* ════════════════════════════════════════
    GSAP GLOBAL EFFECTS
 ════════════════════════════════════════ */
 function useGSAPEffects() {
@@ -921,11 +1170,13 @@ function useGSAPEffects() {
       )
     })
 
-    /* ── hero BG parallax ── */
-    gsap.to('.hero-bg', {
-      yPercent: 25, ease: 'none',
-      scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: true }
-    })
+    /* ── hero BG parallax — desabilitado em mobile (evita artefatos) ── */
+    if (window.innerWidth > 768) {
+      gsap.to('.hero-bg', {
+        yPercent: 25, ease: 'none',
+        scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: true }
+      })
+    }
 
     /* ── big title cinematic reveal ── */
     gsap.utils.toArray('.destaque-title, .espaco-header h2').forEach((el) => {
@@ -981,9 +1232,10 @@ export default function App() {
       <Hero />
       <Marquee items={MARQUEE_1} />
       <Sobre />
-      <FilmesStrip />
-      <Programacao />
-      <Destaque />
+      {SHOW_FILMS && <FilmesStrip />}
+      {SHOW_FILMS && <Programacao />}
+      {SHOW_FILMS && <Destaque />}
+      <Palestras />
       <Marquee items={MARQUEE_2} reversed />
       <Curadoria />
       <Espaco />
