@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -25,6 +25,41 @@ const PALESTRAS = [
   { id:15, date:'21', month:'ABR', weekday:'Terça-Feira',    time:'18:30h', local:null,                   convidados:['Jussara Santos'], tema:'Democratização do colo' },
   { id:16, date:'22', month:'ABR', weekday:'Sexta-Feira',    time:'19:00h', local:'Palco Central',        convidados:['Pedro Pacífico'], tema:null, tipo:'encerramento' },
 ]
+
+/* ════════════════════════════════════════
+   CURSOR  (necessário pois body tem cursor:none global)
+════════════════════════════════════════ */
+function PalCursor() {
+  const dotRef  = useRef(null)
+  const ringRef = useRef(null)
+
+  useEffect(() => {
+    if (window.matchMedia('(hover: none)').matches) return
+    const dot  = dotRef.current
+    const ring = ringRef.current
+    let mx = 0, my = 0, rx = 0, ry = 0, raf
+
+    const onMove = (e) => {
+      mx = e.clientX; my = e.clientY
+      gsap.to(dot, { x: mx, y: my, duration: 0 })
+    }
+    const loop = () => {
+      rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12
+      gsap.set(ring, { x: rx, y: ry })
+      raf = requestAnimationFrame(loop)
+    }
+    window.addEventListener('mousemove', onMove)
+    raf = requestAnimationFrame(loop)
+    return () => { window.removeEventListener('mousemove', onMove); cancelAnimationFrame(raf) }
+  }, [])
+
+  return (
+    <>
+      <div id="cursor-dot"  ref={dotRef}  />
+      <div id="cursor-ring" ref={ringRef} />
+    </>
+  )
+}
 
 /* ════════════════════════════════════════
    SCROLL PROGRESS
@@ -71,8 +106,7 @@ function PalNav() {
       </Link>
 
       <ul className="pal-nav-links">
-        <li><a href="#pal-timeline">Programação</a></li>
-        <li><a href="#pal-footer">Créditos</a></li>
+        <li><a href="#pal-timeline">Convidados</a></li>
       </ul>
     </nav>
   )
@@ -210,22 +244,20 @@ function PalCard({ palestra, side }) {
     if (!card || !dot) return
 
     const ctx = gsap.context(() => {
-      /* reveal: clip-path wipe bottom → top + scale */
-      gsap.fromTo(card,
-        { clipPath: 'inset(0 0 100% 0)', scale: 0.94, opacity: 0 },
-        {
-          clipPath: 'inset(0 0 0% 0)',
-          scale: 1,
-          opacity: 1,
-          duration: 0.95,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: card,
-            start: 'top 88%',
-            toggleActions: 'play none none none',
-          },
-        }
-      )
+      /* reveal: opacity + translateY (clipPath como bônus se suportado) */
+      gsap.set(card, { opacity: 0, y: 32 })
+      gsap.to(card, {
+        opacity: 1,
+        y: 0,
+        duration: 0.9,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: card,
+          start: 'top 90%',
+          toggleActions: 'play none none none',
+          once: true,
+        },
+      })
 
       /* dot scale in with spring bounce */
       gsap.fromTo(dot,
@@ -506,18 +538,20 @@ function PalFooter() {
 ════════════════════════════════════════ */
 export default function PalestrasPage() {
   useEffect(() => {
-    /* scroll to top on mount */
     window.scrollTo(0, 0)
-    /* re-trigger ScrollTrigger after layout paint */
-    const raf = requestAnimationFrame(() => ScrollTrigger.refresh())
+    /* aguarda layout completo antes de refrescar ScrollTrigger */
+    const t1 = setTimeout(() => ScrollTrigger.refresh(), 100)
+    const t2 = setTimeout(() => ScrollTrigger.refresh(), 500)
     return () => {
-      cancelAnimationFrame(raf)
+      clearTimeout(t1)
+      clearTimeout(t2)
       ScrollTrigger.getAll().forEach(t => t.kill())
     }
   }, [])
 
   return (
     <>
+      <PalCursor />
       <ScrollProgress />
       <PalNav />
       <PalHero />
