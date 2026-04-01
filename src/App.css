@@ -160,7 +160,13 @@
 }
 
 @media (max-width: 900px) {
-  #nav { padding: 18px 24px; }
+  /* nav sempre sólido em mobile: tampa conteúdo que sobe por baixo */
+  #nav {
+    padding: 18px 24px;
+    background: rgba(6, 4, 2, 0.96);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
   #nav.nav--solid { padding: 14px 24px; }
   .nav-links { display: none; }
   .nav-hamburger { display: flex; }
@@ -1024,7 +1030,7 @@
 .curadoria-credits {
   border-top: 1px solid var(--border);
   padding-top: 64px;
-  display: grid; grid-template-columns: repeat(4, 1fr);
+  display: grid; grid-template-columns: repeat(3, 1fr);
   gap: 40px; text-align: center;
 }
 @media (max-width: 768px) {

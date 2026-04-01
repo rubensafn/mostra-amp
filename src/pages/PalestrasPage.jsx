@@ -443,20 +443,16 @@ function PalFooter() {
 
         <div className="pal-footer-credits">
           <div className="pal-footer-credit-col">
-            <span className="pal-footer-credit-label">Idealização</span>
-            <span className="pal-footer-credit-value">Lisandro e Gerson</span>
-          </div>
-          <div className="pal-footer-credit-col">
-            <span className="pal-footer-credit-label">Produtor Geral</span>
-            <span className="pal-footer-credit-value">Gerson Santos</span>
-          </div>
-          <div className="pal-footer-credit-col">
-            <span className="pal-footer-credit-label">Curador</span>
-            <span className="pal-footer-credit-value">Lisandro Nogueira</span>
-          </div>
-          <div className="pal-footer-credit-col">
             <span className="pal-footer-credit-label">Realização</span>
-            <span className="pal-footer-credit-value">Cinex</span>
+            <span className="pal-footer-credit-value">Instituto Jardim Cultural</span>
+          </div>
+          <div className="pal-footer-credit-col">
+            <span className="pal-footer-credit-label">Produtor</span>
+            <span className="pal-footer-credit-value">Gerson dos Santos</span>
+          </div>
+          <div className="pal-footer-credit-col">
+            <span className="pal-footer-credit-label">Curadoria</span>
+            <span className="pal-footer-credit-value">Lisandro Nogueira</span>
           </div>
         </div>
 

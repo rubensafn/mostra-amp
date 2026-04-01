@@ -17,11 +17,11 @@ const MARQUEE_1 = [
   '·', 'Brasilidades', '·', 'Goiânia', '·', '08 a 22 de Abril', '·',
 ]
 const MARQUEE_2 = [
-  'Realização Cinex', '·', 'Curador Lisandro Nogueira', '·',
-  'Idealização Lisandro e Gerson', '·', 'Produtor Geral Gerson Santos', '·',
+  'Realização Instituto Jardim Cultural', '·', 'Curadoria Lisandro Nogueira', '·',
+  'Produtor Gerson dos Santos', '·',
   'Cinema Brasileiro', '·', 'Longa-Metragem', '·', 'Curta-Metragem', '·',
-  'Realização Cinex', '·', 'Curador Lisandro Nogueira', '·',
-  'Idealização Lisandro e Gerson', '·',
+  'Realização Instituto Jardim Cultural', '·', 'Curadoria Lisandro Nogueira', '·',
+  'Produtor Gerson dos Santos', '·',
 ]
 
 /* ─── programação de filmes: ocultar até liberação oficial ─── */
@@ -217,10 +217,9 @@ function Nav() {
           <li><a href="#espaco"    onClick={close}>Espaço</a></li>
         </ul>
         <div className="mobile-menu-credits">
-          <div>Realização · Cinex</div>
-          <div>Curador · Lisandro Nogueira</div>
-          <div>Idealização · Lisandro e Gerson</div>
-          <div>Produtor Geral · Gerson Santos</div>
+          <div>Realização · Instituto Jardim Cultural</div>
+          <div>Produtor · Gerson dos Santos</div>
+          <div>Curadoria · Lisandro Nogueira</div>
         </div>
       </div>
     </>
@@ -738,19 +737,15 @@ function Curadoria() {
         <div className="curadoria-credits" data-reveal>
           <div className="credit-item">
             <span className="credit-role">Realização</span>
-            <span className="credit-name">Cinex</span>
+            <span className="credit-name">Instituto Jardim Cultural</span>
           </div>
           <div className="credit-item">
-            <span className="credit-role">Curador</span>
+            <span className="credit-role">Produtor</span>
+            <span className="credit-name">Gerson dos Santos</span>
+          </div>
+          <div className="credit-item">
+            <span className="credit-role">Curadoria</span>
             <span className="credit-name">Lisandro Nogueira</span>
-          </div>
-          <div className="credit-item">
-            <span className="credit-role">Idealização</span>
-            <span className="credit-name">Lisandro e Gerson</span>
-          </div>
-          <div className="credit-item">
-            <span className="credit-role">Produtor Geral</span>
-            <span className="credit-name">Gerson Santos</span>
           </div>
         </div>
 
@@ -805,7 +800,7 @@ function Espaco() {
         </div>
         <div className="espaco-info-item">
           <span className="espaco-info-label">Realização</span>
-          <span className="espaco-info-value">Cinex</span>
+          <span className="espaco-info-value">Instituto Jardim Cultural</span>
         </div>
       </div>
     </section>
@@ -918,19 +913,15 @@ function Footer() {
         <div className="footer-credits">
           <div className="footer-credit-item">
             <span className="footer-credit-role">Realização</span>
-            <span className="footer-credit-name">Cinex</span>
+            <span className="footer-credit-name">Instituto Jardim Cultural</span>
           </div>
           <div className="footer-credit-item">
-            <span className="footer-credit-role">Curador</span>
+            <span className="footer-credit-role">Produtor</span>
+            <span className="footer-credit-name">Gerson dos Santos</span>
+          </div>
+          <div className="footer-credit-item">
+            <span className="footer-credit-role">Curadoria</span>
             <span className="footer-credit-name">Lisandro Nogueira</span>
-          </div>
-          <div className="footer-credit-item">
-            <span className="footer-credit-role">Idealização</span>
-            <span className="footer-credit-name">Lisandro e Gerson</span>
-          </div>
-          <div className="footer-credit-item">
-            <span className="footer-credit-role">Produtor Geral</span>
-            <span className="footer-credit-name">Gerson Santos</span>
           </div>
         </div>
 

@@ -404,13 +404,13 @@
   transition: border-color 0.3s;
 }
 
-/* animação de entrada via IntersectionObserver */
+/* animação de entrada — SEM opacity, card nunca fica invisível */
 @keyframes pal-card-enter {
-  from { transform: translateY(22px); opacity: 0.4; }
-  to   { transform: translateY(0);    opacity: 1; }
+  from { transform: translateY(20px); }
+  to   { transform: translateY(0); }
 }
 .pal-card.pal-card--visible {
-  animation: pal-card-enter 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: pal-card-enter 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 .pal-card::before {
   content: '';
