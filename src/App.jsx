@@ -289,6 +289,13 @@ function Hero() {
           <a href="#sobre" className="btn-outline">Sobre a Mostra</a>
         </div>
 
+        {!SHOW_FILMS && (
+          <div className="hero-prog-breve">
+            <span className="hero-prog-breve-dot" />
+            Programação de Filmes · Em Breve
+          </div>
+        )}
+
         <div className="hero-countdown">
           <div className="countdown-item">
             <span className="countdown-num">{String(countdown.days).padStart(2,'0')}</span>

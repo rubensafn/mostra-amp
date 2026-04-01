@@ -244,16 +244,15 @@ function PalCard({ palestra, side }) {
     if (!card || !dot) return
 
     const ctx = gsap.context(() => {
-      /* gsap.from: card já está visível no CSS, anima apenas na entrada */
+      /* slide-in only — nunca anima opacity para evitar cards invisíveis */
       gsap.from(card, {
-        opacity: 0,
-        y: 40,
+        y: 50,
         duration: 0.85,
         ease: 'power3.out',
         immediateRender: false,
         scrollTrigger: {
           trigger: card,
-          start: 'top 92%',
+          start: 'top 95%',
           toggleActions: 'play none none none',
           once: true,
         },
