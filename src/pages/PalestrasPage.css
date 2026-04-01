@@ -901,10 +901,6 @@
   background: var(--bg);
   position: relative;
 }
-.pal-guest-section::before {
-  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
-  background: linear-gradient(to right, transparent, rgba(224,24,101,0.35), transparent);
-}
 
 .pal-guest-section-header {
   text-align: center;
@@ -945,6 +941,7 @@
   background: rgba(6,4,2,0.6);
 }
 .pal-gs-photo {
+  position: absolute; inset: 0;
   width: 100%; height: 100%; object-fit: cover; object-position: top center;
   display: block;
   filter: grayscale(20%) contrast(1.05);
