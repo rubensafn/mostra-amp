@@ -348,8 +348,9 @@ function PalCard({ palestra }) {
    PAL TIMELINE
 ════════════════════════════════════════ */
 function PalestrasTimeline() {
-  const sectionRef    = useRef(null)
-  const lineRef       = useRef(null)
+  const sectionRef = useRef(null)
+  const lineRef    = useRef(null)
+  const wrapRef    = useRef(null)
 
   useEffect(() => {
     const section = sectionRef.current
@@ -361,31 +362,26 @@ function PalestrasTimeline() {
         { scaleY: 0 },
         {
           scaleY: 1, ease: 'none', transformOrigin: 'top center',
-          scrollTrigger: {
-            trigger: section,
-            start: 'top 75%', end: 'bottom 20%', scrub: 0.8,
-          },
+          scrollTrigger: { trigger: section, start: 'top 75%', end: 'bottom 20%', scrub: 0.8 },
         }
       )
 
-      /* dots entram com bounce */
+      /* dots: só escala, sem opacity — dot nunca fica invisível */
       gsap.utils.toArray('.pal-dot', section).forEach((dot) => {
-        gsap.fromTo(dot,
-          { scale: 0, opacity: 0 },
+        gsap.from(dot,
           {
-            scale: 1, opacity: 1, duration: 0.55, ease: 'back.out(2.5)',
-            scrollTrigger: { trigger: dot, start: 'top 92%', toggleActions: 'play none none none' },
+            scale: 0, duration: 0.55, ease: 'back.out(2.5)', immediateRender: false,
+            scrollTrigger: { trigger: dot, start: 'top 92%', toggleActions: 'play none none none', once: true },
           }
         )
       })
 
-      /* cards entram — UMA animação por card no contexto pai (confiável) */
+      /* cards: só y, sem opacity — card nunca fica invisível */
       gsap.utils.toArray('.palestra-card', section).forEach((card) => {
-        gsap.fromTo(card,
-          { opacity: 0, y: 28 },
+        gsap.from(card,
           {
-            opacity: 1, y: 0, duration: 0.75, ease: 'power3.out',
-            scrollTrigger: { trigger: card, start: 'top 92%', toggleActions: 'play none none none' },
+            y: 30, duration: 0.75, ease: 'power3.out', immediateRender: false,
+            scrollTrigger: { trigger: card, start: 'top 92%', toggleActions: 'play none none none', once: true },
           }
         )
       })
@@ -404,7 +400,7 @@ function PalestrasTimeline() {
         </p>
       </div>
 
-      <div className="pal-timeline-wrap" ref={lineTrackRef}>
+      <div className="pal-timeline-wrap" ref={wrapRef}>
         {/* the growing vertical line */}
         <div className="pal-line-track" aria-hidden="true">
           <div ref={lineRef} className="pal-line" />
