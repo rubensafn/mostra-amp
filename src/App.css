@@ -124,6 +124,14 @@
   background: var(--accent) !important;
   box-shadow: 0 0 18px rgba(224,24,101,0.45) !important;
 }
+.btn-nav--soon {
+  font-family: 'Brinnan', sans-serif !important;
+  font-weight: 400 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.2em !important;
+  opacity: 0.7;
+  pointer-events: none;
+}
 
 .nav-hamburger {
   display: none; flex-direction: column; gap: 5px;
@@ -159,7 +167,7 @@
   text-transform: uppercase; line-height: 2.2;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1100px) {
   /* nav sempre sólido em mobile: tampa conteúdo que sobe por baixo */
   #nav {
     padding: 18px 24px;
@@ -392,17 +400,26 @@
   animation: neonPulseText 3s ease-in-out infinite;
 }
 
-/* scroll indicator */
+/* scroll indicator — no flow, 20px abaixo do countdown */
 .hero-scroll {
-  position: absolute; bottom: 10px;
-  left: 0; right: 0;
-  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  margin-top: 20px;
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
   z-index: 2;
-  opacity: 0; animation: fadeUp 0.8s var(--ease-expo) 1.8s forwards;
+  opacity: 0; animation: fadeUp 0.5s var(--ease-expo) 1.0s forwards;
 }
 .hero-scroll-text {
   font-size: 9px; letter-spacing: 0.3em; text-transform: uppercase;
   color: var(--cream-dim);
+}
+.scroll-drop {
+  display: block;
+  width: 1px; height: 28px;
+  background: linear-gradient(to bottom, var(--cream-dim), transparent);
+  animation: scrollDropAnim 2s ease-in-out infinite;
+}
+@keyframes scrollDropAnim {
+  0%   { opacity: 0.7; transform: translateY(0); }
+  100% { opacity: 0;   transform: translateY(14px); }
 }
 
 /* ── INTRO OVERLAY ── */
@@ -542,6 +559,7 @@
   border-bottom: 1px solid var(--border);
   background: var(--bg);
   padding: 0;
+  margin-top: 30px;
 }
 .marquee-track {
   display: inline-flex; gap: 48px;
@@ -1028,15 +1046,20 @@
 }
 .curadoria-quote cite span { color: var(--gold); }
 
-/* curadoria credits */
+/* curadoria credits — 4 itens: todos na mesma linha em desktop */
 .curadoria-credits {
   border-top: 1px solid var(--border);
   padding-top: 64px;
-  display: grid; grid-template-columns: repeat(3, 1fr);
+  display: grid; grid-template-columns: repeat(4, 1fr);
   gap: 40px; text-align: center;
 }
-@media (max-width: 768px) {
-  .curadoria-credits { grid-template-columns: 1fr 1fr; gap: 28px; }
+/* tablet: 2 × 2 */
+@media (max-width: 900px) {
+  .curadoria-credits { grid-template-columns: repeat(2, 1fr); gap: 32px; }
+}
+/* mobile: empilhado */
+@media (max-width: 480px) {
+  .curadoria-credits { grid-template-columns: 1fr; gap: 28px; }
 }
 .credit-item {}
 .credit-role {
@@ -1071,7 +1094,6 @@
 
 @media (max-width: 768px) {
   #curadoria { padding: 100px 24px; }
-  .curadoria-credits { grid-template-columns: 1fr; gap: 32px; }
   .brasilidades-block { padding: 32px 24px; }
 }
 
@@ -2187,20 +2209,31 @@
 /* ── Hero "Programação em Breve" chip ── */
 .hero-prog-breve {
   display: inline-flex; align-items: center; gap: 10px;
-  font-size: 9px; letter-spacing: 0.28em; text-transform: uppercase;
-  color: rgba(224,176,64,0.55);
-  border: 1px solid rgba(224,176,64,0.18);
+  font-size: 12px; letter-spacing: 0.28em; text-transform: uppercase;
+  color: rgba(6,4,2,0.85);
+  background: var(--gold);
+  border: 1px solid rgba(224,176,64,0.6);
   padding: 6px 16px; border-radius: 24px;
-  margin-top: 28px;
+  margin-bottom: 20px;
+  box-shadow: 0 0 18px rgba(224,176,64,0.35);
   opacity: 0; animation: fadeUp 0.8s var(--ease-expo) 1.6s forwards;
 }
 .hero-prog-breve-dot {
   width: 5px; height: 5px; border-radius: 50%;
-  background: var(--gold); opacity: 0.5;
+  background: rgba(6,4,2,0.5);
   animation: pulseGlow 2.5s ease-in-out infinite;
 }
 
 /* ─── BACK TO TOP ─── */
+@keyframes bttIn {
+  0%   { opacity: 0; transform: translateY(16px) scale(0.8); }
+  60%  { transform: translateY(-4px) scale(1.05); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes bttPulse {
+  0%, 100% { box-shadow: 0 4px 20px rgba(224,24,101,0.4), 0 0 0 0 rgba(224,24,101,0.35); }
+  50%       { box-shadow: 0 4px 20px rgba(224,24,101,0.4), 0 0 0 8px rgba(224,24,101,0); }
+}
 .back-to-top {
   position: fixed;
   bottom: 32px; right: 32px;
@@ -2209,12 +2242,19 @@
   border-radius: 50%;
   background: rgba(224,24,101,0.85);
   border: 1px solid rgba(224,24,101,0.4);
-  color: #fff; font-size: 20px; line-height: 1;
+  color: #fff;
   cursor: pointer;
   display: flex; align-items: center; justify-content: center;
   box-shadow: 0 4px 20px rgba(224,24,101,0.4);
-  transition: transform 0.2s, background 0.2s;
   backdrop-filter: blur(8px);
+  animation: bttIn 0.4s cubic-bezier(0.34,1.56,0.64,1) both, bttPulse 2.8s ease-in-out 0.8s infinite;
+  transition: transform 0.2s, background 0.2s;
 }
-.back-to-top:hover { transform: translateY(-3px); background: rgba(255,32,112,1); }
-@media (max-width: 600px) { .back-to-top { bottom: 20px; right: 16px; width: 42px; height: 42px; font-size: 17px; } }
+.back-to-top:hover {
+  transform: translateY(-4px);
+  background: rgba(255,32,112,1);
+  animation: bttIn 0s both; /* para o pulse no hover */
+}
+.back-to-top svg { pointer-events: none; }
+@media (max-width: 600px) { .back-to-top { bottom: 20px; right: 16px; width: 42px; height: 42px; } }
+@media (max-width: 600px) { .back-to-top svg { width: 17px; height: 17px; } }

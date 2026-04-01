@@ -25,10 +25,10 @@ const MARQUEE_1 = [
 ]
 const MARQUEE_2 = [
   'Realização Instituto Jardim Cultural', '·', 'Curadoria Lisandro Nogueira', '·',
-  'Produtor Gerson dos Santos', '·',
+  'Produtor Gerson dos Santos', '·', 'Direção de Criação Rubens Alves', '·',
   'Cinema Brasileiro', '·', 'Longa-Metragem', '·', 'Curta-Metragem', '·',
   'Realização Instituto Jardim Cultural', '·', 'Curadoria Lisandro Nogueira', '·',
-  'Produtor Gerson dos Santos', '·',
+  'Produtor Gerson dos Santos', '·', 'Direção de Criação Rubens Alves', '·',
 ]
 
 /* ─── programação de filmes: ocultar até liberação oficial ─── */
@@ -203,7 +203,7 @@ function Nav() {
           <li><a href="#" onClick={(e) => goTo('curadoria', e)}>Curadoria</a></li>
           <li><a href="#" onClick={(e) => goTo('espaco', e)}>Espaço</a></li>
           {!SHOW_FILMS && (
-            <li><Link to="/palestras" className="btn-nav">Convidados &amp; Palestras</Link></li>
+            <li><span className="btn-nav btn-nav--soon">Programação de Filmes · Em Breve</span></li>
           )}
           {SHOW_FILMS && (
             <li><a href="#" onClick={(e) => goTo('programacao', e)} className="btn-nav">Ver Programação</a></li>
@@ -227,6 +227,7 @@ function Nav() {
           <div>Realização · Instituto Jardim Cultural</div>
           <div>Produtor · Gerson dos Santos</div>
           <div>Curadoria · Lisandro Nogueira</div>
+          <div>Direção de Criação · Rubens Alves</div>
         </div>
       </div>
     </>
@@ -324,12 +325,12 @@ function Hero() {
             <span className="countdown-label">Seg</span>
           </div>
         </div>
-      </div>
 
-      {/* scroll cue */}
-      <div className="hero-scroll">
-        <span className="hero-scroll-text">Role para baixo</span>
-        <span className="scroll-drop" />
+        {/* scroll cue — 20px abaixo do countdown, no flow */}
+        <div className="hero-scroll">
+          <span className="hero-scroll-text">Role para baixo</span>
+          <span className="scroll-drop" />
+        </div>
       </div>
     </section>
   )
@@ -400,9 +401,9 @@ function Sobre() {
             </div>
           </div>
 
-          <a href="#programacao" className="btn-outline" data-reveal>
-            Ver Programação Completa
-          </a>
+          <span className="btn-outline btn-disabled" data-reveal style={{opacity:0.4, pointerEvents:'none', cursor:'default'}}>
+            Programação de Filmes · Em Breve
+          </span>
         </div>
 
         {/* visual */}
@@ -708,9 +709,9 @@ function Destaque() {
             </>
           )}
 
-          <a href="#programacao" className="btn-primary" data-reveal>
-            Ver Toda a Programação
-          </a>
+          <span className="btn-primary btn-disabled" data-reveal style={{opacity:0.4, pointerEvents:'none', cursor:'default'}}>
+            Programação de Filmes · Em Breve
+          </span>
         </div>
       </div>
     </section>
@@ -747,6 +748,10 @@ function Curadoria() {
           <div className="credit-item">
             <span className="credit-role">Curadoria</span>
             <span className="credit-name">Lisandro Nogueira</span>
+          </div>
+          <div className="credit-item">
+            <span className="credit-role">Direção de Criação</span>
+            <span className="credit-name">Rubens Alves</span>
           </div>
         </div>
 
@@ -923,6 +928,10 @@ function Footer() {
           <div className="footer-credit-item">
             <span className="footer-credit-role">Curadoria</span>
             <span className="footer-credit-name">Lisandro Nogueira</span>
+          </div>
+          <div className="footer-credit-item">
+            <span className="footer-credit-role">Direção de Criação</span>
+            <span className="footer-credit-name">Rubens Alves</span>
           </div>
         </div>
 
@@ -1202,7 +1211,11 @@ function BackToTop() {
       className="back-to-top"
       onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
       aria-label="Voltar ao topo"
-    >↑</button>
+    >
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+        <path d="M10 16V4M10 4L4 10M10 4L16 10" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+      </svg>
+    </button>
   )
 }
 

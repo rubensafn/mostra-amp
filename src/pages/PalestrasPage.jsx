@@ -1,4 +1,4 @@
-import { useEffect, useRef, useCallback } from 'react'
+import { useEffect, useRef, useCallback, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -228,7 +228,7 @@ function PalHero() {
 /* ════════════════════════════════════════
    PAL TIMELINE CARD
 ════════════════════════════════════════ */
-function PalCard({ palestra }) {
+function PalCard({ palestra, side = 'left' }) {
   const cardRef  = useRef(null)
   const innerRef = useRef(null)
 
@@ -267,7 +267,7 @@ function PalCard({ palestra }) {
   const typeLabel = isAbertura ? 'Abertura' : isEncerramento ? 'Encerramento' : null
 
   return (
-    <div className="pal-item" data-id={palestra.id}>
+    <div className={`pal-item pal-item--${side}`} data-id={palestra.id}>
       {/* Dot on the timeline axis */}
       <div
         className={`pal-dot${isSpecial ? ' pal-dot--special' : ''}`}
@@ -366,21 +366,35 @@ function PalestrasTimeline() {
         }
       )
 
-      /* dots: só escala, sem opacity — dot nunca fica invisível */
+      /* dots: sempre visíveis — acendem conforme o card passa pela viewport */
       gsap.utils.toArray('.pal-dot', section).forEach((dot) => {
-        gsap.from(dot,
+        const item = dot.closest('.pal-item')
+        if (!item) return
+
+        /* aparece com um pop suave quando entra na viewport */
+        gsap.fromTo(dot,
+          { scale: 0.4 },
           {
-            scale: 0, duration: 0.55, ease: 'back.out(2.5)', immediateRender: false,
-            scrollTrigger: { trigger: dot, start: 'top 92%', toggleActions: 'play none none none', once: true },
+            scale: 1, duration: 0.45, ease: 'back.out(2)',
+            immediateRender: false,
+            scrollTrigger: { trigger: item, start: 'top 90%', toggleActions: 'play none none none', once: true },
           }
         )
+
+        /* acende quando o card chega à zona central — fica aceso */
+        ScrollTrigger.create({
+          trigger: item,
+          start: 'top 62%',
+          onEnter: () => dot.classList.add('pal-dot--active'),
+        })
       })
 
-      /* cards: só y, sem opacity — card nunca fica invisível */
+      /* cards: slide do lado de origem — esquerda ou direita */
       gsap.utils.toArray('.palestra-card', section).forEach((card) => {
+        const isLeft = card.closest('.pal-item--left') !== null
         gsap.from(card,
           {
-            y: 30, duration: 0.75, ease: 'power3.out', immediateRender: false,
+            x: isLeft ? -40 : 40, duration: 0.75, ease: 'power3.out', immediateRender: false,
             scrollTrigger: { trigger: card, start: 'top 92%', toggleActions: 'play none none none', once: true },
           }
         )
@@ -401,14 +415,13 @@ function PalestrasTimeline() {
       </div>
 
       <div className="pal-timeline-wrap" ref={wrapRef}>
-        {/* linha vertical crescendo com scroll */}
-        <div className="pal-line-track" aria-hidden="true">
-          <div ref={lineRef} className="pal-line" />
-        </div>
-
         <div className="pal-items">
-          {PALESTRAS.map((p) => (
-            <PalCard key={p.id} palestra={p} />
+          {/* linha vertical dentro de .pal-items — mesmo referencial dos dots */}
+          <div className="pal-line-track" aria-hidden="true">
+            <div ref={lineRef} className="pal-line" />
+          </div>
+          {PALESTRAS.map((p, i) => (
+            <PalCard key={p.id} palestra={p} side={i % 2 === 0 ? 'left' : 'right'} />
           ))}
         </div>
       </div>
@@ -446,6 +459,10 @@ function PalFooter() {
             <span className="pal-footer-credit-label">Curadoria</span>
             <span className="pal-footer-credit-value">Lisandro Nogueira</span>
           </div>
+          <div className="pal-footer-credit-col">
+            <span className="pal-footer-credit-label">Direção de Criação</span>
+            <span className="pal-footer-credit-value">Rubens Alves</span>
+          </div>
         </div>
 
         <div className="pal-footer-divider" aria-hidden="true" />
@@ -460,6 +477,51 @@ function PalFooter() {
         </div>
       </div>
     </footer>
+  )
+}
+
+/* ════════════════════════════════════════
+   BACK TO TOP
+════════════════════════════════════════ */
+function BackToTop() {
+  const [vis, setVis] = useState(false)
+  useEffect(() => {
+    const onScroll = () => setVis(window.scrollY > 500)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+  if (!vis) return null
+  return (
+    <button
+      className="pal-back-to-top"
+      onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+      aria-label="Voltar ao topo"
+    >
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+        <path d="M10 16V4M10 4L4 10M10 4L16 10" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+      </svg>
+    </button>
+  )
+}
+
+/* ════════════════════════════════════════
+   BACK TO HOME
+════════════════════════════════════════ */
+function BackToHome() {
+  const [vis, setVis] = useState(false)
+  useEffect(() => {
+    const onScroll = () => setVis(window.scrollY > 500)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+  if (!vis) return null
+  return (
+    <Link to="/" className="pal-back-home" aria-label="Voltar à página inicial">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <path d="M13 8H3M3 8L7 4M3 8L7 12" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+      </svg>
+      <span>Voltar</span>
+    </Link>
   )
 }
 
@@ -482,6 +544,8 @@ export default function PalestrasPage() {
       <PalHero />
       <PalestrasTimeline />
       <PalFooter />
+      <BackToHome />
+      <BackToTop />
     </>
   )
 }
