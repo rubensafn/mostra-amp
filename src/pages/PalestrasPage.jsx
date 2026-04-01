@@ -229,80 +229,27 @@ function PalHero() {
    PAL TIMELINE CARD
 ════════════════════════════════════════ */
 function PalCard({ palestra, side }) {
-  const cardRef    = useRef(null)
-  const dotRef     = useRef(null)
-  const dateRef    = useRef(null)
-  const innerRef   = useRef(null)
-
-  /* magnetic hover state */
-  const magState = useRef({ x: 0, y: 0, tween: null })
+  const cardRef  = useRef(null)
+  const innerRef = useRef(null)
 
   useEffect(() => {
     const card  = cardRef.current
-    const dot   = dotRef.current
     const inner = innerRef.current
-    if (!card || !dot) return
+    if (!card) return
 
-    const ctx = gsap.context(() => {
-      /* slide-in only — nunca anima opacity para evitar cards invisíveis */
-      gsap.from(card, {
-        y: 50,
-        duration: 0.85,
-        ease: 'power3.out',
-        immediateRender: false,
-        scrollTrigger: {
-          trigger: card,
-          start: 'top 95%',
-          toggleActions: 'play none none none',
-          once: true,
-        },
-      })
-
-      /* dot scale in with spring bounce */
-      gsap.fromTo(dot,
-        { scale: 0, opacity: 0 },
-        {
-          scale: 1,
-          opacity: 1,
-          duration: 0.6,
-          ease: 'back.out(2.5)',
-          scrollTrigger: {
-            trigger: card,
-            start: 'top 88%',
-            toggleActions: 'play none none none',
-          },
-          onComplete: () => {
-            /* pulse glow after dot appears */
-            gsap.fromTo(dot,
-              { boxShadow: '0 0 0 0 rgba(224,24,101,0)' },
-              {
-                boxShadow: '0 0 0 8px rgba(224,24,101,0)',
-                duration: 0.8,
-                ease: 'power2.out',
-                repeat: 1,
-                yoyo: false,
-              }
-            )
-          },
+    /* IntersectionObserver: slide-in via CSS class — sem GSAP no scroll */
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          card.classList.add('pal-card--visible')
+          io.disconnect()
         }
-      )
+      },
+      { threshold: 0.05 }
+    )
+    io.observe(card)
 
-      /* parallax on the big date number */
-      if (dateRef.current) {
-        gsap.to(dateRef.current, {
-          y: -40,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: card,
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: 1.5,
-          },
-        })
-      }
-    })
-
-    /* magnetic hover — desktop only */
+    /* magnetic hover — desktop only, GSAP ok aqui (interação pura) */
     const handleMouseMove = (e) => {
       if (window.innerWidth < 900) return
       const rect = card.getBoundingClientRect()
@@ -310,9 +257,7 @@ function PalCard({ palestra, side }) {
       const cy   = rect.top  + rect.height / 2
       const dx   = (e.clientX - cx) / (rect.width  / 2)
       const dy   = (e.clientY - cy) / (rect.height / 2)
-      const maxX = 7
-      const maxY = 5
-      gsap.to(inner, { x: dx * maxX, y: dy * maxY, duration: 0.35, ease: 'power2.out' })
+      gsap.to(inner, { x: dx * 7, y: dy * 5, duration: 0.35, ease: 'power2.out' })
     }
     const handleMouseLeave = () => {
       gsap.to(inner, { x: 0, y: 0, duration: 0.5, ease: 'expo.out' })
@@ -322,16 +267,15 @@ function PalCard({ palestra, side }) {
     card.addEventListener('mouseleave', handleMouseLeave)
 
     return () => {
-      ctx.revert()
+      io.disconnect()
       card.removeEventListener('mousemove', handleMouseMove)
       card.removeEventListener('mouseleave', handleMouseLeave)
     }
   }, [])
 
-  const isAbertura    = palestra.tipo === 'abertura'
+  const isAbertura     = palestra.tipo === 'abertura'
   const isEncerramento = palestra.tipo === 'encerramento'
-  const isSpecial     = isAbertura || isEncerramento
-  const isBigDate     = palestra.convidados.length >= 2
+  const isSpecial      = isAbertura || isEncerramento
 
   const typeLabel = isAbertura ? 'Abertura' : isEncerramento ? 'Encerramento' : null
 
@@ -339,7 +283,6 @@ function PalCard({ palestra, side }) {
     <div className={`pal-item pal-item--${side}`} data-id={palestra.id}>
       {/* Dot on the timeline axis */}
       <div
-        ref={dotRef}
         className={`pal-dot${isSpecial ? ' pal-dot--special' : ''}`}
         aria-hidden="true"
       />
@@ -350,8 +293,8 @@ function PalCard({ palestra, side }) {
         className={`pal-card${isSpecial ? ' pal-card--special' : ''}`}
         aria-label={`${palestra.weekday}, ${palestra.date} de ${palestra.month} — ${palestra.convidados.join(', ')}`}
       >
-        {/* big decorative date number with parallax */}
-        <span ref={dateRef} className="pal-date-bg" aria-hidden="true">
+        {/* big decorative date number */}
+        <span className="pal-date-bg" aria-hidden="true">
           {palestra.date}
         </span>
 
@@ -538,12 +481,7 @@ function PalFooter() {
 export default function PalestrasPage() {
   useEffect(() => {
     window.scrollTo(0, 0)
-    /* aguarda layout completo antes de refrescar ScrollTrigger */
-    const t1 = setTimeout(() => ScrollTrigger.refresh(), 100)
-    const t2 = setTimeout(() => ScrollTrigger.refresh(), 500)
     return () => {
-      clearTimeout(t1)
-      clearTimeout(t2)
       ScrollTrigger.getAll().forEach(t => t.kill())
     }
   }, [])

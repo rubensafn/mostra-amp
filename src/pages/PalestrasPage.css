@@ -399,7 +399,18 @@
   overflow: hidden;
   width: 100%;
   max-width: 440px;
+  /* sempre visível por padrão — animação é só enhancement */
+  opacity: 1;
   transition: border-color 0.3s;
+}
+
+/* animação de entrada via IntersectionObserver */
+@keyframes pal-card-enter {
+  from { transform: translateY(22px); opacity: 0.4; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+.pal-card.pal-card--visible {
+  animation: pal-card-enter 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 .pal-card::before {
   content: '';
