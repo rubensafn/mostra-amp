@@ -273,8 +273,8 @@ function Hero() {
       {/* content */}
       <div className="hero-content">
         <div className="hero-apresenta">
-          <span className="hero-apresenta-label">Sesc apresenta</span>
           <img src="/images/sesc-horizontal-negativa.png" alt="Sesc" className="hero-sesc-logo" />
+          <span className="hero-apresenta-label">apresenta</span>
         </div>
 
         <span className="hero-edicao">17ª Edição · Mostra de Cinema</span>
