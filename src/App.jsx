@@ -273,7 +273,7 @@ function Hero() {
       {/* content */}
       <div className="hero-content">
         <div className="hero-apresenta">
-          <img src="/images/sesc-horizontal-negativa.png" alt="Sesc" className="hero-sesc-logo" />
+          <img src="/images/sesc-branca.png" alt="Sesc" className="hero-sesc-logo" />
           <span className="hero-apresenta-label">apresenta</span>
         </div>
 
@@ -892,7 +892,7 @@ function Footer() {
             </p>
             <div className="footer-sesc-apresenta">
               <span className="footer-sesc-label">Apresentação</span>
-              <img src="/images/sesc-horizontal-negativa.png" alt="Sesc" className="footer-sesc-logo" />
+              <img src="/images/sesc-branca.png" alt="Sesc" className="footer-sesc-logo" />
             </div>
           </div>
 
