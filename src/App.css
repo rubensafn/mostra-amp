@@ -267,9 +267,9 @@
    HERO
 ════════════════════════════════════════ */
 #hero {
-  position: relative; height: 100dvh; min-height: 640px;
+  position: relative; min-height: 100dvh;
   display: flex; align-items: center; justify-content: center;
-  overflow: hidden;
+  overflow: clip; /* clips bg effects mas não corta conteúdo no eixo Y */
 }
 
 .hero-bg {
@@ -317,6 +317,25 @@
   /* garante que o conteúdo começa abaixo da nav fixa */
   padding-top: 80px;
 }
+/* ── Sesc apresenta — hero ── */
+.hero-apresenta {
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+  margin-bottom: 36px;
+  opacity: 0; animation: fadeUp 0.8s var(--ease-expo) 0.05s forwards;
+}
+.hero-apresenta-label {
+  font-family: var(--font-display);
+  font-size: clamp(10px, 1.2vw, 13px);
+  letter-spacing: 0.45em; text-transform: uppercase;
+  color: rgba(240,228,204,0.5);
+}
+.hero-sesc-logo {
+  height: clamp(28px, 3.5vw, 42px);
+  width: auto;
+  opacity: 0.88;
+  filter: brightness(1.05);
+}
+
 .hero-edicao {
   font-family: var(--font-display);
   font-size: clamp(13px, 1.5vw, 16px);
@@ -1323,6 +1342,25 @@
   font-size: 13px; color: var(--cream-dim); line-height: 1.8;
 }
 .footer-col-text strong { color: var(--cream); font-weight: 500; }
+
+/* ── Sesc apresenta — footer ── */
+.footer-brand-col {
+  display: flex; flex-direction: column;
+}
+.footer-sesc-apresenta {
+  display: flex; flex-direction: column; gap: 8px;
+  margin-top: 28px;
+}
+.footer-sesc-label {
+  font-size: 8px; letter-spacing: 0.28em; text-transform: uppercase;
+  color: var(--accent);
+}
+.footer-sesc-logo {
+  width: 120px; height: auto;
+  opacity: 0.75;
+  filter: brightness(1.1);
+  object-fit: contain;
+}
 
 .footer-credits {
   border-top: 1px solid var(--border);
