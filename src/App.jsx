@@ -272,6 +272,11 @@ function Hero() {
 
       {/* content */}
       <div className="hero-content">
+        <div className="hero-apresenta">
+          <span className="hero-apresenta-label">Sesc apresenta</span>
+          <img src="/images/sesc-horizontal-negativa.png" alt="Sesc" className="hero-sesc-logo" />
+        </div>
+
         <span className="hero-edicao">17ª Edição · Mostra de Cinema</span>
 
         {/* logo — spotlight suave + contour pulse via drop-shadow */}
@@ -394,7 +399,7 @@ function Sobre() {
               <span className="stat-label">Edição</span>
             </div>
             <div className="stat-item">
-              <span className="stat-num">14</span>
+              <span className="stat-num">71</span>
               <span className="stat-label">Filmes</span>
             </div>
             <div className="stat-item">
@@ -597,7 +602,7 @@ function Programacao() {
           <h2 data-reveal>Grade de<br />Sessões</h2>
         </div>
         <p className="prog-desc" data-reveal>
-          Duas salas, 14 dias, mais de 50 filmes.<br />
+          Duas salas, 14 dias, 71 filmes.<br />
           Selecione o dia e confira as sessões.
         </p>
       </div>
@@ -880,11 +885,15 @@ function Footer() {
     <footer id="footer">
       <div className="footer-inner">
         <div className="footer-top">
-          <div>
+          <div className="footer-brand-col">
             <img src="/images/logo-completa.png" alt="17ª Mostra" className="footer-logo" />
             <p className="footer-tagline">
               O amor que move, a morte que limita e as paixões que definem.
             </p>
+            <div className="footer-sesc-apresenta">
+              <span className="footer-sesc-label">Apresentação</span>
+              <img src="/images/sesc-horizontal-negativa.png" alt="Sesc" className="footer-sesc-logo" />
+            </div>
           </div>
 
           <div className="footer-col">
