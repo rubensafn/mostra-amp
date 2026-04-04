@@ -65,7 +65,9 @@
       "WebFetch(domain:revistafactual.com.br)",
       "Bash(cp \"C:/Users/ruben/Downloads/pacote_marca_sesc \\(1\\)/pacote_marca_sesc/RGB/PNG/Nova_marca_Sesc_horizontal_RGB_negativa.png\" \"C:/Users/ruben/mostra-amp/public/images/sesc-horizontal-negativa.png\")",
       "Bash(cp \"C:/Users/ruben/Downloads/pacote_marca_sesc \\(1\\)/pacote_marca_sesc/RGB/PNG/Nova_marca_Sesc_vertical_RGB_negativa.png\" \"C:/Users/ruben/mostra-amp/public/images/sesc-vertical-negativa.png\")",
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "Bash(python:*)",
+      "Bash(npm list:*)"
     ]
   }
 }
