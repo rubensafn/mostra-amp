@@ -14,18 +14,18 @@ const GUESTS = [
     bio: 'Cineasta e realizador audiovisual brasileiro com passagem por festivais e mostras de cinema nacionais. Apresenta palestra sobre inteligência artificial e o futuro das imagens.',
     tema: 'Tudo o que você precisa saber sobre inteligência artificial', date: '09 ABR',
   },
-  {
-    name: 'Ruy Castro', cargo: 'Jornalista · Escritor · ABL', color: 'gold',
-    photo: '/images/convidados/Ruy Castro.png',
-    bio: 'Biógrafo de Garrincha, Carmen Miranda e Nelson Rodrigues, membro da Academia Brasileira de Letras. Um dos maiores cronistas da Bossa Nova e da cultura popular brasileira.',
-    tema: 'Ficção e não-ficção e Vice-Versa', date: '10 ABR',
-  },
-  {
-    name: 'Heloisa Seixas', cargo: 'Escritora · Jornalista · Tradutora', color: 'cream',
-    photo: '/images/convidados/Heloisa Seixas.png',
-    bio: 'Quatro vezes finalista do Prêmio Jabuti, autora de mais de vinte livros entre romances, contos e crônicas. Uma das vozes mais refinadas da literatura brasileira contemporânea.',
-    tema: 'Ficção e não-ficção e Vice-Versa', date: '10 ABR',
-  },
+  // {
+  //   name: 'Ruy Castro', cargo: 'Jornalista · Escritor · ABL', color: 'gold',
+  //   photo: '/images/convidados/Ruy Castro.png',
+  //   bio: 'Biógrafo de Garrincha, Carmen Miranda e Nelson Rodrigues, membro da Academia Brasileira de Letras. Um dos maiores cronistas da Bossa Nova e da cultura popular brasileira.',
+  //   tema: 'Ficção e não-ficção e Vice-Versa', date: '10 ABR',
+  // },
+  // {
+  //   name: 'Heloisa Seixas', cargo: 'Escritora · Jornalista · Tradutora', color: 'cream',
+  //   photo: '/images/convidados/Heloisa Seixas.png',
+  //   bio: 'Quatro vezes finalista do Prêmio Jabuti, autora de mais de vinte livros entre romances, contos e crônicas. Uma das vozes mais refinadas da literatura brasileira contemporânea.',
+  //   tema: 'Ficção e não-ficção e Vice-Versa', date: '10 ABR',
+  // },
   {
     name: 'Luiz Pondé', cargo: 'Filósofo · Escritor · Professor', color: 'accent',
     photo: '/images/convidados/Luiz Pondé.png',
@@ -123,6 +123,18 @@ const GUESTS = [
     tema: null, date: '19 ABR',
   },
   {
+    name: 'Ruy Castro', cargo: 'Jornalista · Escritor · ABL', color: 'gold',
+    photo: '/images/convidados/Ruy Castro.png',
+    bio: 'Biógrafo de Garrincha, Carmen Miranda e Nelson Rodrigues, membro da Academia Brasileira de Letras. Um dos maiores cronistas da Bossa Nova e da cultura popular brasileira.',
+    tema: 'Ficção e não-ficção e Vice-Versa', date: '20 ABR',
+  },
+  {
+    name: 'Heloisa Seixas', cargo: 'Escritora · Jornalista · Tradutora', color: 'cream',
+    photo: '/images/convidados/Heloisa Seixas.png',
+    bio: 'Quatro vezes finalista do Prêmio Jabuti, autora de mais de vinte livros entre romances, contos e crônicas. Uma das vozes mais refinadas da literatura brasileira contemporânea.',
+    tema: 'Ficção e não-ficção e Vice-Versa', date: '20 ABR',
+  },
+  {
     name: 'Jussara Santos', cargo: null, color: 'cream',
     photo: '/images/convidados/Jussara Santos.png',
     bio: 'Convidada especial da 17ª Mostra, com apresentação sobre afeto e política do cuidado no cinema e na psicanálise.',
@@ -136,7 +148,7 @@ const GUESTS = [
 ]
 
 const PALESTRAS = [
-  { id:1,  date:'08', month:'ABR', weekday:'Quarta-Feira',   time:'19:30h', local:'Coquetel de Abertura', convidados:['Elenco do Filme — A Definir'], tema:null, atracao:'Atração Musical — A Definir', tipo:'abertura' },
+  { id:1,  date:'08', month:'ABR', weekday:'Quarta-Feira',   time:'19:30h', local:'Coquetel de Abertura', convidados:['Elenco do Filme — Ruan Aguiar, Gero Camilo e Diretor Douglas Soares'], tema:null, atracao:'Atração Musical — A Definir', tipo:'abertura' },
   { id:2,  date:'09', month:'ABR', weekday:'Quinta-Feira',   time:'18:30h', local:'Livraria',             convidados:['Celso Camilo'], tema:'Tudo o que você precisa saber sobre inteligência artificial' },
   { id:3,  date:'10', month:'ABR', weekday:'Sexta-Feira',    time:'19:00h', local:'Livraria',             convidados:['Rafael Fleury','Solemar Oliveira','Rodriana Costa','Chris Resplande','Hélverton Baiano'], cargo:'UBER — União Brasileira de Escritores Goiás', tema:'Cinco autores goianos lançam seus livros', atracao:'Atração Musical MPB 4 · 20:30h' },
   { id:4,  date:'11', month:'ABR', weekday:'Sábado',         time:'19:30h', local:'Palco Central',        convidados:['Luiz Pondé'], cargo:'Filósofo · Escritor · Professor Universitário', tema:'Valor sentimental: angústia e reparação' },
