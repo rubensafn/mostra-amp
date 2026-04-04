@@ -893,6 +893,47 @@
   .pal-tab-btn { padding: 8px 18px; font-size: 9px; }
 }
 
+/* ── Floating tabs ── */
+.pal-floating-tabs {
+  position: fixed;
+  bottom: 92px; right: 32px;
+  z-index: 200;
+  display: flex; flex-direction: column; gap: 4px;
+  background: rgba(8,5,3,0.88);
+  border: 1px solid rgba(212,168,83,0.45);
+  backdrop-filter: blur(14px);
+  padding: 4px; border-radius: 28px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 0 1px rgba(212,168,83,0.15);
+  opacity: 0; pointer-events: none;
+}
+.pal-floating-tabs.visible {
+  animation: floatTabsEnter 0.32s cubic-bezier(0.34,1.56,0.64,1) forwards;
+  pointer-events: auto;
+}
+.pal-floating-tabs.exiting {
+  animation: floatTabsExit 0.28s ease forwards;
+  pointer-events: none;
+}
+.pal-ftab-btn {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: none; border: none; cursor: pointer;
+  font-family: 'Brinnan', sans-serif;
+  font-size: 13px; letter-spacing: 0.05em; text-transform: uppercase;
+  color: rgba(242,230,208,0.55);
+  transition: background 0.22s, color 0.22s, box-shadow 0.22s;
+  display: flex; align-items: center; justify-content: center;
+}
+.pal-ftab-btn.active {
+  background: var(--gold);
+  color: #080503;
+  box-shadow: 0 0 14px rgba(212,168,83,0.5);
+}
+.pal-ftab-btn:not(.active):hover { color: var(--cream); }
+
+@media (max-width: 600px) {
+  .pal-floating-tabs { bottom: 80px; right: 16px; }
+}
+
 /* ════════════════════════════════════════
    GUEST SECTION
 ════════════════════════════════════════ */
@@ -1119,6 +1160,23 @@
   50%       { box-shadow: 0 4px 20px rgba(224,24,101,0.4), 0 0 0 8px rgba(224,24,101,0); }
 }
 
+@keyframes backBtnEnter {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes backBtnExit {
+  from { opacity: 1; transform: translateY(0); }
+  to   { opacity: 0; transform: translateY(-16px); }
+}
+@keyframes floatTabsEnter {
+  from { opacity: 0; transform: translateY(-16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes floatTabsExit {
+  from { opacity: 1; transform: translateY(0); }
+  to   { opacity: 0; transform: translateY(16px); }
+}
+
 .pal-back-to-top {
   position: fixed;
   bottom: 32px; right: 32px;
@@ -1131,15 +1189,18 @@
   cursor: pointer;
   display: flex; align-items: center; justify-content: center;
   backdrop-filter: blur(8px);
-  animation: palBtnIn 0.4s cubic-bezier(0.34,1.56,0.64,1) both,
-             palBtnPulse 2.8s ease-in-out 0.8s infinite;
-  transition: transform 0.2s, background 0.2s;
+  opacity: 0; pointer-events: none;
+  transition: background 0.2s;
 }
-.pal-back-to-top:hover {
-  transform: translateY(-4px);
-  background: rgba(255,32,112,1);
-  animation: palBtnIn 0s both;
+.pal-back-to-top.visible {
+  animation: backBtnEnter 0.32s cubic-bezier(0.34,1.56,0.64,1) forwards;
+  pointer-events: auto;
 }
+.pal-back-to-top.exiting {
+  animation: backBtnExit 0.28s ease forwards;
+  pointer-events: none;
+}
+.pal-back-to-top.visible:hover { background: rgba(255,32,112,1); }
 
 .pal-back-home {
   position: fixed;
@@ -1158,14 +1219,18 @@
   font-weight: 600;
   backdrop-filter: blur(8px);
   box-shadow: 0 4px 20px rgba(224,176,64,0.35);
-  animation: palBtnIn 0.4s cubic-bezier(0.34,1.56,0.64,1) 0.08s both;
-  transition: transform 0.2s, background 0.2s, box-shadow 0.2s;
+  opacity: 0; pointer-events: none;
+  transition: background 0.2s, box-shadow 0.2s;
 }
-.pal-back-home:hover {
-  transform: translateY(-3px);
-  background: #f5c842;
-  box-shadow: 0 6px 28px rgba(224,176,64,0.55);
+.pal-back-home.visible {
+  animation: backBtnEnter 0.32s cubic-bezier(0.34,1.56,0.64,1) forwards;
+  pointer-events: auto;
 }
+.pal-back-home.exiting {
+  animation: backBtnExit 0.28s ease forwards;
+  pointer-events: none;
+}
+.pal-back-home.visible:hover { background: #f5c842; box-shadow: 0 6px 28px rgba(224,176,64,0.55); }
 
 @media (max-width: 600px) {
   .pal-back-to-top { bottom: 20px; right: 16px; width: 42px; height: 42px; }
