@@ -24,11 +24,12 @@ const MARQUEE_1 = [
   '·', 'Brasilidades', '·', 'Goiânia', '·', '08 a 22 de Abril', '·',
 ]
 const MARQUEE_2 = [
-  'Realização Instituto Jardim Cultural', '·', 'Curadoria Lisandro Nogueira', '·',
-  'Produtor Gerson dos Santos', '·', 'Direção de Criação Rubens Alves', '·',
-  'Cinema Brasileiro', '·', 'Longa-Metragem', '·', 'Curta-Metragem', '·',
-  'Realização Instituto Jardim Cultural', '·', 'Curadoria Lisandro Nogueira', '·',
-  'Produtor Gerson dos Santos', '·', 'Direção de Criação Rubens Alves', '·',
+  'Idealização Instituto Jardim Cultural', '·', 'Curadoria Lisandro Nogueira', '·',
+  'Coordenador Geral Gerson Santos', '·', 'Diretor Rubens Alves', '·',
+  'Produtora Gabriela Cardoso', '·', 'Cinema Brasileiro', '·', 'Longa-Metragem', '·', 'Curta-Metragem', '·',
+  'Idealização Instituto Jardim Cultural', '·', 'Curadoria Lisandro Nogueira', '·',
+  'Coordenador Geral Gerson Santos', '·', 'Diretor Rubens Alves', '·',
+  'Produtora Gabriela Cardoso', '·',
 ]
 
 /* ─── programação de filmes: ocultar até liberação oficial ─── */
@@ -226,10 +227,11 @@ function Nav() {
           <li><a href="#" onClick={(e) => { goTo('espaco', e); close() }}>Espaço</a></li>
         </ul>
         <div className="mobile-menu-credits">
-          <div>Realização · Instituto Jardim Cultural</div>
-          <div>Produtor · Gerson dos Santos</div>
+          <div>Idealização · Instituto Jardim Cultural</div>
+          <div>Coordenador Geral · Gerson Santos</div>
           <div>Curadoria · Lisandro Nogueira</div>
-          <div>Direção de Criação · Rubens Alves</div>
+          <div>Diretor · Rubens Alves</div>
+          <div>Produtora · Gabriela Cardoso</div>
         </div>
       </div>
     </>
@@ -745,20 +747,24 @@ function Curadoria() {
 
         <div className="curadoria-credits" data-reveal>
           <div className="credit-item">
-            <span className="credit-role">Realização</span>
+            <span className="credit-role">Idealização</span>
             <span className="credit-name">Instituto Jardim Cultural</span>
           </div>
           <div className="credit-item">
-            <span className="credit-role">Produtor</span>
-            <span className="credit-name">Gerson dos Santos</span>
+            <span className="credit-role">Coordenador Geral</span>
+            <span className="credit-name">Gerson Santos</span>
           </div>
           <div className="credit-item">
             <span className="credit-role">Curadoria</span>
             <span className="credit-name">Lisandro Nogueira</span>
           </div>
           <div className="credit-item">
-            <span className="credit-role">Direção de Criação</span>
+            <span className="credit-role">Diretor</span>
             <span className="credit-name">Rubens Alves</span>
+          </div>
+          <div className="credit-item">
+            <span className="credit-role">Produtora</span>
+            <span className="credit-name">Gabriela Cardoso</span>
           </div>
         </div>
 
@@ -929,20 +935,24 @@ function Footer() {
 
         <div className="footer-credits">
           <div className="footer-credit-item">
-            <span className="footer-credit-role">Realização</span>
+            <span className="footer-credit-role">Idealização</span>
             <span className="footer-credit-name">Instituto Jardim Cultural</span>
           </div>
           <div className="footer-credit-item">
-            <span className="footer-credit-role">Produtor</span>
-            <span className="footer-credit-name">Gerson dos Santos</span>
+            <span className="footer-credit-role">Coordenador Geral</span>
+            <span className="footer-credit-name">Gerson Santos</span>
           </div>
           <div className="footer-credit-item">
             <span className="footer-credit-role">Curadoria</span>
             <span className="footer-credit-name">Lisandro Nogueira</span>
           </div>
           <div className="footer-credit-item">
-            <span className="footer-credit-role">Direção de Criação</span>
+            <span className="footer-credit-role">Diretor</span>
             <span className="footer-credit-name">Rubens Alves</span>
+          </div>
+          <div className="footer-credit-item">
+            <span className="footer-credit-role">Produtora</span>
+            <span className="footer-credit-name">Gabriela Cardoso</span>
           </div>
         </div>
 

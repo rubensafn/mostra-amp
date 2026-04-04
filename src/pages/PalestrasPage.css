@@ -1107,7 +1107,7 @@
 
 /* credits grid */
 .pal-footer-credits {
-  display: flex; flex-wrap: wrap; gap: 32px 56px;
+  display: flex; flex-wrap: wrap; gap: 32px 40px;
   justify-content: center;
 }
 .pal-footer-credit-col {
