@@ -132,7 +132,7 @@ const GUESTS = [
 const PALESTRAS = [
   { id:1,  date:'08', month:'ABR', weekday:'Quarta-Feira',   time:'19:30h', local:'Coquetel de Abertura', convidados:['Elenco do Filme — A Definir'], tema:null, atracao:'Atração Musical — A Definir', tipo:'abertura' },
   { id:2,  date:'09', month:'ABR', weekday:'Quinta-Feira',   time:'18:30h', local:'Livraria',             convidados:['Celso Camilo'], tema:'Tudo o que você precisa saber sobre inteligência artificial' },
-  { id:3,  date:'10', month:'ABR', weekday:'Sexta-Feira',    time:'19:00h', local:'Palco Central',        convidados:['Ruy Castro','Heloisa Seixas'], tema:'Ficção e não-ficção e Vice-Versa', atracao:'Atração Musical MPB 4 · 20:30h' },
+  // { id:3,  date:'10', month:'ABR', weekday:'Sexta-Feira',    time:'19:00h', local:'Palco Central',        convidados:['Ruy Castro','Heloisa Seixas'], tema:'Ficção e não-ficção e Vice-Versa', atracao:'Atração Musical MPB 4 · 20:30h' },
   { id:4,  date:'11', month:'ABR', weekday:'Sábado',         time:'19:30h', local:'Palco Central',        convidados:['Luiz Pondé'], cargo:'Filósofo · Escritor · Professor Universitário', tema:'Valor sentimental: angústia e reparação' },
   { id:5,  date:'12', month:'ABR', weekday:'Domingo',        time:'16:30h', local:'Livraria',             convidados:['Jossane Gonzaga'], cargo:'Escritora', tema:'Autismo e altas habilidades sob a lente do diagnóstico tardio' },
   { id:6,  date:'13', month:'ABR', weekday:'Segunda-Feira',  time:'19:30h', local:'Palco Central',        convidados:['Jesse de Souza'], tema:'Por que a esquerda morreu' },
