@@ -47,11 +47,11 @@ const GUESTS = [
   {
     name: 'Marina Cançado', cargo: 'Psicanalista', color: 'accent',
     photo: '/images/convidados/Marina Cançado.png',
-    bio: 'Psicanalista com formação lacaniana e atuação clínica. Apresenta, ao lado de Beto Amaral, a interseção entre Guimarães Rosa e o pensamento de Jacques Lacan.',
+    bio: 'Psicanalista com formação lacaniana e atuação clínica. Apresenta, ao lado de Roberto Amaral, a interseção entre Guimarães Rosa e o pensamento de Jacques Lacan.',
     tema: 'Guimarães Rosa e Jacques Lacan', date: '14 ABR',
   },
   {
-    name: 'Beto Amaral', cargo: 'Psicanalista', color: 'gold',
+    name: 'Roberto Amaral', cargo: 'Psicanalista', color: 'gold',
     photo: '/images/convidados/Beto Amaral.png',
     bio: 'Psicanalista com formação lacaniana e atuação clínica. Em diálogo com Marina Cançado, explora as conexões entre a literatura de Guimarães Rosa e a psicanálise.',
     tema: 'Guimarães Rosa e Jacques Lacan', date: '14 ABR',
@@ -134,18 +134,19 @@ const PALESTRAS = [
   { id:2,  date:'09', month:'ABR', weekday:'Quinta-Feira',   time:'18:30h', local:'Livraria',             convidados:['Celso Camilo'], tema:'Tudo o que você precisa saber sobre inteligência artificial' },
   { id:3,  date:'10', month:'ABR', weekday:'Sexta-Feira',    time:'19:00h', local:'Palco Central',        convidados:['Ruy Castro','Heloisa Seixas'], tema:'Ficção e não-ficção e Vice-Versa', atracao:'Atração Musical MPB 4 · 20:30h' },
   { id:4,  date:'11', month:'ABR', weekday:'Sábado',         time:'19:30h', local:'Palco Central',        convidados:['Luiz Pondé'], cargo:'Filósofo · Escritor · Professor Universitário', tema:'Valor sentimental: angústia e reparação' },
-  { id:5,  date:'12', month:'ABR', weekday:'Domingo',        time:'16:30h', local:'Livraria',             convidados:['Jossane Gonzaga'], cargo:'Psicanalista', tema:'Autismo e altas habilidades sob a lente do diagnóstico tardio' },
+  { id:5,  date:'12', month:'ABR', weekday:'Domingo',        time:'16:30h', local:'Livraria',             convidados:['Jossane Gonzaga'], cargo:'Escritora', tema:'Autismo e altas habilidades sob a lente do diagnóstico tardio' },
   { id:6,  date:'13', month:'ABR', weekday:'Segunda-Feira',  time:'19:30h', local:'Palco Central',        convidados:['Jesse de Souza'], tema:'Por que a esquerda morreu' },
-  { id:7,  date:'14', month:'ABR', weekday:'Terça-Feira',    time:'19:30h', local:'Livraria',             convidados:['Marina Cançado','Beto Amaral'], cargo:'Psicanalistas', tema:'Guimarães Rosa e Jacques Lacan' },
+  { id:7,  date:'14', month:'ABR', weekday:'Terça-Feira',    time:'19:30h', local:'Livraria',             convidados:['Marina Cançado','Roberto Amaral'], cargo:'Psicanalistas', tema:'Guimarães Rosa e Jacques Lacan' },
   { id:8,  date:'15', month:'ABR', weekday:'Quarta-Feira',   time:'19:30h', local:'Livraria',             convidados:['Rubens Machado Jr','Alberto Silva'], cargo:'Prof. USP · Prof. de Cinema Sorbonne 3', tema:'Debate pós-filme — O Agente Secreto' },
   { id:9,  date:'16', month:'ABR', weekday:'Quinta-Feira',   time:'19:30h', local:'Palco Central',        convidados:['Paula Febee'], cargo:'Autora · Psicanalista · Roteirista', tema:null },
   { id:10, date:'16', month:'ABR', weekday:'Quinta-Feira',   time:'21:30h', local:'Palco Central',        convidados:['Maysa Balduino','Wolney Fernandes'], cargo:'Psicanalista · Prof. de Cinema UFG', tema:'Debate pós-filme — Valor Sentimental' },
   { id:11, date:'17', month:'ABR', weekday:'Sexta-Feira',    time:'20:30h', local:'Livraria',             convidados:['João Pedro','Pedro Andrade'], cargo:'Críticos de Cinema', tema:'Debate pós-filme — A Vida de Chuck' },
   { id:12, date:'18', month:'ABR', weekday:'Sábado',         time:'16:00h', local:'Palco Central',        convidados:['Cristian Dunker','Vladimir Safatle'], tema:'Transformar Mundos e Pessoas' },
   { id:13, date:'19', month:'ABR', weekday:'Domingo',        time:'18:00h', local:null,                   convidados:['Jeferson Tenório'], tema:null },
-  { id:14, date:'20', month:'ABR', weekday:'Segunda-Feira',  time:'21:30h', local:null,                   convidados:['Raimundo Alves','Karla Rady','Fabiana Pulcinelli'], tema:'Debate pós-filme — O Peso do Silêncio: Tarzan e a Ditadura' },
-  { id:15, date:'21', month:'ABR', weekday:'Terça-Feira',    time:'18:30h', local:null,                   convidados:['Jussara Santos'], tema:'Democratização do colo' },
-  { id:16, date:'22', month:'ABR', weekday:'Sexta-Feira',    time:'19:00h', local:'Palco Central',        convidados:['Pedro Pacífico'], tema:null, tipo:'encerramento' },
+  { id:14, date:'20', month:'ABR', weekday:'Segunda-Feira',  time:'19:00h', local:'Palco Central',        convidados:['Ruy Castro','Heloisa Seixas'], tema:'Ficção e não-ficção e Vice-Versa', atracao:'Atração Musical MPB 4 · 20:30h' },
+  { id:15, date:'20', month:'ABR', weekday:'Segunda-Feira',  time:'21:30h', local:null,                   convidados:['Raimundo Alves','Karla Rady','Fabiana Pulcinelli'], tema:'Debate pós-filme — O Peso do Silêncio: Tarzan e a Ditadura' },
+  { id:16, date:'21', month:'ABR', weekday:'Terça-Feira',    time:'18:30h', local:null,                   convidados:['Jussara Santos'], tema:'Democratização do colo' },
+  { id:17, date:'22', month:'ABR', weekday:'Sexta-Feira',    time:'19:00h', local:'Palco Central',        convidados:['Pedro Pacífico'], tema:null, tipo:'encerramento' },
 ]
 
 /* ════════════════════════════════════════
@@ -309,6 +310,28 @@ function PalTabs({ activeTab, setActiveTab }) {
   )
 }
 
+function FloatingTabs({ activeTab, setActiveTab, uiAnim }) {
+
+  return (
+    <div className={`pal-floating-tabs${uiAnim !== 'hidden' ? ` ${uiAnim}` : ''}`}>
+      <button
+        className={`pal-ftab-btn${activeTab === 'palestras' ? ' active' : ''}`}
+        onClick={() => setActiveTab('palestras')}
+        title="Palestras"
+      >
+        P
+      </button>
+      <button
+        className={`pal-ftab-btn${activeTab === 'convidados' ? ' active' : ''}`}
+        onClick={() => setActiveTab('convidados')}
+        title="Convidados"
+      >
+        C
+      </button>
+    </div>
+  )
+}
+
 /* ════════════════════════════════════════
    PAL HERO
 ════════════════════════════════════════ */
@@ -413,10 +436,6 @@ function PalHero() {
           </div>
         </div>
 
-        <a href="#pal-timeline" className="pal-hero-scroll" ref={arrowRef} aria-label="Ver programação">
-          <span className="pal-hero-scroll-label">Ver Programação</span>
-          <span className="pal-hero-scroll-drop" aria-hidden="true" />
-        </a>
       </div>
     </section>
   )
@@ -738,17 +757,10 @@ function GuestSection() {
 /* ════════════════════════════════════════
    BACK TO TOP
 ════════════════════════════════════════ */
-function BackToTop() {
-  const [vis, setVis] = useState(false)
-  useEffect(() => {
-    const onScroll = () => setVis(window.scrollY > 500)
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
-  if (!vis) return null
+function BackToTop({ uiAnim }) {
   return (
     <button
-      className="pal-back-to-top"
+      className={`pal-back-to-top${uiAnim !== 'hidden' ? ` ${uiAnim}` : ''}`}
       onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
       aria-label="Voltar ao topo"
     >
@@ -762,16 +774,9 @@ function BackToTop() {
 /* ════════════════════════════════════════
    BACK TO HOME
 ════════════════════════════════════════ */
-function BackToHome() {
-  const [vis, setVis] = useState(false)
-  useEffect(() => {
-    const onScroll = () => setVis(window.scrollY > 500)
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
-  if (!vis) return null
+function BackToHome({ uiAnim }) {
   return (
-    <Link to="/" className="pal-back-home" aria-label="Voltar à página inicial">
+    <Link to="/" className={`pal-back-home${uiAnim !== 'hidden' ? ` ${uiAnim}` : ''}`} aria-label="Voltar à página inicial">
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
         <path d="M13 8H3M3 8L7 4M3 8L7 12" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
       </svg>
@@ -814,10 +819,27 @@ function PalPageIntro() {
 ════════════════════════════════════════ */
 export default function PalestrasPage() {
   const [activeTab, setActiveTab] = useState('palestras')
+  const [uiAnim, setUiAnim] = useState('hidden') // 'hidden' | 'visible' | 'exiting'
+  const uiTimer = useRef(null)
 
   useEffect(() => {
     window.scrollTo(0, 0)
-    return () => { ScrollTrigger.getAll().forEach(t => t.kill()) }
+    const target = document.getElementById('pal-tabs')
+    const obs = target && new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) {
+        clearTimeout(uiTimer.current)
+        setUiAnim('visible')
+      } else {
+        setUiAnim('exiting')
+        uiTimer.current = setTimeout(() => setUiAnim('hidden'), 320)
+      }
+    }, { threshold: 0 })
+    if (obs) obs.observe(target)
+    return () => {
+      if (obs) obs.disconnect()
+      clearTimeout(uiTimer.current)
+      ScrollTrigger.getAll().forEach(t => t.kill())
+    }
   }, [])
 
   return (
@@ -828,10 +850,11 @@ export default function PalestrasPage() {
       <PalNav setActiveTab={setActiveTab} />
       <PalHero />
       <PalTabs activeTab={activeTab} setActiveTab={setActiveTab} />
+      <FloatingTabs activeTab={activeTab} setActiveTab={setActiveTab} uiAnim={uiAnim} />
       {activeTab === 'palestras' ? <PalestrasTimeline /> : <GuestSection />}
       <PalFooter />
-      <BackToHome />
-      <BackToTop />
+      <BackToHome uiAnim={uiAnim} />
+      <BackToTop uiAnim={uiAnim} />
     </>
   )
 }
