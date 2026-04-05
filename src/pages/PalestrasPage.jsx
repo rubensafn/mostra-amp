@@ -52,7 +52,7 @@ const GUESTS = [
   },
   {
     name: 'Roberto Amaral', cargo: 'Psicanalista', color: 'gold',
-    photo: '/images/convidados/Beto Amaral.png',
+    photo: '/images/convidados/Roberto Amaral.png',
     bio: 'Psicanalista com formação lacaniana e atuação clínica. Em diálogo com Marina Cançado, explora as conexões entre a literatura de Guimarães Rosa e a psicanálise.',
     tema: 'Guimarães Rosa e Jacques Lacan', date: '14 ABR',
   },
@@ -172,8 +172,8 @@ const GUESTS = [
 const PALESTRAS = [
   { id:1,  date:'08', month:'ABR', weekday:'Quarta-Feira',   time:'19:30h', local:'Coquetel de Abertura', convidados:['Elenco do Filme — Ruan Aguiar, Gero Camilo e Diretor Douglas Soares'], tema:null, atracao:'Atração Musical — A Definir', tipo:'abertura' },
   { id:2,  date:'09', month:'ABR', weekday:'Quinta-Feira',   time:'18:30h', local:'Livraria',             convidados:['Celso Camilo'], tema:'Tudo o que você precisa saber sobre inteligência artificial' },
-  { id:3,  date:'10', month:'ABR', weekday:'Sexta-Feira',    time:'19:00h', local:'Livraria',             convidados:['Rafael Fleury','Solemar Oliveira','Rodriana Costa','Chris Resplande','Hélverton Baiano'], cargo:'UBER — União Brasileira de Escritores Goiás', tema:'Cinco autores goianos lançam seus livros' },
-  { id:3.5, date:'10', month:'ABR', weekday:'Sexta-Feira',  time:'20:30h', local:'Livraria',             convidados:['MPB4'], cargo:'Atração Musical', tema:null, tipo:'musical', photo:'/images/convidados/MPB4.jpg' },
+  { id:3,  date:'10', month:'ABR', weekday:'Sexta-Feira',    time:'19:00h', local:'Livraria',             convidados:['Rafael Fleury','Solemar Oliveira','Rodriana Costa','Chris Resplande','Hélverton Baiano'], tema:'Cinco autores goianos lançam seus livros - UBER — União Brasileira de Escritores Goiás' },
+  { id:3.5,date:'10', month:'ABR', weekday:'Sexta-Feira',    time:'20:30h', local:'Livraria',             convidados:['MPB4'], cargo:'Atração Musical', tema:null, tipo:'musical', photo:'/images/convidados/MPB4.jpg' },
   { id:4,  date:'11', month:'ABR', weekday:'Sábado',         time:'19:30h', local:'Palco Central',        convidados:['Luiz Pondé'], cargo:'Filósofo · Escritor · Professor Universitário', tema:'Valor sentimental: angústia e reparação' },
   { id:5,  date:'12', month:'ABR', weekday:'Domingo',        time:'16:30h', local:'Livraria',             convidados:['Josanne Gonzaga'], cargo:'Psicanalista', tema:'Autismo e altas habilidades sob a lente do diagnóstico tardio' },
   { id:6,  date:'13', month:'ABR', weekday:'Segunda-Feira',  time:'19:30h', local:'Palco Central',        convidados:['Jesse de Souza'], tema:'Por que a esquerda morreu' },
