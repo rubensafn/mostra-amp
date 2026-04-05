@@ -73,7 +73,12 @@
       "Bash(cp C:/Users/ruben/.claude/commands/subir-main.md C:/Users/ruben/mostra-amp/.claude/commands/)",
       "Bash(cp C:/Users/ruben/.claude/commands/pull-dev.md C:/Users/ruben/mostra-amp/.claude/commands/)",
       "Bash(cp C:/Users/ruben/.claude/commands/pull-main.md C:/Users/ruben/mostra-amp/.claude/commands/)",
-      "Bash(git pull:*)"
+      "Bash(git pull:*)",
+      "Bash(cp \"public/images/convidados/Roberto Amaral.png\" /tmp/roberto_tmp.png)",
+      "Bash(rm \"public/images/convidados/Roberto Amaral.png\")",
+      "Bash(cp /tmp/roberto_tmp.png \"public/images/convidados/Roberto Amaral.png\")",
+      "Bash(mv:*)",
+      "Bash(sed:*)"
     ]
   }
 }
