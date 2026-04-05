@@ -72,7 +72,8 @@ const GUESTS = [
     name: 'Paula Febee', cargo: 'Autora · Psicanalista · Roteirista', color: 'gold',
     photo: '/images/convidados/Paula Febee.png',
     bio: 'Escritora com oito livros publicados pela DarkSide Books, psicanalista e roteirista com passagem pelo Goldcrest Production Theater em Nova York.',
-    tema: null, date: '16 ABR',
+    // tema: '',  // ← inserir quando definido
+    date: '16 ABR',
   },
   {
     name: 'Maysa Balduino', cargo: 'Psicanalista', color: 'cream',
@@ -114,13 +115,15 @@ const GUESTS = [
     name: 'Jeferson Tenório', cargo: 'Escritor · Professor', color: 'cream',
     photo: '/images/convidados/Jeferson tenório.png',
     bio: 'Vencedor do Prêmio Jabuti com "O Avesso da Pele", doutor em Teoria Literária pela PUC-RS. Uma das vozes mais importantes da literatura afro-brasileira contemporânea.',
-    tema: null, date: '19 ABR',
+    // tema: '',  // ← inserir quando definido
+    date: '19 ABR',
   },
   {
     name: 'Paula Jacob', cargo: 'Jornalista · Professora · Pesquisadora', color: 'accent',
     photo: '/images/convidados/Paula Jacob.png',
     bio: 'Jornalista, professora e pesquisadora com foco em cinema e literatura, analisando essas obras sob as lentes da psicanálise e da semiótica.',
-    tema: null, date: '19 ABR',
+    // tema: '',  // ← inserir quando definido
+    date: '19 ABR',
   },
   {
     name: 'Ruy Castro', cargo: 'Jornalista · Escritor · ABL', color: 'gold',
@@ -135,7 +138,25 @@ const GUESTS = [
     tema: 'Ficção e não-ficção e Vice-Versa', date: '20 ABR',
   },
   {
-    name: 'Jussara Santos', cargo: null, color: 'cream',
+    name: 'Rai Alves', cargo: 'Cineasta · Diretor de Teatro · Ator', color: 'accent',
+    photo: '/images/convidados/Rai Alves.png',
+    bio: 'Cineasta, diretor de teatro e ator brasileiro com mais de 45 anos de carreira nas artes, conhecido por seu trabalho em produções inovadoras e atuação em diversos meios culturais.',
+    tema: 'Debate pós-filme — O Peso do Silêncio: Tarzan e a Ditadura', date: '20 ABR',
+  },
+  {
+    name: 'Karla Rady', cargo: 'Jornalista · Empresária', color: 'gold',
+    photo: '/images/convidados/Karla Rady.png',
+    bio: 'Jornalista e empresária brasileira com passagem pela Goiás Turismo (Agência Estadual de Turismo), onde contribuiu para a comunicação governamental do estado.',
+    tema: 'Debate pós-filme — O Peso do Silêncio: Tarzan e a Ditadura', date: '20 ABR',
+  },
+  {
+    name: 'Fabiana Pulcineli', cargo: 'Jornalista · Analista Política', color: 'cream',
+    photo: '/images/convidados/Fabiana Pulcineli.png',
+    bio: 'Influente jornalista brasileira especializada na cobertura de política em Goiás, reconhecida por analisar os bastidores do poder e as movimentações de governantes e parlamentares.',
+    tema: 'Debate pós-filme — O Peso do Silêncio: Tarzan e a Ditadura', date: '20 ABR',
+  },
+  {
+    name: 'Jussara Santos', cargo: null, color: 'accent',
     photo: '/images/convidados/Jussara Santos.png',
     bio: 'Convidada especial da 17ª Mostra, com apresentação sobre afeto e política do cuidado no cinema e na psicanálise.',
     tema: 'Democratização do colo', date: '21 ABR',
@@ -143,27 +164,35 @@ const GUESTS = [
   {
     name: 'Pedro Pacífico', cargo: null, color: 'gold', photo: 'https://images.metroimg.com/2023/08/25181234/Pedro-Pacifico.jpg',
     bio: 'Convidado de encerramento da 17ª Mostra de Cinema, com participação especial na noite de fechamento do festival.',
-    tema: null, date: '22 ABR',
+    // tema: '',  // ← inserir quando definido
+    date: '22 ABR',
   },
 ]
 
 const PALESTRAS = [
   { id:1,  date:'08', month:'ABR', weekday:'Quarta-Feira',   time:'19:30h', local:'Coquetel de Abertura', convidados:['Elenco do Filme — Ruan Aguiar, Gero Camilo e Diretor Douglas Soares'], tema:null, atracao:'Atração Musical — A Definir', tipo:'abertura' },
   { id:2,  date:'09', month:'ABR', weekday:'Quinta-Feira',   time:'18:30h', local:'Livraria',             convidados:['Celso Camilo'], tema:'Tudo o que você precisa saber sobre inteligência artificial' },
-  { id:3,  date:'10', month:'ABR', weekday:'Sexta-Feira',    time:'19:00h', local:'Livraria',             convidados:['Rafael Fleury','Solemar Oliveira','Rodriana Costa','Chris Resplande','Hélverton Baiano'], cargo:'UBER — União Brasileira de Escritores Goiás', tema:'Cinco autores goianos lançam seus livros', atracao:'Atração Musical MPB 4 · 20:30h' },
+  { id:3,  date:'10', month:'ABR', weekday:'Sexta-Feira',    time:'19:00h', local:'Livraria',             convidados:['Rafael Fleury','Solemar Oliveira','Rodriana Costa','Chris Resplande','Hélverton Baiano'], cargo:'UBER — União Brasileira de Escritores Goiás', tema:'Cinco autores goianos lançam seus livros' },
+  { id:3.5, date:'10', month:'ABR', weekday:'Sexta-Feira',  time:'20:30h', local:'Livraria',             convidados:['MPB4'], cargo:'Atração Musical', tema:null, tipo:'musical', photo:'/images/convidados/MPB4.jpg' },
   { id:4,  date:'11', month:'ABR', weekday:'Sábado',         time:'19:30h', local:'Palco Central',        convidados:['Luiz Pondé'], cargo:'Filósofo · Escritor · Professor Universitário', tema:'Valor sentimental: angústia e reparação' },
   { id:5,  date:'12', month:'ABR', weekday:'Domingo',        time:'16:30h', local:'Livraria',             convidados:['Josanne Gonzaga'], cargo:'Psicanalista', tema:'Autismo e altas habilidades sob a lente do diagnóstico tardio' },
   { id:6,  date:'13', month:'ABR', weekday:'Segunda-Feira',  time:'19:30h', local:'Palco Central',        convidados:['Jesse de Souza'], tema:'Por que a esquerda morreu' },
   { id:7,  date:'14', month:'ABR', weekday:'Terça-Feira',    time:'19:30h', local:'Livraria',             convidados:['Marina Cançado','Roberto Amaral'], cargo:'Psicanalistas', tema:'Guimarães Rosa e Jacques Lacan' },
   { id:8,  date:'15', month:'ABR', weekday:'Quarta-Feira',   time:'19:30h', local:'Livraria',             convidados:['Rubens Machado Jr','Alberto Silva'], cargo:'Prof. USP · Prof. de Cinema Sorbonne 3', tema:'Debate pós-filme — O Agente Secreto' },
-  { id:9,  date:'16', month:'ABR', weekday:'Quinta-Feira',   time:'19:30h', local:'Palco Central',        convidados:['Paula Febee'], cargo:'Autora · Psicanalista · Roteirista', tema:null },
+  { id:9,  date:'16', month:'ABR', weekday:'Quinta-Feira',   time:'19:30h', local:'Palco Central',        convidados:['Paula Febee'], cargo:'Autora · Psicanalista · Roteirista',
+    // tema: '',  // ← inserir quando definido
+  },
   { id:10, date:'16', month:'ABR', weekday:'Quinta-Feira',   time:'21:30h', local:'Palco Central',        convidados:['Maysa Balduino','Wolney Fernandes'], cargo:'Psicanalista · Prof. de Cinema UFG', tema:'Debate pós-filme — Valor Sentimental' },
   { id:11, date:'17', month:'ABR', weekday:'Sexta-Feira',    time:'20:30h', local:'Livraria',             convidados:['João Pedro','Pedro Andrade'], cargo:'Críticos de Cinema', tema:'Debate pós-filme — A Vida de Chuck' },
   { id:12, date:'18', month:'ABR', weekday:'Sábado',         time:'16:00h', local:'Palco Central',        convidados:['Christian Dunker','Vladimir Safatle'], tema:'Transformar Mundos e Pessoas' },
-  { id:13, date:'19', month:'ABR', weekday:'Domingo',        time:'18:00h', local:'Livraria',             convidados:['Jeferson Tenório'], tema:null },
-  { id:14, date:'19', month:'ABR', weekday:'Domingo',        time:'19:30h', local:'Palco Central',        convidados:['Paula Jacob'], cargo:'Jornalista · Professora · Pesquisadora', tema:null },
+  { id:13, date:'19', month:'ABR', weekday:'Domingo',        time:'18:00h', local:'Livraria',             convidados:['Jeferson Tenório'],
+    // tema: '',  // ← inserir quando definido
+  },
+  { id:14, date:'19', month:'ABR', weekday:'Domingo',        time:'19:30h', local:'Palco Central',        convidados:['Paula Jacob'], cargo:'Jornalista · Professora · Pesquisadora',
+    // tema: '',  // ← inserir quando definido
+  },
   { id:15, date:'20', month:'ABR', weekday:'Segunda-Feira',  time:'19:30h', local:'Palco Central',        convidados:['Ruy Castro','Heloisa Seixas'], tema:'Ficção e não-ficção e Vice-Versa' },
-  { id:16, date:'20', month:'ABR', weekday:'Segunda-Feira',  time:'21:00h', local:'Livraria',             convidados:['Raimundo Alves','Karla Rady','Fabiana Pulcinelli'], tema:'Debate pós-filme — O Peso do Silêncio: Tarzan e a Ditadura' },
+  { id:16, date:'20', month:'ABR', weekday:'Segunda-Feira',  time:'21:00h', local:'Livraria',             convidados:['Rai Alves','Karla Rady','Fabiana Pulcineli'], tema:'Debate pós-filme — O Peso do Silêncio: Tarzan e a Ditadura' },
   { id:17, date:'21', month:'ABR', weekday:'Terça-Feira',    time:'18:30h', local:'Livraria',             convidados:['Jussara Santos'], tema:'Democratização do colo' },
   { id:18, date:'22', month:'ABR', weekday:'Sexta-Feira',    time:'19:00h', local:'Palco Central',        convidados:['Pedro Pacífico'], tema:null, tipo:'encerramento' },
 ]
@@ -497,9 +526,10 @@ function PalCard({ palestra, side = 'left' }) {
 
   const isAbertura     = palestra.tipo === 'abertura'
   const isEncerramento = palestra.tipo === 'encerramento'
+  const isMusical      = palestra.tipo === 'musical'
   const isSpecial      = isAbertura || isEncerramento
 
-  const typeLabel = isAbertura ? 'Abertura' : isEncerramento ? 'Encerramento' : null
+  const typeLabel = isAbertura ? 'Abertura' : isEncerramento ? 'Encerramento' : isMusical ? 'Atração Musical' : null
 
   return (
     <div className={`pal-item pal-item--${side}`} data-id={palestra.id}>
@@ -549,6 +579,13 @@ function PalCard({ palestra, side = 'left' }) {
           {/* divider */}
           <div className="pal-card-divider" aria-hidden="true" />
 
+          {/* foto — só para atrações musicais */}
+          {isMusical && palestra.photo && (
+            <div className="pal-card-photo-wrap">
+              <img src={palestra.photo} alt={palestra.convidados[0]} className="pal-card-photo" />
+            </div>
+          )}
+
           {/* convidados */}
           <div className="pal-card-guests">
             {palestra.convidados.map((name, i) => (
@@ -561,10 +598,9 @@ function PalCard({ palestra, side = 'left' }) {
           )}
 
           {/* tema */}
-          {palestra.tema
-            ? <p className="pal-card-tema">"{palestra.tema}"</p>
-            : <p className="pal-card-tema pal-card-tema--tbd">Tema a definir</p>
-          }
+          {palestra.tema && (
+            <p className="pal-card-tema">"{palestra.tema}"</p>
+          )}
 
           {/* atração */}
           {palestra.atracao && (

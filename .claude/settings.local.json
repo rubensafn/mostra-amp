@@ -67,7 +67,13 @@
       "Bash(cp \"C:/Users/ruben/Downloads/pacote_marca_sesc \\(1\\)/pacote_marca_sesc/RGB/PNG/Nova_marca_Sesc_vertical_RGB_negativa.png\" \"C:/Users/ruben/mostra-amp/public/images/sesc-vertical-negativa.png\")",
       "Bash(ls:*)",
       "Bash(python:*)",
-      "Bash(npm list:*)"
+      "Bash(npm list:*)",
+      "Bash(cp C:/Users/ruben/.claude/commands/subir.md C:/Users/ruben/mostra-amp/.claude/commands/)",
+      "Bash(cp C:/Users/ruben/.claude/commands/subir-dev.md C:/Users/ruben/mostra-amp/.claude/commands/)",
+      "Bash(cp C:/Users/ruben/.claude/commands/subir-main.md C:/Users/ruben/mostra-amp/.claude/commands/)",
+      "Bash(cp C:/Users/ruben/.claude/commands/pull-dev.md C:/Users/ruben/mostra-amp/.claude/commands/)",
+      "Bash(cp C:/Users/ruben/.claude/commands/pull-main.md C:/Users/ruben/mostra-amp/.claude/commands/)",
+      "Bash(git pull:*)"
     ]
   }
 }
