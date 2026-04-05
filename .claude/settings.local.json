@@ -81,7 +81,8 @@
       "Bash(sed:*)",
       "Bash(magick --version)",
       "Bash(convert --version)",
-      "Bash(rm:*)"
+      "Bash(rm:*)",
+      "Bash(rm -f logo-lenco.png sesc-branca.png sesc-horizontal-negativa.png sesc-vertical-negativa.png)"
     ]
   }
 }

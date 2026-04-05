@@ -302,7 +302,7 @@ function PalNav({ setActiveTab }) {
         </Link>
 
         <Link to="/" className="pal-nav-brand">
-          <img src="/images/logo-lenco.png" alt="17ª Mostra de Cinema" className="pal-nav-logo" />
+          <img src="/images/logo-lenco.webp" alt="17ª Mostra de Cinema" className="pal-nav-logo" />
           <span className="pal-nav-title">17ª MOSTRA</span>
         </Link>
 
@@ -727,7 +727,7 @@ function PalFooter() {
     <footer className="pal-footer" id="pal-footer">
       <div className="pal-footer-inner">
         <Link to="/" className="pal-footer-brand">
-          <img src="/images/logo-lenco.png" alt="17ª Mostra de Cinema" className="pal-footer-logo" />
+          <img src="/images/logo-lenco.webp" alt="17ª Mostra de Cinema" className="pal-footer-logo" />
           <div className="pal-footer-brand-text">
             <span className="pal-footer-brand-title">17ª Mostra de Cinema</span>
             <span className="pal-footer-brand-sub">O Amor · A Morte · As Paixões</span>
