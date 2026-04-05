@@ -52,7 +52,7 @@ const GUESTS = [
   },
   {
     name: 'Roberto Amaral', cargo: 'Psicanalista', color: 'gold',
-    photo: '/images/convidados/Roberto Amaral.png',
+    photo: '/images/convidados/Roberto_Amaral.png',
     bio: 'Psicanalista com formação lacaniana e atuação clínica. Em diálogo com Marina Cançado, explora as conexões entre a literatura de Guimarães Rosa e a psicanálise.',
     tema: 'Guimarães Rosa e Jacques Lacan', date: '14 ABR',
   },
