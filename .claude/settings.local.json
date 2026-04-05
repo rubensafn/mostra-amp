@@ -78,7 +78,10 @@
       "Bash(rm \"public/images/convidados/Roberto Amaral.png\")",
       "Bash(cp /tmp/roberto_tmp.png \"public/images/convidados/Roberto Amaral.png\")",
       "Bash(mv:*)",
-      "Bash(sed:*)"
+      "Bash(sed:*)",
+      "Bash(magick --version)",
+      "Bash(convert --version)",
+      "Bash(rm:*)"
     ]
   }
 }
