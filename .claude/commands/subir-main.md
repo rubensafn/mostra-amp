@@ -1,11 +1,12 @@
-Faz o merge de dev para main e sobe para produção (Vercel). Não faz commit — assume que dev já está atualizada.
+Faz o merge de dev para main e sobe para produção (Vercel).
 
 Execute em ordem:
 
-1. `git checkout main`
-2. `git merge dev --no-edit`
-3. `git push origin main`
-4. `git checkout dev`
-5. Informe que o deploy para produção foi concluído
+1. Verifique o último commit da branch dev com `git log dev -1 --pretty=format:"%s"` e pergunte ao usuário: "Posso usar a mensagem do último commit no dev ("<mensagem>")? Ou prefere uma nova mensagem?"
+2. `git checkout main`
+3. `git merge dev -m "<mensagem informada pelo usuário>"`
+4. `git push origin main`
+5. `git checkout dev`
+6. Informe que o deploy para produção foi concluído
 
-Nunca use --force. Nunca crie branch extra.
+Nunca use --force. Nunca use --no-edit. Nunca crie branch extra.

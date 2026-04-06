@@ -376,10 +376,10 @@ export const ALL_TITLES = [
 
 /* ── Parceiros ──────────────────────────────────── */
 export const PARTNERS = [
-  { name: 'CCCON / Oscar Niemeyer', logo: '/images/parcerias/cccon.jpeg' },
+  { name: 'CCCON / Oscar Niemeyer', logo: null },
   { name: 'ADUFG',          logo: null },
   { name: 'Coletivo Mais',  logo: null },
-  { name: 'Flamboyant Inn', logo: null },
+  { name: 'Hotel Black Inn Flamboyant Inn', logo: null },
   { name: 'Glória Bar',     logo: null },
   { name: 'Grupo Jaime Câmara', logo: null },
   { name: 'Instituto Serotonina', logo: null },

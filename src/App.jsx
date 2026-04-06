@@ -256,11 +256,11 @@ function Hero() {
 
       {/* background */}
       <div className="hero-bg">
-        <video
+        {/* <video
           src="/video/hero.mp4"
           autoPlay muted loop playsInline
           className="hero-video"
-        />
+        /> */}
         <img
           src="/images/cena.webp"
           alt=""
