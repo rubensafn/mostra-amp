@@ -69,6 +69,12 @@ const GUESTS = [
     tema: 'Debate pós-filme — O Agente Secreto', date: '15 ABR',
   },
   {
+    name: 'Daniel Christino', cargo: 'Prof. de Cinema · Sorbonne 3', color: 'accent',
+    photo: '/images/convidados/Alberto Silva.webp',
+    bio: 'Maître de conférences HDR em Civilização Brasileira e Cinema na Sorbonne Université, especialista em cinema brasileiro, gênero e ditadura.',
+    tema: 'Debate pós-filme — O Agente Secreto', date: '15 ABR',
+  },
+  {
     name: 'Paula Febee', cargo: 'Autora · Psicanalista · Roteirista', color: 'gold',
     photo: '/images/convidados/Paula Febee.webp',
     bio: 'Escritora com oito livros publicados pela DarkSide Books, psicanalista e roteirista com passagem pelo Goldcrest Production Theater em Nova York.',
@@ -178,12 +184,12 @@ const PALESTRAS = [
   { id:5,  date:'12', month:'ABR', weekday:'Domingo',        time:'16:30h', local:'Livraria',             convidados:['Josanne Gonzaga'], cargo:'Psicanalista', tema:'Autismo e altas habilidades sob a lente do diagnóstico tardio' },
   { id:6,  date:'13', month:'ABR', weekday:'Segunda-Feira',  time:'19:30h', local:'Palco Central',        convidados:['Jesse de Souza'], tema:'Por que a esquerda morreu' },
   { id:7,  date:'14', month:'ABR', weekday:'Terça-Feira',    time:'19:30h', local:'Livraria',             convidados:['Marina Cançado','Roberto Amaral'], cargo:'Psicanalistas', tema:'Guimarães Rosa e Jacques Lacan' },
-  { id:8,  date:'15', month:'ABR', weekday:'Quarta-Feira',   time:'19:30h', local:'Livraria',             convidados:['Rubens Machado Jr','Alberto Silva'], cargo:'Prof. USP · Prof. de Cinema Sorbonne 3', tema:'Debate pós-filme — O Agente Secreto' },
+  { id:8,  date:'15', month:'ABR', weekday:'Quarta-Feira',   time:'19:30h', local:'Livraria',             convidados:['Rubens Machado Jr','Alberto Silva','Daniel Christino'], cargo:'Prof. USP · Prof. de Cinema Sorbonne 3 · Mediação', tema:'Debate pós-filme — O Agente Secreto' },
   { id:9,  date:'16', month:'ABR', weekday:'Quinta-Feira',   time:'19:30h', local:'Palco Central',        convidados:['Paula Febee'], cargo:'Autora · Psicanalista · Roteirista',
     // tema: '',  // ← inserir quando definido
   },
   { id:10, date:'16', month:'ABR', weekday:'Quinta-Feira',   time:'21:30h', local:'Palco Central',        convidados:['Maysa Balduino','Wolney Fernandes'], cargo:'Psicanalista · Prof. de Cinema UFG', tema:'Debate pós-filme — Valor Sentimental' },
-  { id:11, date:'17', month:'ABR', weekday:'Sexta-Feira',    time:'20:30h', local:'Livraria',             convidados:['João Pedro','Pedro Andrade'], cargo:'Críticos de Cinema', tema:'Debate pós-filme — A Vida de Chuck' },
+  { id:11, date:'17', month:'ABR', weekday:'Sexta-Feira',    time:'20:30h', local:'Livraria',             convidados:['João Pedro','Pedro Andrade','Wewdell Sulyvan'], cargo:'Críticos de Cinema · Mediação', tema:'Debate pós-filme — A Vida de Chuck' },
   { id:12, date:'18', month:'ABR', weekday:'Sábado',         time:'16:00h', local:'Palco Central',        convidados:['Christian Dunker','Vladimir Safatle'], tema:'Transformar Mundos e Pessoas' },
   { id:13, date:'19', month:'ABR', weekday:'Domingo',        time:'18:00h', local:'Livraria',             convidados:['Jeferson Tenório'],
     // tema: '',  // ← inserir quando definido
