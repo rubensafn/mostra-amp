@@ -379,7 +379,7 @@ export const PARTNERS = [
   { name: 'CCCON / Oscar Niemeyer', logo: null },
   { name: 'ADUFG',          logo: null },
   { name: 'Coletivo Mais',  logo: null },
-  { name: 'Hotel Black Inn Flamboyant Inn', logo: null },
+  { name: 'Hotel Black Inn Flamboyant', logo: null },
   { name: 'Glória Bar',     logo: null },
   { name: 'Grupo Jaime Câmara', logo: null },
   { name: 'Instituto Serotonina', logo: null },
