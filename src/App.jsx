@@ -94,7 +94,7 @@ function IntroOverlay() {
     <div ref={overlayRef} id="intro-overlay">
       <div id="intro-logo-glow" />
       <div id="intro-line" />
-      <img src="/images/logo-completa.png" alt="" id="intro-logo" />
+      <img src="/images/logo-completa.webp" alt="" id="intro-logo" />
       <p id="intro-sub">08 · 22 Abril · Goiânia · 2026</p>
     </div>
   )
@@ -190,7 +190,7 @@ function Nav() {
     <>
       <nav ref={navRef} id="nav">
         <a href="#" onClick={(e) => goTo('hero', e)} className="nav-brand">
-          <img src="/images/logo-lenco.png" alt="Mostra" className="nav-brand-icon" />
+          <img src="/images/logo-lenco.webp" alt="Mostra" className="nav-brand-icon" />
           <div className="nav-brand-text">
             <span className="nav-brand-title">17ª Mostra</span>
             <span className="nav-brand-sub">O Amor · A Morte · As Paixões</span>
@@ -262,7 +262,7 @@ function Hero() {
           className="hero-video"
         />
         <img
-          src="/images/cena.png"
+          src="/images/cena.webp"
           alt=""
           className="hero-img-fallback"
           aria-hidden="true"
@@ -275,7 +275,7 @@ function Hero() {
       {/* content */}
       <div className="hero-content">
         <div className="hero-apresenta">
-          <img src="/images/sesc-branca.png" alt="Sesc" className="hero-sesc-logo" />
+          <img src="/images/sesc-branca.webp" alt="Sesc" className="hero-sesc-logo" />
           <span className="hero-apresenta-label">apresenta</span>
         </div>
 
@@ -285,7 +285,7 @@ function Hero() {
         <div className="hero-logo-outer">
           <div className="hero-logo-wrap">
             <img
-              src="/images/logo-completa.png"
+              src="/images/logo-completa.webp"
               alt="17ª Mostra — O Amor, a Morte e as Paixões"
               className="hero-logo"
             />
@@ -369,7 +369,7 @@ function Marquee({ items, reversed = false, className = '' }) {
 function Sobre() {
   return (
     <section id="sobre" style={{ position: 'relative' }}>
-      <img src="/images/logo-lenco.png" alt="" aria-hidden="true" className="sobre-lenco-deco" />
+      <img src="/images/logo-lenco.webp" alt="" aria-hidden="true" className="sobre-lenco-deco" />
       <div className="sobre-grid">
         {/* text */}
         <div className="sobre-text">
@@ -418,12 +418,12 @@ function Sobre() {
         {/* visual */}
         <div className="sobre-visual" data-reveal>
           <img
-            src="/images/cena-v.png"
+            src="/images/cena-v.webp"
             alt="Mostra de Cinema"
             className="sobre-img-main"
           />
           <img
-            src="/images/bonde.jpg"
+            src="/images/bonde.webp"
             alt=""
             className="sobre-img-accent"
             aria-hidden="true"
@@ -733,7 +733,7 @@ function Destaque() {
 function Curadoria() {
   return (
     <section id="curadoria">
-      <img src="/images/logo-lenco.png" alt="" aria-hidden="true" className="curadoria-lenco-deco" />
+      <img src="/images/logo-lenco.webp" alt="" aria-hidden="true" className="curadoria-lenco-deco" />
       <div className="curadoria-inner">
         <div className="curadoria-quote" data-reveal>
           <span className="label" style={{ justifyContent: 'center', display: 'flex' }}>Nota de Curadoria</span>
@@ -797,10 +797,10 @@ function Espaco() {
 
       <div className="espaco-grid">
         <div className="espaco-img-wrap">
-          <img src="/images/espaco-1.png" alt="Espaço da Mostra" className="espaco-img" />
+          <img src="/images/espaco-1.webp" alt="Espaço da Mostra" className="espaco-img" />
         </div>
         <div className="espaco-img-wrap">
-          <img src="/images/espaco-2.png" alt="Espaço da Mostra detalhe" className="espaco-img" />
+          <img src="/images/espaco-2.webp" alt="Espaço da Mostra detalhe" className="espaco-img" />
         </div>
       </div>
 
@@ -835,7 +835,7 @@ function EdicoesAnteriores() {
       <div className="anteriores-inner">
         <div className="anteriores-visual" data-reveal>
           <img
-            src="/images/bonde.jpg"
+            src="/images/bonde.webp"
             alt="Edição anterior da Mostra"
             className="anteriores-img"
           />
@@ -892,13 +892,13 @@ function Footer() {
       <div className="footer-inner">
         <div className="footer-top">
           <div className="footer-brand-col">
-            <img src="/images/logo-completa.png" alt="17ª Mostra" className="footer-logo" />
+            <img src="/images/logo-completa.webp" alt="17ª Mostra" className="footer-logo" />
             <p className="footer-tagline">
               O amor que move, a morte que limita e as paixões que definem.
             </p>
             <div className="footer-sesc-apresenta">
               <span className="footer-sesc-label">Apresentação</span>
-              <img src="/images/sesc-branca.png" alt="Sesc" className="footer-sesc-logo" />
+              <img src="/images/sesc-branca.webp" alt="Sesc" className="footer-sesc-logo" />
             </div>
           </div>
 
