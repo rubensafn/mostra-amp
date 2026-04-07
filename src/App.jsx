@@ -33,7 +33,7 @@ const MARQUEE_2 = [
 ]
 
 /* ─── programação de filmes: ocultar até liberação oficial ─── */
-const SHOW_FILMS = false
+const SHOW_FILMS = true
 
 /* ─── PALESTRAS (dados 01.04) ─── */
 /* Mantido aqui para referência — timeline completa em /palestras */
@@ -208,7 +208,7 @@ function Nav() {
             <li><span className="btn-nav btn-nav--soon">Programação de Filmes · Em Breve</span></li>
           )}
           {SHOW_FILMS && (
-            <li><a href="#" onClick={(e) => goTo('programacao', e)} className="btn-nav">Ver Programação</a></li>
+            <li><a href="#" onClick={(e) => goTo('programacao', e)} className="btn-nav">Programação de Filmes</a></li>
           )}
         </ul>
 
@@ -302,7 +302,7 @@ function Hero() {
 
         <div className="hero-ctas">
           <Link to="/palestras" className="btn-primary">Convidados &amp; Palestras</Link>
-          <a href="#" onClick={(e) => goTo('sobre', e)} className="btn-outline">Sobre a Mostra</a>
+          <a href="#" onClick={(e) => goTo('programacao', e)} className="btn-outline">Programação de Filmes</a>
         </div>
 
         {!SHOW_FILMS && (
