@@ -4,7 +4,8 @@ import { HashRouter, Routes, Route } from 'react-router-dom'
 import './index.css'
 import App from './App.jsx'
 
-const PalestrasPage = lazy(() => import('./pages/PalestrasPage.jsx'))
+const PalestrasPage    = lazy(() => import('./pages/PalestrasPage.jsx'))
+const ProgramacaoPage  = lazy(() => import('./pages/ProgramacaoPage.jsx'))
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -16,6 +17,14 @@ createRoot(document.getElementById('root')).render(
           element={
             <Suspense fallback={null}>
               <PalestrasPage />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/programacao"
+          element={
+            <Suspense fallback={null}>
+              <ProgramacaoPage />
             </Suspense>
           }
         />

@@ -32,8 +32,6 @@ const MARQUEE_2 = [
   'Produtora Gabriela Cardoso', '·',
 ]
 
-/* ─── programação de filmes: ocultar até liberação oficial ─── */
-const SHOW_FILMS = true
 
 /* ─── PALESTRAS (dados 01.04) ─── */
 /* Mantido aqui para referência — timeline completa em /palestras */
@@ -201,15 +199,9 @@ function Nav() {
           <li><a href="#" className="btn-nav-home" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }) }}>Início</a></li>
           <li><a href="#" onClick={(e) => goTo('sobre', e)}>Sobre</a></li>
           <li><Link to="/palestras">Convidados &amp; Palestras</Link></li>
-          {SHOW_FILMS && <li><a href="#" onClick={(e) => goTo('programacao', e)}>Programação</a></li>}
           <li><a href="#" onClick={(e) => goTo('curadoria', e)}>Curadoria</a></li>
           <li><a href="#" onClick={(e) => goTo('espaco', e)}>Espaço</a></li>
-          {!SHOW_FILMS && (
-            <li><span className="btn-nav btn-nav--soon">Programação de Filmes · Em Breve</span></li>
-          )}
-          {SHOW_FILMS && (
-            <li><a href="#" onClick={(e) => goTo('programacao', e)} className="btn-nav">Programação de Filmes</a></li>
-          )}
+          <li><Link to="/programacao" className="btn-nav">Programação de Filmes</Link></li>
         </ul>
 
         <button className="nav-hamburger" aria-label="Menu" onClick={toggle}>
@@ -222,7 +214,7 @@ function Nav() {
           <li><a href="#" className="btn-nav-home" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); close() }}>Início</a></li>
           <li><a href="#" onClick={(e) => { goTo('sobre', e); close() }}>Sobre</a></li>
           <li><Link to="/palestras" onClick={close}>Convidados &amp; Palestras</Link></li>
-          {SHOW_FILMS && <li><a href="#" onClick={(e) => { goTo('programacao', e); close() }}>Programação</a></li>}
+          <li><Link to="/programacao" onClick={close}>Programação de Filmes</Link></li>
           <li><a href="#" onClick={(e) => { goTo('curadoria', e); close() }}>Curadoria</a></li>
           <li><a href="#" onClick={(e) => { goTo('espaco', e); close() }}>Espaço</a></li>
         </ul>
@@ -302,15 +294,8 @@ function Hero() {
 
         <div className="hero-ctas">
           <Link to="/palestras" className="btn-primary">Convidados &amp; Palestras</Link>
-          <a href="#" onClick={(e) => goTo('programacao', e)} className="btn-outline">Programação de Filmes</a>
+          <Link to="/programacao" className="btn-primary-gold">Programação de Filmes</Link>
         </div>
-
-        {!SHOW_FILMS && (
-          <div className="hero-prog-breve">
-            <span className="hero-prog-breve-dot" />
-            Programação de Filmes · Em Breve
-          </div>
-        )}
 
         <div className="hero-countdown">
 
@@ -410,9 +395,9 @@ function Sobre() {
             </div>
           </div>
 
-          <span className="btn-outline btn-disabled" data-reveal style={{opacity:0.4, pointerEvents:'none', cursor:'default'}}>
-            Programação de Filmes · Em Breve
-          </span>
+          <Link to="/programacao" className="btn-outline" data-reveal>
+            Programação de Filmes
+          </Link>
         </div>
 
         {/* visual */}
@@ -906,9 +891,7 @@ function Footer() {
             <span className="footer-col-title">Programação</span>
             <ul>
               <li><Link to="/palestras">Convidados &amp; Palestras</Link></li>
-              {SHOW_FILMS && <li><a href="#programacao">Longas-Metragens</a></li>}
-              {SHOW_FILMS && <li><a href="#programacao">Curtas-Metragens</a></li>}
-              {!SHOW_FILMS && <li><a href="#" style={{opacity:0.4,pointerEvents:'none'}}>Filmes · Em Breve</a></li>}
+              <li><Link to="/programacao">Programação de Filmes</Link></li>
             </ul>
           </div>
 
@@ -1252,11 +1235,7 @@ export default function App() {
       <Hero />
       <Marquee items={MARQUEE_1} />
       <Sobre />
-      {SHOW_FILMS && <FilmesStrip />}
-      {SHOW_FILMS && <Programacao />}
-      {SHOW_FILMS && <Destaque />}
       <PalestrasCTA />
-      {!SHOW_FILMS && <ProgramacaoEmBreve />}
       <Marquee items={MARQUEE_2} reversed />
       <Curadoria />
       <Espaco />

@@ -314,6 +314,7 @@ function PalNav({ setActiveTab }) {
 
         <ul className="pal-nav-links">
           <li><Link to="/" className="pal-nav-link--home">Início</Link></li>
+          <li><Link to="/programacao">Programação de Filmes</Link></li>
         </ul>
       </nav>
 
