@@ -1,8 +1,9 @@
-import { useEffect, useRef, useCallback, useState } from 'react'
+import { useEffect, useRef, useCallback, useState, useMemo } from 'react'
+import { createPortal } from 'react-dom'
 import { Link } from 'react-router-dom'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { SCHEDULE, ANCHOR_FILMS } from '../data/films'
+import { SCHEDULE, ANCHOR_FILMS, FILMS_DATA } from '../data/films'
 import '../App.css'
 import './PalestrasPage.css'
 
@@ -353,12 +354,12 @@ function FilmesStrip() {
         </div>
         <h2 data-reveal>Destaques<br /><em>da Mostra</em></h2>
         <p className="filmes-hint" data-reveal>
-          Passe o cursor · Clique para ver sessões
+          Passe o cursor · Clique para ver sinopse &amp; horários
         </p>
       </div>
 
       <div className="filmes-strip" ref={stripRef}>
-        {ANCHOR_FILMS.map((film, idx) => {
+        {ANCHOR_FILMS.slice(0, 2).map((film, idx) => {
           const isSelected = selected?.id === film.id
           const sessions   = isSelected ? getFilmSessions(film.title) : []
 
@@ -399,6 +400,15 @@ function FilmesStrip() {
                       ✕
                     </button>
                   </div>
+
+                  {film.sinopse && (
+                    <p className="poster-panel-sinopse">{film.sinopse}</p>
+                  )}
+
+                  <div className="poster-panel-sessions-label">
+                    <span>Sessões</span>
+                    <span className="pps-count">{sessions.length}×</span>
+                  </div>
                   <div className="poster-panel-sessions">
                     {sessions.map((s, i) => (
                       <div key={i} className="pps-row">
@@ -419,9 +429,141 @@ function FilmesStrip() {
 }
 
 /* ════════════════════════════════════════
+   FILMES — lista completa clicável
+════════════════════════════════════════ */
+function getPoster(title) {
+  const anchor = ANCHOR_FILMS.find(f => f.title === title)
+  if (anchor) return anchor.poster
+  const seed = title.toLowerCase().replace(/[^a-z0-9]/g, '').slice(0, 14) + '26'
+  return `https://picsum.photos/seed/${seed}/200/300`
+}
+
+/* ── Modal compartilhado (renderizado via portal) ── */
+function FilmModal({ title, onClose }) {
+  const data     = FILMS_DATA[title] || null
+  const sessions = getFilmSessions(title)
+
+  useEffect(() => {
+    const onKey = (e) => { if (e.key === 'Escape') onClose() }
+    document.addEventListener('keydown', onKey)
+    return () => document.removeEventListener('keydown', onKey)
+  }, [onClose])
+
+  return createPortal(
+    <div className="fl-overlay" onClick={onClose}>
+      <div className="fl-modal" onClick={e => e.stopPropagation()}>
+
+        <div className="fl-modal-hero">
+          <img src={getPoster(title)} alt={title} className="fl-modal-hero-img" />
+          <div className="fl-modal-hero-grad" />
+          <button className="fl-modal-close" onClick={onClose} data-hover aria-label="Fechar">✕</button>
+          <div className="fl-modal-hero-content">
+            {data && (
+              <div className="fl-modal-tags">
+                {data.pais     && <span className="fl-modal-tag">{data.pais}</span>}
+                {data.ano      && <span className="fl-modal-tag">{data.ano}</span>}
+                {data.duracao  && <span className="fl-modal-tag">{data.duracao}</span>}
+              </div>
+            )}
+            <h2 className="fl-modal-title">{title}</h2>
+            {data?.diretor && (
+              <p className="fl-modal-credits">Direção: <strong>{data.diretor}</strong></p>
+            )}
+          </div>
+        </div>
+
+        <div className="fl-modal-body">
+          {data?.sinopse && <p className="fl-modal-sinopse">{data.sinopse}</p>}
+
+          {data?.premios && (
+            <div className="fl-modal-premios">
+              <span className="fl-modal-premios-icon">✦</span>
+              <p>{data.premios}</p>
+            </div>
+          )}
+
+          {sessions.length > 0 && (
+            <div className="fl-modal-sessions">
+              <div className="fl-modal-sessions-header">
+                <span className="fl-modal-sessions-label">Sessões</span>
+                <span className="fl-modal-sessions-count">{sessions.length}×</span>
+              </div>
+              <div className="fl-modal-sessions-grid">
+                {sessions.map((s, i) => (
+                  <div key={i} className="fl-modal-session-row">
+                    <span className="fl-ms-date">{s.date}</span>
+                    <span className="fl-ms-wd">{s.weekday.slice(0, 3)}</span>
+                    <span className="fl-ms-time">{s.time}</span>
+                    <span className="fl-ms-sala">{s.sala.replace('Sala ', 'S')}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>,
+    document.body
+  )
+}
+
+function FilmesLista({ onSelect }) {
+  const allFilms = useMemo(() => {
+    const seen = {}
+    SCHEDULE.forEach(day => {
+      ;[...day.sala1, ...day.sala2].forEach(s => {
+        if (!s.fixo && !seen[s.title]) seen[s.title] = true
+      })
+    })
+    return Object.keys(seen).sort((a, b) => a.localeCompare(b, 'pt'))
+  }, [])
+
+  return (
+    <section id="filmes-lista">
+      <div className="fl-header">
+        <div className="section-line"><span className="label">Todos os Filmes</span></div>
+        <h2 data-reveal>Programação<br /><em>Completa</em></h2>
+        <p className="fl-hint" data-reveal>Clique num filme para ver sinopse e horários</p>
+      </div>
+
+      <div className="fl-grid">
+        {allFilms.map((title) => {
+          const d = FILMS_DATA[title]
+          return (
+            <button
+              key={title}
+              className="fl-item"
+              onClick={() => onSelect(title)}
+              data-hover
+            >
+              <div className="fl-item-poster-wrap">
+                <img
+                  src={getPoster(title)}
+                  alt={title}
+                  className="fl-item-poster"
+                  loading="lazy"
+                />
+                <div className="fl-item-poster-shine" />
+              </div>
+              <div className="fl-info">
+                <h3 className="fl-title">{title}</h3>
+                <span className="fl-meta">
+                  {d ? `${d.diretor}${d.duracao ? ' · ' + d.duracao : ''}` : 'Ver detalhes'}
+                </span>
+              </div>
+              <span className="fl-arrow" aria-hidden="true">→</span>
+            </button>
+          )
+        })}
+      </div>
+    </section>
+  )
+}
+
+/* ════════════════════════════════════════
    PROGRAMAÇÃO  (grade diária)
 ════════════════════════════════════════ */
-function Programacao() {
+function Programacao({ onSelect }) {
   const [activeDay, setActiveDay] = useState(0)
   const dayNavRef = useRef(null)
   const day = SCHEDULE[activeDay]
@@ -472,7 +614,15 @@ function Programacao() {
               <div className="sala-header">{label}</div>
               <div className="sala-sessions">
                 {sessions.map((s, i) => (
-                  <div key={i} className={`session-row${s.fixo ? ' fixo' : ''}`}>
+                  <div
+                    key={i}
+                    className={`session-row${s.fixo ? ' fixo' : ''} session-row--clickable`}
+                    onClick={() => onSelect(s.title)}
+                    data-hover
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={e => e.key === 'Enter' && onSelect(s.title)}
+                  >
                     <span className="session-time">{s.time}</span>
                     <span className="session-title">{s.title}</span>
                     {s.fixo && <span className="session-tag">Especial</span>}
@@ -634,6 +784,7 @@ function BackToTop() {
 ════════════════════════════════════════ */
 export default function ProgramacaoPage() {
   useGSAPReveal()
+  const [selectedFilm, setSelectedFilm] = useState(null)
 
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -647,11 +798,14 @@ export default function ProgramacaoPage() {
       <ScrollProgress />
       <ProgNav />
       <ProgHero />
-      <FilmesStrip />
-      <Programacao />
-      <Destaque />
+      <FilmesLista onSelect={setSelectedFilm} />
+      <Programacao onSelect={setSelectedFilm} />
+      {/* <Destaque /> */}
       <ProgFooter />
       <BackToTop />
+      {selectedFilm && (
+        <FilmModal title={selectedFilm} onClose={() => setSelectedFilm(null)} />
+      )}
     </>
   )
 }
