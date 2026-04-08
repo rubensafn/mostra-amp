@@ -30,6 +30,7 @@ createRoot(document.getElementById('root')).render(
           }
         />
       </Routes>
+      <SpeedInsights />
     </HashRouter>
     <SpeedInsights />
   </StrictMode>,
