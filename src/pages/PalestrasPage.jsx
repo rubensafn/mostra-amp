@@ -95,9 +95,9 @@ const GUESTS = [
     tema: 'Debate pós-filme — Rental Family', date: '16 ABR',
   },
   {
-    name: 'Jordana Pinheiro', cargo: 'Prof. de Cinema · UFG', color: 'accent',
-    // photo: '/images/convidados/Wolney Fernandes.webp',
-    bio: 'Professor doutor da Universidade Federal de Goiás, artista visual e pesquisador na interseção entre colagem, literatura e cinema.',
+    name: 'Jordana Pinheiro', cargo: 'Advogada', color: 'accent',
+    photo: '/images/convidados/Jordana Pinheiro.jpeg',
+    bio: 'Doutoranda e Mestra em Psicologia pela Pontifícia Universidade Católica de Goiás (2018), na linha de pesquisa dos processos psicossociais',
     tema: 'Debate pós-filme — Rental Family', date: '16 ABR',
   },
   {
@@ -110,6 +110,12 @@ const GUESTS = [
     name: 'Pedro Andrade', cargo: 'Crítico de Cinema', color: 'cream',
     photo: '/images/convidados/Pedro Andrade.webp',
     bio: 'Crítico de cinema brasileiro com atuação em análise e debate do audiovisual nacional e internacional.',
+    tema: 'Debate pós-filme — A Vida de Chuck', date: '17 ABR',
+  },
+  {
+    name: 'Wendel Sulyvan', cargo: 'Mediador', color: 'cream',
+    photo: '/images/convidados/Pedro Andrade.webp',
+    bio: 'Prof de literatura e diretor Colegio Arena, colsultor educacional e palestrante',
     tema: 'Debate pós-filme — A Vida de Chuck', date: '17 ABR',
   },
   {
@@ -196,8 +202,8 @@ const PALESTRAS = [
     // tema: '',  // ← inserir quando definido
   },
   { id:9.9,date:'16', month:'ABR', weekday:'Quinta-Feira',   time:'19:30h', local:'Sala 2',               convidados:['Glória Pires'], cargo:'Atriz · Diretora', tema:'Sessão especial com presença da diretora — Sexa', tipo:'presenca-especial', photo:'/images/convidados/Glória Pires.avif' },
-  { id:10, date:'16', month:'ABR', weekday:'Quinta-Feira',   time:'21:30h', local:'Palco Central',        convidados:['Maysa Balduino','Wolney Fernandes'], cargo:'Psicanalista · Prof. de Cinema UFG', tema:'Debate pós-filme — Valor Sentimental' },
-  { id:11, date:'17', month:'ABR', weekday:'Sexta-Feira',    time:'20:30h', local:'Livraria',             convidados:['João Pedro','Pedro Andrade','Wewdell Sulyvan'], cargo:'Críticos de Cinema · Mediação', tema:'Debate pós-filme — A Vida de Chuck' },
+  { id:10, date:'16', month:'ABR', weekday:'Quinta-Feira',   time:'21:30h', local:'Palco Central',        convidados:['Maysa Balduino','Jordana Pinheiro'], cargo:'Psicanalista · Advogada', tema:'Debate pós-filme — Rental Family' },
+  { id:11, date:'17', month:'ABR', weekday:'Sexta-Feira',    time:'20:30h', local:'Livraria',             convidados:['João Pedro','Pedro Andrade','Wendel Sulyvan'], cargo:'Críticos de Cinema · Mediação', tema:'Debate pós-filme — A Vida de Chuck' },
   { id:12, date:'18', month:'ABR', weekday:'Sábado',         time:'16:00h', local:'Palco Central',        convidados:['Christian Dunker','Vladimir Safatle'], tema:'Transformar Mundos e Pessoas' },
   { id:13, date:'19', month:'ABR', weekday:'Domingo',        time:'18:00h', local:'Livraria',             convidados:['Jeferson Tenório'],
     // tema: '',  // ← inserir quando definido
@@ -211,23 +217,20 @@ const PALESTRAS = [
   { id:18, date:'22', month:'ABR', weekday:'Sexta-Feira',    time:'19:00h', local:'Palco Central',        convidados:['Pedro Pacífico'], tema:null, tipo:'encerramento' },
 ]
 
-/* ── helpers cross-link ── */
+/* ── helpers cross-link (exact match only) ── */
 function getGuestPalestras(name) {
-  const first = name.split(' ')[0]
-  return PALESTRAS.filter(p =>
-    p.convidados.some(c => c === name || c.includes(first))
-  )
+  return PALESTRAS.filter(p => p.convidados.includes(name))
 }
 function getPalestraGuests(palestra) {
   return palestra.convidados
-    .map(c => GUESTS.find(g => g.name === c || c.includes(g.name.split(' ')[0]) || g.name.includes(c.split(' ')[0])))
+    .map(name => GUESTS.find(g => g.name === name))
     .filter(Boolean)
 }
 
 /* ════════════════════════════════════════
    CROSS MODAL  (portal)
 ════════════════════════════════════════ */
-function CrossModal({ title, children, onClose }) {
+function CrossModal({ children, onClose }) {
   useEffect(() => {
     const onKey = e => e.key === 'Escape' && onClose()
     document.addEventListener('keydown', onKey)
@@ -237,10 +240,7 @@ function CrossModal({ title, children, onClose }) {
   return createPortal(
     <div className="cm-overlay" onClick={onClose}>
       <div className="cm-box" onClick={e => e.stopPropagation()}>
-        <div className="cm-header">
-          <span className="cm-title">{title}</span>
-          <button className="cm-close" onClick={onClose} aria-label="Fechar">✕</button>
-        </div>
+        <button className="cm-close" onClick={onClose} aria-label="Fechar">✕</button>
         <div className="cm-body">{children}</div>
       </div>
     </div>,
@@ -325,6 +325,7 @@ function PalNav({ setActiveTab }) {
   const navRef     = useRef(null)
   const closeTimer = useRef(null)
   const [panelOpen, setPanelOpen] = useState(false)
+  const [menuOpen, setMenuOpen]   = useState(false)
 
   useEffect(() => {
     const nav = navRef.current
@@ -361,7 +362,19 @@ function PalNav({ setActiveTab }) {
           <li><Link to="/" className="pal-nav-link--home">Início</Link></li>
           <li><Link to="/programacao">Programação de Filmes</Link></li>
         </ul>
+
+        <button className={`pal-nav-hamburger${menuOpen ? ' open' : ''}`} aria-label="Menu" onClick={() => setMenuOpen(m => !m)}>
+          <span /><span /><span />
+        </button>
       </nav>
+
+      {menuOpen && <div className="pal-mobile-overlay" onClick={() => setMenuOpen(false)} />}
+      <div className={`pal-mobile-menu${menuOpen ? ' open' : ''}`}>
+        <ul>
+          <li><Link to="/" onClick={() => setMenuOpen(false)}>Início</Link></li>
+          <li><Link to="/programacao" onClick={() => setMenuOpen(false)}>Programação de Filmes</Link></li>
+        </ul>
+      </div>
 
       <div
         className={`pal-guests-panel${panelOpen ? ' open' : ''}`}
@@ -595,8 +608,12 @@ function PalCard({ palestra, side = 'left', onSelect }) {
       {/* Card */}
       <article
         ref={cardRef}
-        className={`pal-card palestra-card${isSpecial ? ' pal-card--special' : ''}`}
+        className={`pal-card palestra-card${isSpecial ? ' pal-card--special' : ''}${onSelect ? ' pal-card--clickable' : ''}`}
         aria-label={`${palestra.weekday}, ${palestra.date} de ${palestra.month} — ${palestra.convidados.join(', ')}`}
+        onClick={onSelect || undefined}
+        role={onSelect ? 'button' : undefined}
+        tabIndex={onSelect ? 0 : undefined}
+        onKeyDown={onSelect ? e => e.key === 'Enter' && onSelect() : undefined}
       >
         {/* big decorative date number */}
         <span className="pal-date-bg" aria-hidden="true">
@@ -663,11 +680,11 @@ function PalCard({ palestra, side = 'left', onSelect }) {
             </div>
           )}
 
-          {/* ver convidados */}
-          {onSelect && getPalestraGuests(palestra).length > 0 && (
-            <button className="pal-card-crosslink" onClick={onSelect} data-hover>
-              Ver convidado{getPalestraGuests(palestra).length > 1 ? 's' : ''} →
-            </button>
+          {/* indicador clicável */}
+          {onSelect && (
+            <div className="pal-card-click-hint" aria-hidden="true">
+              Ver convidado{getPalestraGuests(palestra).length > 1 ? 's' : ''} <span>→</span>
+            </div>
           )}
         </div>
       </article>
@@ -778,23 +795,39 @@ function PalestrasTimeline() {
 
       {selectedPalestra && (() => {
         const guests = getPalestraGuests(selectedPalestra)
+        const p = selectedPalestra
         return (
-          <CrossModal
-            title={`Convidado${guests.length > 1 ? 's' : ''} — ${selectedPalestra.date} ${selectedPalestra.month}`}
-            onClose={() => setSelectedPalestra(null)}
-          >
+          <CrossModal onClose={() => setSelectedPalestra(null)}>
+            {/* hero da palestra */}
+            <div className="cm-pal-hero">
+              <div className="cm-pal-hero-date">
+                <span className="cm-pal-hero-day">{p.date}</span>
+                <span className="cm-pal-hero-month">{p.month}</span>
+              </div>
+              <div className="cm-pal-hero-info">
+                <span className="cm-pal-hero-wd">{p.weekday}</span>
+                <span className="cm-pal-hero-time">{p.time} · {p.local}</span>
+                {p.tema && <p className="cm-pal-hero-tema">"{p.tema}"</p>}
+              </div>
+            </div>
+
+            <div className="cm-section-label">
+              Convidado{guests.length > 1 ? 's' : ''}
+            </div>
+
             {guests.map(g => (
-              <div key={g.name} className="cm-guest-row">
-                <div className="cm-guest-photo-wrap">
+              <div key={g.name} className="cm-guest-card">
+                <div className="cm-guest-card-photo-wrap">
                   {g.photo
-                    ? <img src={g.photo} alt={g.name} className="cm-guest-photo" onError={e => { e.currentTarget.style.display='none' }} />
-                    : <span className="cm-guest-initials">{g.name.split(' ').map(w=>w[0]).slice(0,2).join('')}</span>
+                    ? <img src={g.photo} alt={g.name} className="cm-guest-card-photo" onError={e => { e.currentTarget.style.display='none' }} />
+                    : <span className="cm-guest-card-initials">{g.name.split(' ').map(w=>w[0]).slice(0,2).join('')}</span>
                   }
                 </div>
-                <div className="cm-guest-info">
-                  <strong className="cm-guest-name">{g.name}</strong>
-                  {g.cargo && <span className="cm-guest-cargo">{g.cargo}</span>}
-                  <p className="cm-guest-bio">{g.bio}</p>
+                <div className="cm-guest-card-info">
+                  <strong className="cm-guest-card-name">{g.name}</strong>
+                  {g.cargo && <span className="cm-guest-card-cargo">{g.cargo}</span>}
+                  <p className="cm-guest-card-bio">{g.bio}</p>
+                  {g.tema && <div className="cm-guest-card-tema">"{g.tema}"</div>}
                 </div>
               </div>
             ))}
@@ -910,21 +943,38 @@ function GuestSection() {
       </div>
 
       {selectedGuest && (() => {
-        const palestras = getGuestPalestras(selectedGuest.name)
+        const g = selectedGuest
+        const palestras = getGuestPalestras(g.name)
+        const initials = g.name.split(' ').map(w=>w[0]).slice(0,2).join('')
         return (
-          <CrossModal
-            title={`Palestras — ${selectedGuest.name}`}
-            onClose={() => setSelectedGuest(null)}
-          >
+          <CrossModal onClose={() => setSelectedGuest(null)}>
+            {/* hero do convidado */}
+            <div className="cm-guest-hero">
+              <div className="cm-guest-hero-photo-wrap">
+                {g.photo
+                  ? <img src={g.photo} alt={g.name} className="cm-guest-hero-photo" onError={e=>{e.currentTarget.style.display='none'}} />
+                  : <span className="cm-guest-hero-initials">{initials}</span>
+                }
+              </div>
+              <div className="cm-guest-hero-info">
+                <strong className="cm-guest-hero-name">{g.name}</strong>
+                {g.cargo && <span className="cm-guest-hero-cargo">{g.cargo}</span>}
+                <p className="cm-guest-hero-bio">{g.bio}</p>
+              </div>
+            </div>
+
+            <div className="cm-section-label">Palestras & Participações</div>
+
             {palestras.map(p => (
-              <div key={p.id} className="cm-pal-row">
-                <div className="cm-pal-date">
-                  <span className="cm-pal-day">{p.date}</span>
-                  <span className="cm-pal-month">{p.month}</span>
+              <div key={p.id} className="cm-pal-item">
+                <div className="cm-pal-item-date">
+                  <span className="cm-pal-item-day">{p.date}</span>
+                  <span className="cm-pal-item-month">{p.month}</span>
                 </div>
-                <div className="cm-pal-info">
-                  <span className="cm-pal-time">{p.time} · {p.local}</span>
-                  {p.tema && <p className="cm-pal-tema">"{p.tema}"</p>}
+                <div className="cm-pal-item-info">
+                  <span className="cm-pal-item-wd">{p.weekday}</span>
+                  <span className="cm-pal-item-time">{p.time} · {p.local}</span>
+                  {p.tema && <p className="cm-pal-item-tema">"{p.tema}"</p>}
                 </div>
               </div>
             ))}

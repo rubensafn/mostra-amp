@@ -116,6 +116,7 @@ function ScrollProgress() {
 ════════════════════════════════════════ */
 function ProgNav() {
   const navRef = useRef(null)
+  const [menuOpen, setMenuOpen] = useState(false)
 
   useEffect(() => {
     const nav = navRef.current
@@ -125,23 +126,39 @@ function ProgNav() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
+  const close = () => setMenuOpen(false)
+
   return (
-    <nav ref={navRef} className="pal-nav" role="navigation">
-      <Link to="/" className="pal-nav-back" aria-label="Voltar para o site">
-        <span className="pal-nav-back-arrow">←</span>
-        <span className="pal-nav-back-label">Voltar</span>
-      </Link>
+    <>
+      <nav ref={navRef} className="pal-nav" role="navigation">
+        <Link to="/" className="pal-nav-back" aria-label="Voltar para o site">
+          <span className="pal-nav-back-arrow">←</span>
+          <span className="pal-nav-back-label">Voltar</span>
+        </Link>
 
-      <Link to="/" className="pal-nav-brand">
-        <img src="/images/logo-lenco.webp" alt="17ª Mostra de Cinema" className="pal-nav-logo" />
-        <span className="pal-nav-title">17ª MOSTRA</span>
-      </Link>
+        <Link to="/" className="pal-nav-brand">
+          <img src="/images/logo-lenco.webp" alt="17ª Mostra de Cinema" className="pal-nav-logo" />
+          <span className="pal-nav-title">17ª MOSTRA</span>
+        </Link>
 
-      <ul className="pal-nav-links">
-        <li><Link to="/" className="pal-nav-link--home">Início</Link></li>
-        <li><Link to="/palestras">Convidados &amp; Palestras</Link></li>
-      </ul>
-    </nav>
+        <ul className="pal-nav-links">
+          <li><Link to="/" className="pal-nav-link--home">Início</Link></li>
+          <li><Link to="/palestras">Convidados &amp; Palestras</Link></li>
+        </ul>
+
+        <button className={`pal-nav-hamburger${menuOpen ? ' open' : ''}`} aria-label="Menu" onClick={() => setMenuOpen(m => !m)}>
+          <span /><span /><span />
+        </button>
+      </nav>
+
+      {menuOpen && <div className="pal-mobile-overlay" onClick={close} />}
+      <div className={`pal-mobile-menu${menuOpen ? ' open' : ''}`}>
+        <ul>
+          <li><Link to="/" onClick={close}>Início</Link></li>
+          <li><Link to="/palestras" onClick={close}>Convidados &amp; Palestras</Link></li>
+        </ul>
+      </div>
+    </>
   )
 }
 
@@ -477,7 +494,7 @@ function FilmModal({ title, onClose }) {
             <div className="fl-modal-presenca">
               <img src={data.presencaIlustre.foto} alt={data.presencaIlustre.nome} className="fl-modal-presenca-foto" />
               <div className="fl-modal-presenca-info">
-                <span className="fl-modal-presenca-tag">★ Presença Exclusiva Confirmada</span>
+                <span className="fl-modal-presenca-tag">Presença Exclusiva Confirmada</span>
                 <strong className="fl-modal-presenca-nome">{data.presencaIlustre.nome}</strong>
                 <span className="fl-modal-presenca-cargo">{data.presencaIlustre.cargo}</span>
                 <p className="fl-modal-presenca-desc">{data.presencaIlustre.descricao}</p>
