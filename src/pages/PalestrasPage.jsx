@@ -1,4 +1,5 @@
 import { useEffect, useRef, useCallback, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { Link } from 'react-router-dom'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -70,9 +71,15 @@ const GUESTS = [
   },
   {
     name: 'Daniel Christino', cargo: 'Prof. de Cinema · Sorbonne 3', color: 'accent',
-    photo: '/images/convidados/Alberto Silva.webp',
-    bio: 'Maître de conférences HDR em Civilização Brasileira e Cinema na Sorbonne Université, especialista em cinema brasileiro, gênero e ditadura.',
+    photo: '/images/convidados/Daniel Christino.jpeg',
+    bio: 'Filosofo, prof Fic-UFG e diretor da faculdade de informação e comunicação da UFG',
     tema: 'Debate pós-filme — O Agente Secreto', date: '15 ABR',
+  },
+  {
+    name: 'Glória Pires', cargo: 'Atriz · Diretora', color: 'gold',
+    photo: '/images/convidados/Glória Pires.avif',
+    bio: 'Glória Pires é uma atriz e empresária brasileira com trajetória marcante no cinema e na teledramaturgia nacional. Ao longo de décadas de carreira, construiu um nome de grande relevância no audiovisual, tornando-se uma das artistas mais reconhecidas e bem-sucedidas do país, com projeção que também ultrapassa o Brasil e alcança toda a América Latina.',
+    tema: 'Presença Exclusiva — Sessão Filme: Sexa', date: '16 ABR',
   },
   {
     name: 'Paula Febee', cargo: 'Autora · Psicanalista · Roteirista', color: 'gold',
@@ -85,13 +92,13 @@ const GUESTS = [
     name: 'Maysa Balduino', cargo: 'Psicanalista', color: 'cream',
     photo: '/images/convidados/Maysa Balduino.webp',
     bio: 'Psicanalista e membro do Grupo de Estudo Psicanalítico de Goiânia, com pesquisa voltada ao cinema como espaço de produção de subjetividade.',
-    tema: 'Debate pós-filme — Valor Sentimental', date: '16 ABR',
+    tema: 'Debate pós-filme — Rental Family', date: '16 ABR',
   },
   {
-    name: 'Wolney Fernandes', cargo: 'Prof. de Cinema · UFG', color: 'accent',
-    photo: '/images/convidados/Wolney Fernandes.webp',
+    name: 'Jordana Pinheiro', cargo: 'Prof. de Cinema · UFG', color: 'accent',
+    // photo: '/images/convidados/Wolney Fernandes.webp',
     bio: 'Professor doutor da Universidade Federal de Goiás, artista visual e pesquisador na interseção entre colagem, literatura e cinema.',
-    tema: 'Debate pós-filme — Valor Sentimental', date: '16 ABR',
+    tema: 'Debate pós-filme — Rental Family', date: '16 ABR',
   },
   {
     name: 'João Pedro', cargo: 'Crítico de Cinema', color: 'gold',
@@ -188,6 +195,7 @@ const PALESTRAS = [
   { id:9,  date:'16', month:'ABR', weekday:'Quinta-Feira',   time:'19:30h', local:'Palco Central',        convidados:['Paula Febee'], cargo:'Autora · Psicanalista · Roteirista',
     // tema: '',  // ← inserir quando definido
   },
+  { id:9.9,date:'16', month:'ABR', weekday:'Quinta-Feira',   time:'19:30h', local:'Sala 2',               convidados:['Glória Pires'], cargo:'Atriz · Diretora', tema:'Sessão especial com presença da diretora — Sexa', tipo:'presenca-especial', photo:'/images/convidados/Glória Pires.avif' },
   { id:10, date:'16', month:'ABR', weekday:'Quinta-Feira',   time:'21:30h', local:'Palco Central',        convidados:['Maysa Balduino','Wolney Fernandes'], cargo:'Psicanalista · Prof. de Cinema UFG', tema:'Debate pós-filme — Valor Sentimental' },
   { id:11, date:'17', month:'ABR', weekday:'Sexta-Feira',    time:'20:30h', local:'Livraria',             convidados:['João Pedro','Pedro Andrade','Wewdell Sulyvan'], cargo:'Críticos de Cinema · Mediação', tema:'Debate pós-filme — A Vida de Chuck' },
   { id:12, date:'18', month:'ABR', weekday:'Sábado',         time:'16:00h', local:'Palco Central',        convidados:['Christian Dunker','Vladimir Safatle'], tema:'Transformar Mundos e Pessoas' },
@@ -202,6 +210,43 @@ const PALESTRAS = [
   { id:17, date:'21', month:'ABR', weekday:'Terça-Feira',    time:'18:30h', local:'Livraria',             convidados:['Jussara Santos'], tema:'Democratização do colo' },
   { id:18, date:'22', month:'ABR', weekday:'Sexta-Feira',    time:'19:00h', local:'Palco Central',        convidados:['Pedro Pacífico'], tema:null, tipo:'encerramento' },
 ]
+
+/* ── helpers cross-link ── */
+function getGuestPalestras(name) {
+  const first = name.split(' ')[0]
+  return PALESTRAS.filter(p =>
+    p.convidados.some(c => c === name || c.includes(first))
+  )
+}
+function getPalestraGuests(palestra) {
+  return palestra.convidados
+    .map(c => GUESTS.find(g => g.name === c || c.includes(g.name.split(' ')[0]) || g.name.includes(c.split(' ')[0])))
+    .filter(Boolean)
+}
+
+/* ════════════════════════════════════════
+   CROSS MODAL  (portal)
+════════════════════════════════════════ */
+function CrossModal({ title, children, onClose }) {
+  useEffect(() => {
+    const onKey = e => e.key === 'Escape' && onClose()
+    document.addEventListener('keydown', onKey)
+    return () => document.removeEventListener('keydown', onKey)
+  }, [onClose])
+
+  return createPortal(
+    <div className="cm-overlay" onClick={onClose}>
+      <div className="cm-box" onClick={e => e.stopPropagation()}>
+        <div className="cm-header">
+          <span className="cm-title">{title}</span>
+          <button className="cm-close" onClick={onClose} aria-label="Fechar">✕</button>
+        </div>
+        <div className="cm-body">{children}</div>
+      </div>
+    </div>,
+    document.body
+  )
+}
 
 /* ════════════════════════════════════════
    CURSOR  (necessário pois body tem cursor:none global)
@@ -499,7 +544,7 @@ function PalHero() {
 /* ════════════════════════════════════════
    PAL TIMELINE CARD
 ════════════════════════════════════════ */
-function PalCard({ palestra, side = 'left' }) {
+function PalCard({ palestra, side = 'left', onSelect }) {
   const cardRef  = useRef(null)
   const innerRef = useRef(null)
 
@@ -534,9 +579,10 @@ function PalCard({ palestra, side = 'left' }) {
   const isAbertura     = palestra.tipo === 'abertura'
   const isEncerramento = palestra.tipo === 'encerramento'
   const isMusical      = palestra.tipo === 'musical'
-  const isSpecial      = isAbertura || isEncerramento
+  const isPresenca     = palestra.tipo === 'presenca-especial'
+  const isSpecial      = isAbertura || isEncerramento || isPresenca
 
-  const typeLabel = isAbertura ? 'Abertura' : isEncerramento ? 'Encerramento' : isMusical ? 'Atração Musical' : null
+  const typeLabel = isAbertura ? 'Abertura' : isEncerramento ? 'Encerramento' : isMusical ? 'Atração Musical' : isPresenca ? 'Presença Especial' : null
 
   return (
     <div className={`pal-item pal-item--${side}`} data-id={palestra.id}>
@@ -586,8 +632,8 @@ function PalCard({ palestra, side = 'left' }) {
           {/* divider */}
           <div className="pal-card-divider" aria-hidden="true" />
 
-          {/* foto — só para atrações musicais */}
-          {isMusical && palestra.photo && (
+          {/* foto */}
+          {(isMusical || isPresenca) && palestra.photo && (
             <div className="pal-card-photo-wrap">
               <img src={palestra.photo} alt={palestra.convidados[0]} className="pal-card-photo" />
             </div>
@@ -616,6 +662,13 @@ function PalCard({ palestra, side = 'left' }) {
               {palestra.atracao}
             </div>
           )}
+
+          {/* ver convidados */}
+          {onSelect && getPalestraGuests(palestra).length > 0 && (
+            <button className="pal-card-crosslink" onClick={onSelect} data-hover>
+              Ver convidado{getPalestraGuests(palestra).length > 1 ? 's' : ''} →
+            </button>
+          )}
         </div>
       </article>
     </div>
@@ -629,6 +682,7 @@ function PalestrasTimeline() {
   const sectionRef = useRef(null)
   const lineRef    = useRef(null)
   const wrapRef    = useRef(null)
+  const [selectedPalestra, setSelectedPalestra] = useState(null)
 
   useEffect(() => {
     const section = sectionRef.current
@@ -714,10 +768,39 @@ function PalestrasTimeline() {
             <div ref={lineRef} className="pal-line" />
           </div>
           {PALESTRAS.map((p, i) => (
-            <PalCard key={p.id} palestra={p} side={i % 2 === 0 ? 'left' : 'right'} />
+            <PalCard
+              key={p.id} palestra={p} side={i % 2 === 0 ? 'left' : 'right'}
+              onSelect={getPalestraGuests(p).length > 0 ? () => setSelectedPalestra(p) : null}
+            />
           ))}
         </div>
       </div>
+
+      {selectedPalestra && (() => {
+        const guests = getPalestraGuests(selectedPalestra)
+        return (
+          <CrossModal
+            title={`Convidado${guests.length > 1 ? 's' : ''} — ${selectedPalestra.date} ${selectedPalestra.month}`}
+            onClose={() => setSelectedPalestra(null)}
+          >
+            {guests.map(g => (
+              <div key={g.name} className="cm-guest-row">
+                <div className="cm-guest-photo-wrap">
+                  {g.photo
+                    ? <img src={g.photo} alt={g.name} className="cm-guest-photo" onError={e => { e.currentTarget.style.display='none' }} />
+                    : <span className="cm-guest-initials">{g.name.split(' ').map(w=>w[0]).slice(0,2).join('')}</span>
+                  }
+                </div>
+                <div className="cm-guest-info">
+                  <strong className="cm-guest-name">{g.name}</strong>
+                  {g.cargo && <span className="cm-guest-cargo">{g.cargo}</span>}
+                  <p className="cm-guest-bio">{g.bio}</p>
+                </div>
+              </div>
+            ))}
+          </CrossModal>
+        )
+      })()}
     </section>
   )
 }
@@ -785,6 +868,8 @@ function PalFooter() {
    GUEST SECTION
 ════════════════════════════════════════ */
 function GuestSection() {
+  const [selectedGuest, setSelectedGuest] = useState(null)
+
   return (
     <section id="pal-convidados" className="pal-guest-section">
       <div className="pal-timeline-header">
@@ -793,9 +878,15 @@ function GuestSection() {
       </div>
       <div className="pal-guest-grid">
         {GUESTS.map((g) => {
-          const initials = g.name.split(' ').filter(Boolean).map(w => w[0].toUpperCase()).slice(0, 2).join('')
+          const initials    = g.name.split(' ').filter(Boolean).map(w => w[0].toUpperCase()).slice(0, 2).join('')
+          const hasPalestra = getGuestPalestras(g.name).length > 0
           return (
-            <div key={g.name} className={`pal-gs-card pal-gs-card--${g.color}`}>
+            <div
+              key={g.name}
+              className={`pal-gs-card pal-gs-card--${g.color}${hasPalestra ? ' pal-gs-card--clickable' : ''}`}
+              onClick={hasPalestra ? () => setSelectedGuest(g) : undefined}
+              data-hover={hasPalestra ? true : undefined}
+            >
               <div className="pal-gs-photo-wrap">
                 <div className="pal-gs-avatar">{initials}</div>
                 {g.photo && (
@@ -811,11 +902,35 @@ function GuestSection() {
                 {g.cargo && <div className="pal-gs-cargo">{g.cargo}</div>}
                 <p className="pal-gs-bio">{g.bio}</p>
                 {g.tema && <div className="pal-gs-tema">"{g.tema}"</div>}
+                {hasPalestra && <span className="pal-gs-crosslink">Ver palestras →</span>}
               </div>
             </div>
           )
         })}
       </div>
+
+      {selectedGuest && (() => {
+        const palestras = getGuestPalestras(selectedGuest.name)
+        return (
+          <CrossModal
+            title={`Palestras — ${selectedGuest.name}`}
+            onClose={() => setSelectedGuest(null)}
+          >
+            {palestras.map(p => (
+              <div key={p.id} className="cm-pal-row">
+                <div className="cm-pal-date">
+                  <span className="cm-pal-day">{p.date}</span>
+                  <span className="cm-pal-month">{p.month}</span>
+                </div>
+                <div className="cm-pal-info">
+                  <span className="cm-pal-time">{p.time} · {p.local}</span>
+                  {p.tema && <p className="cm-pal-tema">"{p.tema}"</p>}
+                </div>
+              </div>
+            ))}
+          </CrossModal>
+        )
+      })()}
     </section>
   )
 }

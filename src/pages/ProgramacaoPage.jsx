@@ -473,6 +473,17 @@ function FilmModal({ title, onClose }) {
         </div>
 
         <div className="fl-modal-body">
+          {data?.presencaIlustre && (
+            <div className="fl-modal-presenca">
+              <img src={data.presencaIlustre.foto} alt={data.presencaIlustre.nome} className="fl-modal-presenca-foto" />
+              <div className="fl-modal-presenca-info">
+                <span className="fl-modal-presenca-tag">★ Presença Exclusiva Confirmada</span>
+                <strong className="fl-modal-presenca-nome">{data.presencaIlustre.nome}</strong>
+                <span className="fl-modal-presenca-cargo">{data.presencaIlustre.cargo}</span>
+                <p className="fl-modal-presenca-desc">{data.presencaIlustre.descricao}</p>
+              </div>
+            </div>
+          )}
           {data?.sinopse && <p className="fl-modal-sinopse">{data.sinopse}</p>}
 
           {data?.premios && (
@@ -515,7 +526,11 @@ function FilmesLista({ onSelect }) {
         if (!s.fixo && !seen[s.title]) seen[s.title] = true
       })
     })
-    return Object.keys(seen).sort((a, b) => a.localeCompare(b, 'pt'))
+    const sorted = Object.keys(seen).sort((a, b) => a.localeCompare(b, 'pt'))
+    // Sexa sempre primeiro
+    const idx = sorted.indexOf('Sexa')
+    if (idx > 0) { sorted.splice(idx, 1); sorted.unshift('Sexa') }
+    return sorted
   }, [])
 
   return (
@@ -529,10 +544,11 @@ function FilmesLista({ onSelect }) {
       <div className="fl-grid">
         {allFilms.map((title) => {
           const d = FILMS_DATA[title]
+          const isDestaque = !!d?.presencaIlustre
           return (
             <button
               key={title}
-              className="fl-item"
+              className={`fl-item${isDestaque ? ' fl-item--presenca' : ''}`}
               onClick={() => onSelect(title)}
               data-hover
             >
@@ -544,12 +560,24 @@ function FilmesLista({ onSelect }) {
                   loading="lazy"
                 />
                 <div className="fl-item-poster-shine" />
+                {isDestaque && (
+                  <div className="fl-item-presenca-badge">
+                    <img src={d.presencaIlustre.foto} alt={d.presencaIlustre.nome} className="fl-presenca-thumb" />
+                    <span className="fl-presenca-label">Presença Exclusiva</span>
+                  </div>
+                )}
               </div>
               <div className="fl-info">
                 <h3 className="fl-title">{title}</h3>
-                <span className="fl-meta">
-                  {d ? `${d.diretor}${d.duracao ? ' · ' + d.duracao : ''}` : 'Ver detalhes'}
-                </span>
+                {isDestaque ? (
+                  <span className="fl-meta fl-meta--presenca">
+                    ★ {d.presencaIlustre.nome} · {d.presencaIlustre.cargo}
+                  </span>
+                ) : (
+                  <span className="fl-meta">
+                    {d ? `${d.diretor}${d.duracao ? ' · ' + d.duracao : ''}` : 'Ver detalhes'}
+                  </span>
+                )}
               </div>
               <span className="fl-arrow" aria-hidden="true">→</span>
             </button>
@@ -616,7 +644,7 @@ function Programacao({ onSelect }) {
                 {sessions.map((s, i) => (
                   <div
                     key={i}
-                    className={`session-row${s.fixo ? ' fixo' : ''} session-row--clickable`}
+                    className={`session-row${s.fixo ? ' fixo' : ''}${s.presenca ? ' presenca-ilustre' : ''} session-row--clickable`}
                     onClick={() => onSelect(s.title)}
                     data-hover
                     role="button"
@@ -626,6 +654,9 @@ function Programacao({ onSelect }) {
                     <span className="session-time">{s.time}</span>
                     <span className="session-title">{s.title}</span>
                     {s.fixo && <span className="session-tag">Especial</span>}
+                    {s.presenca && (
+                      <span className="session-presenca">{s.presenca}</span>
+                    )}
                   </div>
                 ))}
               </div>
@@ -780,15 +811,89 @@ function BackToTop() {
 }
 
 /* ════════════════════════════════════════
+   VIEW TABS  (inline + floating)
+════════════════════════════════════════ */
+function ProgTabs({ activeView, setActiveView }) {
+  return (
+    <div className="pal-tabs-wrap" id="prog-view-tabs">
+      <div className="pal-tabs-btns">
+        <button
+          className={`pal-tab-btn${activeView === 'filmes' ? ' active' : ''}`}
+          onClick={() => setActiveView('filmes')}
+        >
+          Grade por Filmes
+        </button>
+        <button
+          className={`pal-tab-btn${activeView === 'dias' ? ' active' : ''}`}
+          onClick={() => setActiveView('dias')}
+        >
+          Grade por Dias
+        </button>
+      </div>
+    </div>
+  )
+}
+
+function ProgFloatingTabs({ activeView, setActiveView, uiAnim }) {
+  return (
+    <div className={`pal-floating-tabs${uiAnim !== 'hidden' ? ` ${uiAnim}` : ''}`}>
+      <button
+        className={`pal-ftab-btn${activeView === 'filmes' ? ' active' : ''}`}
+        onClick={() => setActiveView('filmes')}
+        title="Grade por Filmes"
+      >
+        F
+      </button>
+      <button
+        className={`pal-ftab-btn${activeView === 'dias' ? ' active' : ''}`}
+        onClick={() => setActiveView('dias')}
+        title="Grade por Dias"
+      >
+        D
+      </button>
+    </div>
+  )
+}
+
+function ProgBackHome({ uiAnim }) {
+  return (
+    <Link to="/" className={`pal-back-home${uiAnim !== 'hidden' ? ` ${uiAnim}` : ''}`} aria-label="Voltar à página inicial">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <path d="M13 8H3M3 8L7 4M3 8L7 12" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+      </svg>
+      <span>Voltar</span>
+    </Link>
+  )
+}
+
+/* ════════════════════════════════════════
    PAGE
 ════════════════════════════════════════ */
 export default function ProgramacaoPage() {
   useGSAPReveal()
   const [selectedFilm, setSelectedFilm] = useState(null)
+  const [activeView, setActiveView]     = useState('filmes')
+  const [uiAnim, setUiAnim]             = useState('hidden')
+  const uiTimer = useRef(null)
 
   useEffect(() => {
     window.scrollTo(0, 0)
-    return () => ScrollTrigger.getAll().forEach(t => t.kill())
+    const target = document.getElementById('prog-view-tabs')
+    const obs = target && new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) {
+        clearTimeout(uiTimer.current)
+        setUiAnim('visible')
+      } else {
+        setUiAnim('exiting')
+        uiTimer.current = setTimeout(() => setUiAnim('hidden'), 320)
+      }
+    }, { threshold: 0 })
+    if (obs) obs.observe(target)
+    return () => {
+      if (obs) obs.disconnect()
+      clearTimeout(uiTimer.current)
+      ScrollTrigger.getAll().forEach(t => t.kill())
+    }
   }, [])
 
   return (
@@ -798,11 +903,15 @@ export default function ProgramacaoPage() {
       <ScrollProgress />
       <ProgNav />
       <ProgHero />
-      <FilmesLista onSelect={setSelectedFilm} />
-      <Programacao onSelect={setSelectedFilm} />
-      {/* <Destaque /> */}
+      <ProgTabs activeView={activeView} setActiveView={setActiveView} />
+      <ProgFloatingTabs activeView={activeView} setActiveView={setActiveView} uiAnim={uiAnim} />
+      {activeView === 'filmes'
+        ? <FilmesLista onSelect={setSelectedFilm} />
+        : <Programacao onSelect={setSelectedFilm} />
+      }
       <ProgFooter />
       <BackToTop />
+      <ProgBackHome uiAnim={uiAnim} />
       {selectedFilm && (
         <FilmModal title={selectedFilm} onClose={() => setSelectedFilm(null)} />
       )}

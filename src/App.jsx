@@ -284,7 +284,10 @@ function Hero() {
           </div>
         </div>
 
-        <p className="hero-subtitle">O Amor, a Morte e as Paixões</p>
+        <div className="hero-venue">
+          <img src="/images/ON_LOGO.png" alt="Centro Cultural Oscar Niemeyer" className="hero-venue-logo" />
+          <span className="hero-venue-name">Centro Cultural Oscar Niemeyer</span>
+        </div>
 
         <p className="hero-date">
           08<span>—</span>22 de Abril, 2026
@@ -395,7 +398,7 @@ function Sobre() {
             </div>
           </div>
 
-          <Link to="/programacao" className="btn-outline" data-reveal>
+          <Link to="/programacao" className="btn-primary-gold" data-reveal>
             Programação de Filmes
           </Link>
         </div>
@@ -806,6 +809,12 @@ function Espaco() {
           <span className="espaco-info-label">Realização</span>
           <span className="espaco-info-value">Instituto Jardim Cultural</span>
         </div>
+      </div>
+
+      <div className="espaco-venue" data-reveal>
+        <span className="espaco-venue-label">Local do Evento</span>
+        <img src="/images/ON_LOGO.png" alt="Centro Cultural Oscar Niemeyer" className="espaco-venue-logo" />
+        <span className="espaco-venue-name">Centro Cultural Oscar Niemeyer</span>
       </div>
     </section>
   )
