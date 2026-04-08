@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { SCHEDULE, ANCHOR_FILMS, FILMS_DATA } from '../data/films'
+import { TRAILERS } from '../data/trailers'
 import '../App.css'
 import './PalestrasPage.css'
 
@@ -459,6 +460,7 @@ function getPoster(title) {
 function FilmModal({ title, onClose }) {
   const data     = FILMS_DATA[title] || null
   const sessions = getFilmSessions(title)
+  const trailer  = TRAILERS[title] || null
 
   useEffect(() => {
     const onKey = (e) => { if (e.key === 'Escape') onClose() }
@@ -501,6 +503,21 @@ function FilmModal({ title, onClose }) {
               </div>
             </div>
           )}
+          {trailer && (
+            <div className="fl-modal-trailer">
+              <span className="fl-modal-trailer-label">Trailer</span>
+              <div className="fl-modal-trailer-wrap">
+                <iframe
+                  src={`https://www.youtube.com/embed/${trailer}?rel=0&modestbranding=1`}
+                  title={`Trailer — ${title}`}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  loading="lazy"
+                />
+              </div>
+            </div>
+          )}
+
           {data?.sinopse && <p className="fl-modal-sinopse">{data.sinopse}</p>}
 
           {data?.premios && (

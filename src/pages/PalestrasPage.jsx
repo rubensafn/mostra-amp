@@ -90,14 +90,14 @@ const GUESTS = [
   },
   {
     name: 'Maysa Balduino', cargo: 'Psicanalista', color: 'cream',
-    photo: '/images/convidados/Maysa Balduino.webp',
+    photo: '/images/convidados/Maysa Balduino.jpeg',
     bio: 'Psicanalista e membro do Grupo de Estudo Psicanalítico de Goiânia, com pesquisa voltada ao cinema como espaço de produção de subjetividade.',
     tema: 'Debate pós-filme — Rental Family', date: '16 ABR',
   },
   {
     name: 'Jordana Pinheiro', cargo: 'Advogada', color: 'accent',
     photo: '/images/convidados/Jordana Pinheiro.jpeg',
-    bio: 'Doutoranda e Mestra em Psicologia pela Pontifícia Universidade Católica de Goiás (2018), na linha de pesquisa dos processos psicossociais',
+    bio: 'Advogada, mestra e doutoranda em Psicologia, presidente da Comissão da Infância do Ibdfam-GO',
     tema: 'Debate pós-filme — Rental Family', date: '16 ABR',
   },
   {
@@ -113,9 +113,9 @@ const GUESTS = [
     tema: 'Debate pós-filme — A Vida de Chuck', date: '17 ABR',
   },
   {
-    name: 'Wendel Sulyvan', cargo: 'Mediador', color: 'cream',
-    photo: '/images/convidados/Pedro Andrade.webp',
-    bio: 'Prof de literatura e diretor Colegio Arena, colsultor educacional e palestrante',
+    name: 'Wendell Sullyvan', cargo: 'Mediador', color: 'cream',
+    photo: '/images/convidados/Wendell Sullyvan.jpeg',
+    bio: 'Prof de literatura e diretor Colegio Arena, consultor educacional e palestrante',
     tema: 'Debate pós-filme — A Vida de Chuck', date: '17 ABR',
   },
   {
@@ -203,7 +203,7 @@ const PALESTRAS = [
   },
   { id:9.9,date:'16', month:'ABR', weekday:'Quinta-Feira',   time:'19:30h', local:'Sala 2',               convidados:['Glória Pires'], cargo:'Atriz · Diretora', tema:'Sessão especial com presença da diretora — Sexa', tipo:'presenca-especial', photo:'/images/convidados/Glória Pires.avif' },
   { id:10, date:'16', month:'ABR', weekday:'Quinta-Feira',   time:'21:30h', local:'Palco Central',        convidados:['Maysa Balduino','Jordana Pinheiro'], cargo:'Psicanalista · Advogada', tema:'Debate pós-filme — Rental Family' },
-  { id:11, date:'17', month:'ABR', weekday:'Sexta-Feira',    time:'20:30h', local:'Livraria',             convidados:['João Pedro','Pedro Andrade','Wendel Sulyvan'], cargo:'Críticos de Cinema · Mediação', tema:'Debate pós-filme — A Vida de Chuck' },
+  { id:11, date:'17', month:'ABR', weekday:'Sexta-Feira',    time:'20:30h', local:'Livraria',             convidados:['João Pedro','Pedro Andrade','Wendell Sullyvan'], cargo:'Críticos de Cinema · Mediação', tema:'Debate pós-filme — A Vida de Chuck' },
   { id:12, date:'18', month:'ABR', weekday:'Sábado',         time:'16:00h', local:'Palco Central',        convidados:['Christian Dunker','Vladimir Safatle'], tema:'Transformar Mundos e Pessoas' },
   { id:13, date:'19', month:'ABR', weekday:'Domingo',        time:'18:00h', local:'Livraria',             convidados:['Jeferson Tenório'],
     // tema: '',  // ← inserir quando definido
