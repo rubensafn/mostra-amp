@@ -45,11 +45,12 @@
 }
 #nav.nav--solid {
   background: rgba(6, 4, 2, 0.94);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   padding: 14px 56px;
   border-bottom: 1px solid rgba(224,24,101,0.12);
   box-shadow: 0 1px 40px rgba(0,0,0,0.6);
+  transform: translateZ(0);
 }
 .nav-brand {
   display: flex; align-items: center; gap: 14px;
@@ -548,6 +549,7 @@
   top: -200px; right: -180px;
   filter: blur(80px);
   animation: blobFloat 12s ease-in-out infinite;
+  will-change: transform;
 }
 .blob-2 {
   width: 500px; height: 500px;
@@ -555,6 +557,7 @@
   bottom: -100px; left: 5%;
   filter: blur(100px);
   animation: blobFloat2 15s ease-in-out infinite -4s;
+  will-change: transform;
 }
 .blob-3 {
   width: 350px; height: 350px;
@@ -562,6 +565,7 @@
   top: 40%; left: 25%;
   filter: blur(120px);
   animation: blobFloat 18s ease-in-out infinite -8s;
+  will-change: transform;
 }
 .blob-4 {
   width: 250px; height: 250px;
@@ -569,6 +573,10 @@
   top: 20%; left: -50px;
   filter: blur(80px);
   animation: blobFloat2 10s ease-in-out infinite -2s;
+  will-change: transform;
+}
+@media (max-width: 768px) {
+  .blob-1, .blob-2, .blob-3, .blob-4 { animation: none; will-change: auto; }
 }
 
 /* ─── LENÇO ANIMATIONS ─── */
@@ -1978,8 +1986,8 @@
   background: rgba(6, 3, 1, 0.88);
   display: flex; align-items: center; justify-content: center;
   padding: 20px;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
   animation: flOverlayIn 0.2s ease;
 }
 @keyframes flOverlayIn {
