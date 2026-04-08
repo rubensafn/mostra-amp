@@ -68,6 +68,8 @@ body::after {
   background-size: 220px 220px;
   opacity: 0.03;
   mix-blend-mode: screen;
+  transform: translateZ(0);
+  will-change: opacity;
 }
 
 /* ─── custom cursor ─── */

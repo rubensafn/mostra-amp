@@ -430,16 +430,24 @@ function Sobre() {
    FILM CARD  (ANCHOR_FILMS)
 ════════════════════════════════════════ */
 function FilmCard({ film }) {
-  const cardRef = useRef(null)
-  const sessions = getFilmSessions(film.title)
+  const cardRef    = useRef(null)
+  const sessions   = getFilmSessions(film.title)
+  const rafId      = useRef(null)
+  const pendingEv  = useRef(null)
 
   const onMouseMove = useCallback((e) => {
-    const card = cardRef.current
-    if (!card) return
-    const rect = card.getBoundingClientRect()
-    const x = ((e.clientX - rect.left) / rect.width  - 0.5) * 10
-    const y = ((e.clientY - rect.top)  / rect.height - 0.5) * -10
-    gsap.to(card, { rotateX: y, rotateY: x, transformPerspective: 800, duration: 0.4, ease: 'power2.out' })
+    pendingEv.current = { clientX: e.clientX, clientY: e.clientY }
+    if (rafId.current) return
+    rafId.current = requestAnimationFrame(() => {
+      rafId.current = null
+      const card = cardRef.current
+      const ev   = pendingEv.current
+      if (!card || !ev) return
+      const rect = card.getBoundingClientRect()
+      const x = ((ev.clientX - rect.left) / rect.width  - 0.5) * 10
+      const y = ((ev.clientY - rect.top)  / rect.height - 0.5) * -10
+      gsap.to(card, { rotateX: y, rotateY: x, transformPerspective: 800, duration: 0.4, ease: 'power2.out' })
+    })
   }, [])
 
   const onMouseLeave = useCallback(() => {
