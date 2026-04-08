@@ -472,10 +472,13 @@ function FilmModal({ title, onClose }) {
     <div className="fl-overlay" onClick={onClose}>
       <div className="fl-modal" onClick={e => e.stopPropagation()}>
 
+        <div className="fl-modal-close-wrap">
+          <button className="fl-modal-close" onClick={onClose} data-hover aria-label="Fechar">✕</button>
+        </div>
+
         <div className="fl-modal-hero">
           <img src={getPoster(title)} alt={title} className="fl-modal-hero-img" />
           <div className="fl-modal-hero-grad" />
-          <button className="fl-modal-close" onClick={onClose} data-hover aria-label="Fechar">✕</button>
           <div className="fl-modal-hero-content">
             {data && (
               <div className="fl-modal-tags">
