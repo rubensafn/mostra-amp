@@ -40,7 +40,7 @@ export const SCHEDULE = [
       s('21:00','Nuremberg'),
     ],
     sala2: [
-      s('10:00','Mulher e Filho'),
+      s('10:00','Mãe e Filho'),
       s('12:25','Entre Duas Mulheres'),
       s('14:20','A Melhor Mãe do Mundo'),
       s('16:20','A Cronologia da Água'),
@@ -253,7 +253,7 @@ export const SCHEDULE = [
       s('21:40','La Grazia'),
     ],
     sala2: [
-      s('10:20','Mulher e Filho'),
+      s('10:20','Mãe e Filho'),
       s('12:45','O Caso dos Estrangeiros'),
       s('14:40','Foi Apenas um Acidente'),
       s('16:35','Orwell: 2+2=5'),
@@ -273,7 +273,7 @@ export const SCHEDULE = [
     ],
     sala2: [
       s('10:20','Se Eu Tivesse Pernas, Eu Te Chutaria'),
-      s('12:25','Mulher e Filho'),
+      s('12:25','Mãe e Filho'),
       s('14:50','Coração de Lutador: The Smashing Machine'),
       s('16:50','O Drama'),
       s('18:50','La Grazia'),
@@ -515,7 +515,7 @@ export const FILMS_DATA = {
     sinopse: 'Julia é uma maestrina de 40 anos que, junto com seu marido Georg, sonha em ter um filho. Um médico especialista em fertilidade garante que pode realizar o desejo do casal com um procedimento experimental. A gravidez é um sucesso — mas ao retornar, o bebê coloca o casamento dos dois na berlinda.',
     premios: 'Seleção Oficial do Festival de Berlim 2025.',
   },
-  'Mulher e Filho': {
+  'Mãe e Filho': {
     ano: '2025', pais: 'Irã', duracao: '2h 11min',
     diretor: 'Saeed Roustaee',
     elenco: 'Parinaz Izadyar, Payman Maadi, Soha Niasti',

@@ -33,7 +33,7 @@ export const TRAILERS = {
   'Misty – A História de Erroll Garner':         '60SQ66_w070',
   'Monsieur Aznavour':                           'Gl-XmgdPbM8',
   "Mother's Baby":                               'vOHdSJGKjZA',
-  'Mulher e Filho':                              'uPJ_v2hu5B8',
+  'Mãe e Filho':                                 '1p42bqY6C4Q',
   'Nouvelle Vague':                              'UufRzKVFseg',
   'O Caso dos Estrangeiros':                     'OxwuGrEMxKw',
   'O Drama':                                     '6zmKcUa4Xxk',
