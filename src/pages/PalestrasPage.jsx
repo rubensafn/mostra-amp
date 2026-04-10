@@ -76,12 +76,6 @@ const GUESTS = [
     tema: 'Debate pós-filme — O Agente Secreto', date: '15 ABR',
   },
   {
-    name: 'Glória Pires', cargo: 'Atriz · Diretora', color: 'gold',
-    photo: '/images/convidados/Glória Pires.avif',
-    bio: 'Glória Pires é uma atriz e empresária brasileira com trajetória marcante no cinema e na teledramaturgia nacional. Ao longo de décadas de carreira, construiu um nome de grande relevância no audiovisual, tornando-se uma das artistas mais reconhecidas e bem-sucedidas do país, com projeção que também ultrapassa o Brasil e alcança toda a América Latina.',
-    tema: 'Presença Exclusiva — Sessão Filme: Sexa', date: '16 ABR',
-  },
-  {
     name: 'Paula Febee', cargo: 'Autora · Psicanalista · Roteirista', color: 'gold',
     photo: '/images/convidados/Paula Febee.webp',
     bio: 'Escritora com oito livros publicados pela DarkSide Books, psicanalista e roteirista com passagem pelo Goldcrest Production Theater em Nova York.',
@@ -201,8 +195,7 @@ const PALESTRAS = [
   { id:9,  date:'16', month:'ABR', weekday:'Quinta-Feira',   time:'19:30h', local:'Palco Central',        convidados:['Paula Febee'], cargo:'Autora · Psicanalista · Roteirista',
     // tema: '',  // ← inserir quando definido
   },
-  { id:9.9,date:'16', month:'ABR', weekday:'Quinta-Feira',   time:'19:30h', local:'Sala 2',               convidados:['Glória Pires'], cargo:'Atriz · Diretora', tema:'Sessão especial com presença da diretora — Sexa', tipo:'presenca-especial', photo:'/images/convidados/Glória Pires.avif' },
-  { id:10, date:'16', month:'ABR', weekday:'Quinta-Feira',   time:'21:30h', local:'Palco Central',        convidados:['Maysa Balduino','Jordana Pinheiro'], cargo:'Psicanalista · Advogada', tema:'Debate pós-filme — Rental Family' },
+{ id:10, date:'16', month:'ABR', weekday:'Quinta-Feira',   time:'21:30h', local:'Palco Central',        convidados:['Maysa Balduino','Jordana Pinheiro'], cargo:'Psicanalista · Advogada', tema:'Debate pós-filme — Rental Family' },
   { id:11, date:'17', month:'ABR', weekday:'Sexta-Feira',    time:'20:30h', local:'Livraria',             convidados:['João Pedro','Pedro Andrade','Wendell Sullyvan'], cargo:'Críticos de Cinema · Mediação', tema:'Debate pós-filme — A Vida de Chuck' },
   { id:12, date:'18', month:'ABR', weekday:'Sábado',         time:'16:00h', local:'Palco Central',        convidados:['Christian Dunker','Vladimir Safatle'], tema:'Transformar Mundos e Pessoas' },
   { id:13, date:'19', month:'ABR', weekday:'Domingo',        time:'18:00h', local:'Livraria',             convidados:['Jeferson Tenório'],

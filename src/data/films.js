@@ -161,7 +161,7 @@ export const SCHEDULE = [
       s('13:05','Enzo'),
       s('15:00','Hanami'),
       s('16:50',"Mother's Baby"),
-      s('19:30','Sexa', false, 'PRESENÇA ILUSTRE CONFIRMADA — GLÓRIA PIRES'),
+      s('19:30','Sexa'),
       s('21:20','Marty Supreme'),
     ],
   },
@@ -605,7 +605,6 @@ export const FILMS_DATA = {
     elenco: 'Glória Pires, Thiago Martins, Isabel Filardis',
     sinopse: 'Bárbara, 60 anos, está indignada com as injustiças do envelhecimento feminino e resolve abrir mão do amor. Porém, ela conhece Davi, 35 anos, e eles se apaixonam. Agora Bárbara precisa decidir entre ser o que a sociedade espera de uma mulher madura ou viver essa paixão arrebatadora.',
     premios: 'Seleção Oficial da Mostra Brasil na Mostra Internacional de Cinema de São Paulo 2025.',
-    presencaIlustre: { nome: 'Glória Pires', cargo: 'Atriz & Diretora', descricao: 'Presença exclusiva e confirmada da diretora e protagonista do filme na sessão de 16 de Abril · 19:30h · Sala 2', foto: '/images/convidados/Glória Pires.avif' },
   },
   'Sirāt': {
     ano: '2025', pais: 'Espanha', duracao: '1h 54min',
