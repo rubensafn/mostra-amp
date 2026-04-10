@@ -37,7 +37,7 @@ const GUESTS = [
     name: 'Josanne Gonzaga', cargo: 'Psicanalista', color: 'gold',
     photo: '/images/convidados/Jossane Gonzaga.webp',
     bio: 'Psicanalista brasileira com atuação clínica e pesquisa dedicada ao autismo e às altas habilidades sob a perspectiva do diagnóstico tardio.',
-    tema: 'Autismo e altas habilidades sob a lente do diagnóstico tardio', date: '12 ABR',
+    tema: 'Uma noite especial de inspiração, fé e propósito através da literatura', date: '12 ABR',
   },
   {
     name: 'Jesse de Souza', cargo: 'Sociólogo · Escritor · Professor', color: 'cream',
@@ -76,16 +76,10 @@ const GUESTS = [
     tema: 'Debate pós-filme — O Agente Secreto', date: '15 ABR',
   },
   {
-    name: 'Glória Pires', cargo: 'Atriz · Diretora', color: 'gold',
-    photo: '/images/convidados/Glória Pires.avif',
-    bio: 'Glória Pires é uma atriz e empresária brasileira com trajetória marcante no cinema e na teledramaturgia nacional. Ao longo de décadas de carreira, construiu um nome de grande relevância no audiovisual, tornando-se uma das artistas mais reconhecidas e bem-sucedidas do país, com projeção que também ultrapassa o Brasil e alcança toda a América Latina.',
-    tema: 'Presença Exclusiva — Sessão Filme: Sexa', date: '16 ABR',
-  },
-  {
     name: 'Paula Febee', cargo: 'Autora · Psicanalista · Roteirista', color: 'gold',
     photo: '/images/convidados/Paula Febee.webp',
     bio: 'Escritora com oito livros publicados pela DarkSide Books, psicanalista e roteirista com passagem pelo Goldcrest Production Theater em Nova York.',
-    // tema: '',  // ← inserir quando definido
+    tema: 'Narrar o horror: quando a realidade invade a ficção',
     date: '16 ABR',
   },
   {
@@ -95,9 +89,9 @@ const GUESTS = [
     tema: 'Debate pós-filme — Rental Family', date: '16 ABR',
   },
   {
-    name: 'Jordana Pinheiro', cargo: 'Advogada', color: 'accent',
-    photo: '/images/convidados/Jordana Pinheiro.jpeg',
-    bio: 'Advogada, mestra e doutoranda em Psicologia, presidente da Comissão da Infância do Ibdfam-GO',
+    name: 'Wolney Fernandes', cargo: 'Prof. de Cinema · UFG', color: 'accent',
+    photo: '/images/convidados/Wolney Fernandes.webp',
+    bio: 'Professor de cinema na Universidade Federal de Goiás, pesquisador do audiovisual e participante de debates sobre linguagem cinematográfica.',
     tema: 'Debate pós-filme — Rental Family', date: '16 ABR',
   },
   {
@@ -134,7 +128,7 @@ const GUESTS = [
     name: 'Jeferson Tenório', cargo: 'Escritor · Professor', color: 'cream',
     photo: '/images/convidados/Jeferson tenório.webp',
     bio: 'Vencedor do Prêmio Jabuti com "O Avesso da Pele", doutor em Teoria Literária pela PUC-RS. Uma das vozes mais importantes da literatura afro-brasileira contemporânea.',
-    // tema: '',  // ← inserir quando definido
+    tema: 'O Avesso da Pele',
     date: '19 ABR',
   },
   {
@@ -157,22 +151,22 @@ const GUESTS = [
     tema: 'Ficção e não-ficção e Vice-Versa', date: '20 ABR',
   },
   {
-    name: 'Rai Alves', cargo: 'Cineasta · Diretor de Teatro · Ator', color: 'accent',
+    name: 'Raimundo Alves', cargo: 'Cineasta · Diretor de Teatro · Ator', color: 'accent',
     photo: '/images/convidados/Rai Alves.webp',
     bio: 'Cineasta, diretor de teatro e ator brasileiro com mais de 45 anos de carreira nas artes, conhecido por seu trabalho em produções inovadoras e atuação em diversos meios culturais.',
-    tema: 'Debate pós-filme — O Peso do Silêncio: Tarzan e a Ditadura', date: '20 ABR',
+    tema: 'Debate pós-filme — Vida, lutas e sonhos: Tarzan de Castro', date: '20 ABR',
   },
   {
     name: 'Karla Rady', cargo: 'Jornalista · Empresária', color: 'gold',
     photo: '/images/convidados/Karla Rady.webp',
     bio: 'Jornalista e empresária brasileira com passagem pela Goiás Turismo (Agência Estadual de Turismo), onde contribuiu para a comunicação governamental do estado.',
-    tema: 'Debate pós-filme — O Peso do Silêncio: Tarzan e a Ditadura', date: '20 ABR',
+    tema: 'Debate pós-filme — Vida, lutas e sonhos: Tarzan de Castro', date: '20 ABR',
   },
   {
     name: 'Fabiana Pulcineli', cargo: 'Jornalista · Analista Política', color: 'cream',
     photo: '/images/convidados/Fabiana Pulcineli.webp',
     bio: 'Influente jornalista brasileira especializada na cobertura de política em Goiás, reconhecida por analisar os bastidores do poder e as movimentações de governantes e parlamentares.',
-    tema: 'Debate pós-filme — O Peso do Silêncio: Tarzan e a Ditadura', date: '20 ABR',
+    tema: 'Debate pós-filme — Vida, lutas e sonhos: Tarzan de Castro', date: '20 ABR',
   },
   {
     name: 'Jussara Santos', cargo: null, color: 'accent',
@@ -183,7 +177,7 @@ const GUESTS = [
   {
     name: 'Pedro Pacífico', cargo: null, color: 'gold', photo: 'https://images.metroimg.com/2023/08/25181234/Pedro-Pacifico.jpg',
     bio: 'Convidado de encerramento da 17ª Mostra de Cinema, com participação especial na noite de fechamento do festival.',
-    // tema: '',  // ← inserir quando definido
+    tema: 'Como construir conteúdo com impacto social nas redes',
     date: '22 ABR',
   },
 ]
@@ -191,30 +185,25 @@ const GUESTS = [
 const PALESTRAS = [
   { id:1,  date:'08', month:'ABR', weekday:'Quarta-Feira',   time:'19:30h', local:'Coquetel de Abertura', convidados:['Elenco do Filme — Ruan Aguiar, Gero Camilo e Diretor Douglas Soares'], tema:null, atracao:'Atração Musical — A Definir', tipo:'abertura' },
   { id:2,  date:'09', month:'ABR', weekday:'Quinta-Feira',   time:'18:30h', local:'Livraria',             convidados:['Celso Camilo'], tema:'Tudo o que você precisa saber sobre inteligência artificial' },
-  { id:3,  date:'10', month:'ABR', weekday:'Sexta-Feira',    time:'19:00h', local:'Livraria',             convidados:['Rafael Fleury','Solemar Oliveira','Rodriana Costa','Chris Resplande','Hélverton Baiano'], tema:'Cinco autores goianos lançam seus livros - UBER — União Brasileira de Escritores Goiás' },
+  { id:3,  date:'10', month:'ABR', weekday:'Sexta-Feira',    time:'19:00h', local:'Livraria',             convidados:['Rafael Fleury','Solemar Oliveira','Rodriana Costa','Chris Resplande','Hélverton Baiano'], tema:'Cinco autores goianos lançam seus livros - União Brasileira de Escritores (UBE-GO)'},
   { id:3.5,date:'10', month:'ABR', weekday:'Sexta-Feira',    time:'20:30h', local:'Livraria',             convidados:['MPB4'], cargo:'Atração Musical', tema:null, tipo:'musical', photo:'/images/convidados/MPB4.webp' },
   { id:4,  date:'11', month:'ABR', weekday:'Sábado',         time:'19:30h', local:'Palco Central',        convidados:['Luiz Pondé'], cargo:'Filósofo · Escritor · Professor Universitário', tema:'Valor sentimental: angústia e reparação' },
-  { id:5,  date:'12', month:'ABR', weekday:'Domingo',        time:'16:30h', local:'Livraria',             convidados:['Josanne Gonzaga'], cargo:'Psicanalista', tema:'Autismo e altas habilidades sob a lente do diagnóstico tardio' },
+  { id:5,  date:'12', month:'ABR', weekday:'Domingo',        time:'16:30h', local:'Livraria',             convidados:['Josanne Gonzaga'], cargo:'Psicanalista', tema:'Uma noite especial de inspiração, fé e propósito através da literatura' },
   { id:6,  date:'13', month:'ABR', weekday:'Segunda-Feira',  time:'19:30h', local:'Palco Central',        convidados:['Jesse de Souza'], tema:'Por que a esquerda morreu' },
   { id:7,  date:'14', month:'ABR', weekday:'Terça-Feira',    time:'19:30h', local:'Livraria',             convidados:['Marina Cançado','Roberto Amaral'], cargo:'Psicanalistas', tema:'Guimarães Rosa e Jacques Lacan' },
-  { id:8,  date:'15', month:'ABR', weekday:'Quarta-Feira',   time:'19:30h', local:'Livraria',             convidados:['Rubens Machado Jr','Alberto Silva','Daniel Christino'], cargo:'Prof. USP · Prof. de Cinema Sorbonne 3 · Mediação', tema:'Debate pós-filme — O Agente Secreto' },
-  { id:9,  date:'16', month:'ABR', weekday:'Quinta-Feira',   time:'19:30h', local:'Palco Central',        convidados:['Paula Febee'], cargo:'Autora · Psicanalista · Roteirista',
-    // tema: '',  // ← inserir quando definido
-  },
-  { id:9.9,date:'16', month:'ABR', weekday:'Quinta-Feira',   time:'19:30h', local:'Sala 2',               convidados:['Glória Pires'], cargo:'Atriz · Diretora', tema:'Sessão especial com presença da diretora — Sexa', tipo:'presenca-especial', photo:'/images/convidados/Glória Pires.avif' },
-  { id:10, date:'16', month:'ABR', weekday:'Quinta-Feira',   time:'21:30h', local:'Palco Central',        convidados:['Maysa Balduino','Jordana Pinheiro'], cargo:'Psicanalista · Advogada', tema:'Debate pós-filme — Rental Family' },
+  { id:8,  date:'15', month:'ABR', weekday:'Quarta-Feira',   time:'20:30h', local:'Livraria',             convidados:['Rubens Machado Jr','Alberto Silva','Daniel Christino'], cargo:'Prof. USP · Prof. de Cinema Sorbonne 3 · Mediação', tema:'Debate pós-filme — O Agente Secreto' },
+  { id:9,  date:'16', month:'ABR', weekday:'Quinta-Feira',   time:'19:30h', local:'Palco Central',        convidados:['Paula Febee'], cargo:'Autora · Psicanalista · Roteirista', tema:'Narrar o horror: quando a realidade invade a ficção' },
+  { id:10, date:'16', month:'ABR', weekday:'Quinta-Feira',   time:'21:00h', local:'Palco Central',        convidados:['Maysa Balduino','Wolney Fernandes'], cargo:'Psicanalista · Prof. de Cinema', tema:'Debate pós-filme — Rental Family' },
   { id:11, date:'17', month:'ABR', weekday:'Sexta-Feira',    time:'20:30h', local:'Livraria',             convidados:['João Pedro','Pedro Andrade','Wendell Sullyvan'], cargo:'Críticos de Cinema · Mediação', tema:'Debate pós-filme — A Vida de Chuck' },
   { id:12, date:'18', month:'ABR', weekday:'Sábado',         time:'16:00h', local:'Palco Central',        convidados:['Christian Dunker','Vladimir Safatle'], tema:'Transformar Mundos e Pessoas' },
-  { id:13, date:'19', month:'ABR', weekday:'Domingo',        time:'18:00h', local:'Livraria',             convidados:['Jeferson Tenório'],
-    // tema: '',  // ← inserir quando definido
-  },
+  { id:13, date:'19', month:'ABR', weekday:'Domingo',        time:'18:00h', local:'Livraria',             convidados:['Jeferson Tenório'], tema:'O Avesso da Pele' },
   { id:14, date:'19', month:'ABR', weekday:'Domingo',        time:'19:30h', local:'Palco Central',        convidados:['Paula Jacob'], cargo:'Jornalista · Professora · Pesquisadora',
     // tema: '',  // ← inserir quando definido
   },
   { id:15, date:'20', month:'ABR', weekday:'Segunda-Feira',  time:'19:30h', local:'Palco Central',        convidados:['Ruy Castro','Heloisa Seixas'], tema:'Ficção e não-ficção e Vice-Versa' },
-  { id:16, date:'20', month:'ABR', weekday:'Segunda-Feira',  time:'21:00h', local:'Livraria',             convidados:['Rai Alves','Karla Rady','Fabiana Pulcineli'], tema:'Debate pós-filme — O Peso do Silêncio: Tarzan e a Ditadura' },
+  { id:16, date:'20', month:'ABR', weekday:'Segunda-Feira',  time:'21:00h', local:'Livraria',             convidados:['Raimundo Alves','Karla Rady','Fabiana Pulcineli'], tema:'Debate pós-filme — Vida, lutas e sonhos: Tarzan de Castro' },
   { id:17, date:'21', month:'ABR', weekday:'Terça-Feira',    time:'18:30h', local:'Livraria',             convidados:['Jussara Santos'], tema:'Democratização do colo' },
-  { id:18, date:'22', month:'ABR', weekday:'Sexta-Feira',    time:'19:00h', local:'Palco Central',        convidados:['Pedro Pacífico'], tema:null, tipo:'encerramento' },
+  { id:18, date:'22', month:'ABR', weekday:'Sexta-Feira',    time:'19:00h', local:'Palco Central',        convidados:['Pedro Pacífico'], tema:'Como construir conteúdo com impacto social nas redes', tipo:'encerramento' },
 ]
 
 /* ── helpers cross-link (exact match only) ── */

@@ -571,11 +571,7 @@ function FilmesLista({ onSelect }) {
         if (!s.fixo && !seen[s.title]) seen[s.title] = true
       })
     })
-    const sorted = Object.keys(seen).sort((a, b) => a.localeCompare(b, 'pt'))
-    // Sexa sempre primeiro
-    const idx = sorted.indexOf('Sexa')
-    if (idx > 0) { sorted.splice(idx, 1); sorted.unshift('Sexa') }
-    return sorted
+    return Object.keys(seen).sort((a, b) => a.localeCompare(b, 'pt'))
   }, [])
 
   return (
