@@ -142,8 +142,6 @@ export const SCHEDULE = [
       s('12:50','A Voz de Hind Rajab'),
       s('14:30','Dois Procuradores'),
       s('16:40','Surda'),
-      s('18:50','Valor Sentimental'),
-      s('21:15','A Luz'),
     ],
   },
   {
