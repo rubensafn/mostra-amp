@@ -11,8 +11,7 @@ const POSTS = [
   {
     id: 1,
     name: 'Lia Pereira Jardim',
-    age: '85 anos',
-    city: 'Mora em Goiânia há 60 anos',
+    meta: '85 anos · Mora em Goiânia há 60 anos',
     photo: '/images/blog/liapereira1.jpeg',
     tag: 'Depoimento',
     title: 'Do mundo ao falado',
@@ -23,9 +22,60 @@ const POSTS = [
       'Todavia se você quer realmente melhorar na vida e, em especial, se tornar um bom gourmet em matéria de vinho, consulte um enólogo e logo, logo ele vai lhe ensinar que vinho de pé em adegas ou prateleiras é impróprio para consumo. Já um domingo na sala de jantar, inclinando sobre a mesa posta além de ser uma delícia dos deuses é prova cabal de que você está aprimorando as suas escolhas, o seu bom gosto, a qualidade de suas celebrações e sua forma de expressar com elegância o seu amado português.',
       'Momentos especiais pedem um domingo à altura de suas comemorações. Beba com moderação. Você está caminhando na chuva e com o sol no coração.',
     ],
-    signature: 'Ria',
   },
 ]
+
+/* ════════════════════════════════════════
+   CURSOR  (cursor:none global — precisa de cursor próprio)
+════════════════════════════════════════ */
+function BlogCursor() {
+  const dotRef  = useRef(null)
+  const ringRef = useRef(null)
+
+  useEffect(() => {
+    if (window.matchMedia('(hover: none)').matches) return
+    const dot  = dotRef.current
+    const ring = ringRef.current
+    let mx = 0, my = 0, rx = 0, ry = 0, raf
+
+    const onMove = (e) => {
+      mx = e.clientX; my = e.clientY
+      gsap.to(dot, { x: mx, y: my, duration: 0 })
+    }
+    const loop = () => {
+      rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12
+      gsap.set(ring, { x: rx, y: ry })
+      raf = requestAnimationFrame(loop)
+    }
+    window.addEventListener('mousemove', onMove)
+    raf = requestAnimationFrame(loop)
+
+    document.body.classList.remove('cursor-hover')
+    const addHover = () => {
+      document.querySelectorAll('a, button, [data-hover]').forEach(el => {
+        el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'))
+        el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'))
+      })
+    }
+    addHover()
+    const obs = new MutationObserver(addHover)
+    obs.observe(document.body, { childList: true, subtree: true })
+
+    return () => {
+      window.removeEventListener('mousemove', onMove)
+      cancelAnimationFrame(raf)
+      obs.disconnect()
+      document.body.classList.remove('cursor-hover')
+    }
+  }, [])
+
+  return (
+    <>
+      <div id="cursor-dot"  ref={dotRef}  />
+      <div id="cursor-ring" ref={ringRef} />
+    </>
+  )
+}
 
 /* ════════════════════════════════════════
    SCROLL PROGRESS
@@ -60,6 +110,8 @@ function BlogNav() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
+  const close = () => setMenuOpen(false)
+
   return (
     <>
       <nav ref={navRef} className="blog-nav" role="navigation">
@@ -88,12 +140,12 @@ function BlogNav() {
         </button>
       </nav>
 
-      {menuOpen && <div className="blog-mobile-overlay" onClick={() => setMenuOpen(false)} />}
+      {menuOpen && <div className="blog-mobile-overlay" onClick={close} />}
       <div className={`blog-mobile-menu${menuOpen ? ' open' : ''}`}>
         <ul>
-          <li><Link to="/" onClick={() => setMenuOpen(false)}>Início</Link></li>
-          <li><Link to="/palestras" onClick={() => setMenuOpen(false)}>Convidados &amp; Palestras</Link></li>
-          <li><Link to="/programacao" onClick={() => setMenuOpen(false)}>Programação de Filmes</Link></li>
+          <li><Link to="/" onClick={close}>Início</Link></li>
+          <li><Link to="/palestras" onClick={close}>Convidados &amp; Palestras</Link></li>
+          <li><Link to="/programacao" onClick={close}>Programação de Filmes</Link></li>
         </ul>
       </div>
     </>
@@ -104,32 +156,26 @@ function BlogNav() {
    BLOG HERO
 ════════════════════════════════════════ */
 function BlogHero() {
-  const heroRef  = useRef(null)
-  const lineRef  = useRef(null)
-  const subRef   = useRef(null)
+  const heroRef = useRef(null)
+  const lineRef = useRef(null)
+  const subRef  = useRef(null)
 
   useEffect(() => {
     const ctx = gsap.context(() => {
       const el = lineRef.current
       if (!el) return
-
       const text = el.textContent
-      el.innerHTML = text
-        .split('')
-        .map(ch => ch === ' '
+      el.innerHTML = text.split('').map(ch =>
+        ch === ' '
           ? `<span class="blog-hero-space"> </span>`
-          : `<span class="blog-hero-char">${ch}</span>`)
-        .join('')
+          : `<span class="blog-hero-char">${ch}</span>`
+      ).join('')
       const chars = el.querySelectorAll('.blog-hero-char')
 
       const tl = gsap.timeline({ defaults: { ease: 'power4.out' } })
       tl.fromTo(chars,
         { opacity: 0, y: 80, rotateX: -40 },
-        {
-          opacity: 1, y: 0, rotateX: 0,
-          duration: 1.1,
-          stagger: { amount: 0.5, from: 'start' },
-        }
+        { opacity: 1, y: 0, rotateX: 0, duration: 1.1, stagger: { amount: 0.4, from: 'start' } }
       )
       .fromTo(subRef.current,
         { opacity: 0, y: 20, letterSpacing: '0.5em' },
@@ -137,7 +183,6 @@ function BlogHero() {
         '-=0.4'
       )
     }, heroRef)
-
     return () => ctx.revert()
   }, [])
 
@@ -147,10 +192,8 @@ function BlogHero() {
         <img src="/images/fundo-geral.png" alt="" className="blog-hero-bg-img" aria-hidden="true" />
         <div className="blog-hero-overlay" />
       </div>
-
       <div className="blog-hero-grain" aria-hidden="true" />
       <div className="blog-hero-rule blog-hero-rule--top" aria-hidden="true" />
-      <div className="blog-hero-rule blog-hero-rule--bottom" aria-hidden="true" />
 
       <div className="blog-hero-content">
         <div className="blog-hero-eyebrow">
@@ -158,11 +201,9 @@ function BlogHero() {
           <span className="blog-hero-eyebrow-text">17ª Mostra de Cinema · Goiânia</span>
           <span className="blog-hero-eyebrow-line" />
         </div>
-
         <h1 className="blog-hero-title" aria-label="Blog">
           <span ref={lineRef} className="blog-hero-line">BLOG</span>
         </h1>
-
         <p ref={subRef} className="blog-hero-sub">
           17ª Mostra de Cinema&nbsp;&nbsp;·&nbsp;&nbsp;08 a 22 de Abril&nbsp;&nbsp;·&nbsp;&nbsp;Goiânia
         </p>
@@ -182,9 +223,9 @@ function PostCard({ post }) {
     if (!card) return
     const ctx = gsap.context(() => {
       gsap.fromTo(card,
-        { opacity: 0, y: 40 },
+        { opacity: 0, y: 48 },
         {
-          opacity: 1, y: 0, duration: 1, ease: 'expo.out',
+          opacity: 1, y: 0, duration: 1.1, ease: 'expo.out',
           scrollTrigger: { trigger: card, start: 'top 88%', once: true },
         }
       )
@@ -193,44 +234,32 @@ function PostCard({ post }) {
   }, [])
 
   return (
-    <article className="blog-post" ref={cardRef}>
-      <div className="blog-post-header">
-        <div className="blog-post-photo-col">
-          <img
-            src={post.photo} alt={post.name}
-            className="blog-post-photo"
-            loading="lazy"
-            onError={e => { e.currentTarget.style.display = 'none' }}
-          />
-          <div className="blog-post-photo-overlay" />
-        </div>
-
-        <div className="blog-post-meta-col">
-          <span className="blog-post-tag">{post.tag}</span>
-          <h2 className="blog-post-title">{post.title}</h2>
-          <p className="blog-post-subtitle">({post.subtitle})</p>
-
-          <div className="blog-post-author-line">
-            <span className="blog-post-author-rule" aria-hidden="true" />
-            <div className="blog-post-author-info">
-              <span className="blog-post-author-name">{post.name}</span>
-              <span className="blog-post-author-desc">{post.age} · {post.city}</span>
-            </div>
-          </div>
+    <article className="blog-post" ref={cardRef} data-hover>
+      {/* foto full-width com nome sobre ela */}
+      <div className="blog-post-photo-wrap">
+        <img
+          src={post.photo} alt={post.name}
+          className="blog-post-photo" loading="lazy"
+          onError={e => { e.currentTarget.style.display = 'none' }}
+        />
+        <div className="blog-post-photo-grad" />
+        <div className="blog-post-author-float">
+          <span className="blog-post-author-name">{post.name}</span>
+          <span className="blog-post-author-meta">{post.meta}</span>
         </div>
       </div>
 
+      {/* corpo */}
       <div className="blog-post-body">
-        {post.paragraphs.map((p, i) => (
-          <p key={i}>{p}</p>
-        ))}
-
-        {post.signature && (
-          <div className="blog-post-signature">
-            <span className="blog-post-signature-rule" aria-hidden="true" />
-            <span className="blog-post-signature-name">{post.signature}</span>
-          </div>
-        )}
+        <span className="blog-post-tag">{post.tag}</span>
+        <h2 className="blog-post-title">{post.title}</h2>
+        <p className="blog-post-subtitle">({post.subtitle})</p>
+        <div className="blog-post-divider" aria-hidden="true" />
+        <div className="blog-post-text">
+          {post.paragraphs.map((p, i) => (
+            <p key={i}>{p}</p>
+          ))}
+        </div>
       </div>
     </article>
   )
@@ -239,14 +268,14 @@ function PostCard({ post }) {
 /* ════════════════════════════════════════
    POSTS SECTION
 ════════════════════════════════════════ */
-function BlogPosts() {
+function BlogPostsSection() {
   return (
-    <section id="blog-posts">
+    <section className="blog-posts-section" id="blog-posts">
       <div className="blog-section-header">
         <h2 className="blog-section-title"><em>Depoimentos</em></h2>
         <p className="blog-section-desc">17ª Mostra de Cinema · Goiânia · 2026</p>
       </div>
-      <div className="blog-posts">
+      <div className="blog-posts-wrap">
         {POSTS.map(post => (
           <PostCard key={post.id} post={post} />
         ))}
@@ -301,9 +330,7 @@ function BlogFooter() {
           <span className="blog-footer-copy">
             &copy; 2026 17ª Mostra de Cinema · Goiânia · Todos os direitos reservados
           </span>
-          <Link to="/" className="blog-footer-back-link">
-            ← Voltar ao site principal
-          </Link>
+          <Link to="/" className="blog-footer-back-link">← Voltar ao site principal</Link>
         </div>
       </div>
     </footer>
@@ -311,7 +338,7 @@ function BlogFooter() {
 }
 
 /* ════════════════════════════════════════
-   BACK TO TOP
+   BACK TO TOP / HOME
 ════════════════════════════════════════ */
 function BackToTop({ uiAnim }) {
   return (
@@ -326,10 +353,6 @@ function BackToTop({ uiAnim }) {
     </button>
   )
 }
-
-/* ════════════════════════════════════════
-   BACK TO HOME
-════════════════════════════════════════ */
 function BackToHome({ uiAnim }) {
   return (
     <Link to="/" className={`blog-back-home${uiAnim !== 'hidden' ? ` ${uiAnim}` : ''}`} aria-label="Voltar à página inicial">
@@ -346,16 +369,14 @@ function BackToHome({ uiAnim }) {
 ════════════════════════════════════════ */
 function BlogPageIntro() {
   const overlayRef = useRef(null)
-
   useEffect(() => {
     const overlay = overlayRef.current
     if (!overlay) return
     gsap.to(overlay, {
       opacity: 0, duration: 1.2, ease: 'power2.inOut', delay: 2.0,
-      onComplete: () => overlay.classList.add('hidden')
+      onComplete: () => overlay.classList.add('hidden'),
     })
   }, [])
-
   return (
     <div ref={overlayRef} id="blog-page-intro">
       <div id="blog-intro-glow" />
@@ -398,10 +419,11 @@ export default function BlogPage() {
   return (
     <>
       <BlogPageIntro />
+      <BlogCursor />
       <ScrollProgress />
       <BlogNav />
       <BlogHero />
-      <BlogPosts />
+      <BlogPostsSection />
       <BlogFooter />
       <BackToHome uiAnim={uiAnim} />
       <BackToTop uiAnim={uiAnim} />
