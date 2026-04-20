@@ -235,30 +235,40 @@ function PostCard({ post }) {
 
   return (
     <article className="blog-post" ref={cardRef} data-hover>
-      {/* foto full-width com nome sobre ela */}
-      <div className="blog-post-photo-wrap">
-        <img
-          src={post.photo} alt={post.name}
-          className="blog-post-photo" loading="lazy"
-          onError={e => { e.currentTarget.style.display = 'none' }}
-        />
-        <div className="blog-post-photo-grad" />
-        <div className="blog-post-author-float">
-          <span className="blog-post-author-name">{post.name}</span>
-          <span className="blog-post-author-meta">{post.meta}</span>
-        </div>
-      </div>
+      <div className="blog-post-grid">
 
-      {/* corpo */}
-      <div className="blog-post-body">
-        <span className="blog-post-tag">{post.tag}</span>
-        <h2 className="blog-post-title">{post.title}</h2>
-        <p className="blog-post-subtitle">({post.subtitle})</p>
-        <div className="blog-post-divider" aria-hidden="true" />
-        <div className="blog-post-text">
-          {post.paragraphs.map((p, i) => (
-            <p key={i}>{p}</p>
-          ))}
+        {/* ── coluna foto ── */}
+        <div className="blog-post-photo-col">
+          <img
+            src={post.photo} alt={post.name}
+            className="blog-post-photo" loading="lazy"
+            onError={e => { e.currentTarget.style.display = 'none' }}
+          />
+          <div className="blog-post-photo-fog" />
+        </div>
+
+        {/* ── coluna conteúdo ── */}
+        <div className="blog-post-content">
+
+          {/* autor em destaque */}
+          <div className="blog-post-author">
+            <span className="blog-post-author-name">{post.name}</span>
+            <span className="blog-post-author-meta">{post.meta}</span>
+          </div>
+          <div className="blog-post-author-rule" aria-hidden="true" />
+
+          {/* artigo */}
+          <span className="blog-post-tag">{post.tag}</span>
+          <h2 className="blog-post-title">{post.title}</h2>
+          <p className="blog-post-subtitle">({post.subtitle})</p>
+          <div className="blog-post-divider" aria-hidden="true" />
+
+          <div className="blog-post-text">
+            {post.paragraphs.map((p, i) => (
+              <p key={i}>{p}</p>
+            ))}
+          </div>
+
         </div>
       </div>
     </article>
