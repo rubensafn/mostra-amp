@@ -145,6 +145,7 @@ function ProgNav() {
         <ul className="pal-nav-links">
           <li><Link to="/" className="pal-nav-link--home">Início</Link></li>
           <li><Link to="/palestras">Convidados &amp; Palestras</Link></li>
+          <li><Link to="/blog">Blog</Link></li>
         </ul>
 
         <button className={`pal-nav-hamburger${menuOpen ? ' open' : ''}`} aria-label="Menu" onClick={() => setMenuOpen(m => !m)}>
@@ -157,6 +158,7 @@ function ProgNav() {
         <ul>
           <li><Link to="/" onClick={close}>Início</Link></li>
           <li><Link to="/palestras" onClick={close}>Convidados &amp; Palestras</Link></li>
+          <li><Link to="/blog" onClick={close}>Blog</Link></li>
         </ul>
       </div>
     </>

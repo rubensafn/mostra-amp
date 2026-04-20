@@ -7,6 +7,7 @@ import App from './App.jsx'
 
 const PalestrasPage    = lazy(() => import('./pages/PalestrasPage.jsx'))
 const ProgramacaoPage  = lazy(() => import('./pages/ProgramacaoPage.jsx'))
+const BlogPage         = lazy(() => import('./pages/BlogPage.jsx'))
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -26,6 +27,14 @@ createRoot(document.getElementById('root')).render(
           element={
             <Suspense fallback={null}>
               <ProgramacaoPage />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/blog"
+          element={
+            <Suspense fallback={null}>
+              <BlogPage />
             </Suspense>
           }
         />

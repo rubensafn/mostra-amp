@@ -203,7 +203,7 @@ const PALESTRAS = [
   { id:15, date:'20', month:'ABR', weekday:'Segunda-Feira',  time:'19:30h', local:'Palco Central',        convidados:['Ruy Castro','Heloisa Seixas'], tema:'Ficção e não-ficção e Vice-Versa' },
   { id:16, date:'20', month:'ABR', weekday:'Segunda-Feira',  time:'21:00h', local:'Livraria',             convidados:['Raimundo Alves','Karla Rady','Fabiana Pulcineli'], tema:'Debate pós-filme — Vida, lutas e sonhos: Tarzan de Castro' },
   { id:17, date:'21', month:'ABR', weekday:'Terça-Feira',    time:'18:30h', local:'Livraria',             convidados:['Jussara Santos'], tema:'Democratização do colo' },
-  { id:18, date:'22', month:'ABR', weekday:'Sexta-Feira',    time:'19:00h', local:'Palco Central',        convidados:['Pedro Pacífico'], tema:'Como construir conteúdo com impacto social nas redes', tipo:'encerramento' },
+  { id:18, date:'22', month:'ABR', weekday:'Quarta-Feira',    time:'19:00h', local:'Palco Central',        convidados:['Pedro Pacífico'], tema:'Como construir conteúdo com impacto social nas redes', tipo:'encerramento' },
 ]
 
 /* ── helpers cross-link (exact match only) ── */
@@ -350,6 +350,7 @@ function PalNav({ setActiveTab }) {
         <ul className="pal-nav-links">
           <li><Link to="/" className="pal-nav-link--home">Início</Link></li>
           <li><Link to="/programacao">Programação de Filmes</Link></li>
+          <li><Link to="/blog">Blog</Link></li>
         </ul>
 
         <button className={`pal-nav-hamburger${menuOpen ? ' open' : ''}`} aria-label="Menu" onClick={() => setMenuOpen(m => !m)}>
@@ -362,6 +363,7 @@ function PalNav({ setActiveTab }) {
         <ul>
           <li><Link to="/" onClick={() => setMenuOpen(false)}>Início</Link></li>
           <li><Link to="/programacao" onClick={() => setMenuOpen(false)}>Programação de Filmes</Link></li>
+          <li><Link to="/blog" onClick={() => setMenuOpen(false)}>Blog</Link></li>
         </ul>
       </div>
 

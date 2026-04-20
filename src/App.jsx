@@ -199,6 +199,7 @@ function Nav() {
           <li><a href="#" className="btn-nav-home" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }) }}>Início</a></li>
           <li><a href="#" onClick={(e) => goTo('sobre', e)}>Sobre</a></li>
           <li><Link to="/palestras">Convidados &amp; Palestras</Link></li>
+          <li><Link to="/blog">Blog</Link></li>
           <li><a href="#" onClick={(e) => goTo('curadoria', e)}>Curadoria</a></li>
           <li><a href="#" onClick={(e) => goTo('espaco', e)}>Espaço</a></li>
           <li><Link to="/programacao" className="btn-nav">Programação de Filmes</Link></li>
@@ -214,6 +215,7 @@ function Nav() {
           <li><a href="#" className="btn-nav-home" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); close() }}>Início</a></li>
           <li><a href="#" onClick={(e) => { goTo('sobre', e); close() }}>Sobre</a></li>
           <li><Link to="/palestras" onClick={close}>Convidados &amp; Palestras</Link></li>
+          <li><Link to="/blog" onClick={close}>Blog</Link></li>
           <li><Link to="/programacao" onClick={close}>Programação de Filmes</Link></li>
           <li><a href="#" onClick={(e) => { goTo('curadoria', e); close() }}>Curadoria</a></li>
           <li><a href="#" onClick={(e) => { goTo('espaco', e); close() }}>Espaço</a></li>
@@ -909,6 +911,7 @@ function Footer() {
             <ul>
               <li><Link to="/palestras">Convidados &amp; Palestras</Link></li>
               <li><Link to="/programacao">Programação de Filmes</Link></li>
+              <li><Link to="/blog">Blog</Link></li>
             </ul>
           </div>
 
